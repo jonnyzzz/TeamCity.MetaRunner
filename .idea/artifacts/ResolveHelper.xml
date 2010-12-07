@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="ResolveHelper">
+    <output-path>$PROJECT_DIR$/out/artifacts/idea-teamcity-resolve-helper</output-path>
+    <root id="root">
+      <element id="javaee-facet-resources" facet="meta-runner-server/web/Web" />
+      <element id="javaee-facet-resources" facet="idea-teamcity-resolve-helper/web/Web" />
+      <element id="module-output" name="idea-teamcity-resolve-helper" />
+    </root>
+  </artifact>
+</component>

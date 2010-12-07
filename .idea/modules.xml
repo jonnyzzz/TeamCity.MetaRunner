@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/idea-teamcity-resolve-helper.iml" filepath="$PROJECT_DIR$/idea-teamcity-resolve-helper.iml" />
+      <module fileurl="file://$PROJECT_DIR$/meta-runner-agent/meta-runner-agent.iml" filepath="$PROJECT_DIR$/meta-runner-agent/meta-runner-agent.iml" />
+      <module fileurl="file://$PROJECT_DIR$/meta-runner-common/meta-runner-common.iml" filepath="$PROJECT_DIR$/meta-runner-common/meta-runner-common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/meta-runner-server/meta-runner-server.iml" filepath="$PROJECT_DIR$/meta-runner-server/meta-runner-server.iml" />
+    </modules>
+  </component>
+</project>
+
