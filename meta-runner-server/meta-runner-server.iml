@@ -19,6 +19,13 @@
         </sourceRoots>
       </configuration>
     </facet>
+    <facet type="scala" name="Scala">
+      <configuration>
+        <option name="compilerLibraryLevel" value="Project" />
+        <option name="compilerLibraryName" value="Scala-compiler" />
+        <option name="explainTypeErrors" value="true" />
+      </configuration>
+    </facet>
   </component>
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
@@ -46,6 +53,8 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" scope="TEST" name="TestFramework" level="project" />
+    <orderEntry type="library" scope="TEST" name="Test-Api" level="project" />
   </component>
 </module>
 

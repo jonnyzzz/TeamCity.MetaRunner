@@ -1,0 +1,55 @@
+def TCPathVar = "path.variable.teamcitydistribution"
+def TCPathVarServer = "teamcity.path.variable.teamcitydistribution"
+
+def version = System.getProperties()['build.number'];
+if (version == null) version = 'snapshot-' + new Date().format('yyyyMMdd'+"'z'"+'hhmmss'); 
+
+
+  def teamCityDir = '';
+  [TCPathVar, TCPathVarServer].each {
+    if (project.hasProperty(it)) {
+      teamCityDir = project.getProperties()[it];
+    }
+  }
+
+  def tmp = System.getProperty(TCPathVarServer);
+  if (tmp != null) {
+    teamCityDir = tmp;
+  }
+
+  tmp = System.getenv(TCPathVarServer);
+  if (tmp != null) {
+    teamCityDir = tmp;
+  }
+
+  
+  if (!new File(teamCityDir).isDirectory()) {
+     throw new StopExecutionException("Failed to find TeamCity home at ${teamCityDir}");
+  }
+
+  teamCityLib = fileTree(teamCityDir + "/webapps/ROOT/WEB-INF/lib").matching {
+    include 'annotations.jar'
+    include 'openapi.jar'
+    include 'util.jar'
+  }
+
+  annotationsJar = fileTree(teamCityDir + "/webapps/ROOT/WEB-INF/lib").matching {
+    include 'annotations.jar'
+  }
+
+  log4j = fileTree(teamCityDir + "/webapps/ROOT/WEB-INF/lib").matching {
+    include 'log4j*.jar'
+  }
+
+  agentApi = fileTree(teamCityDir + "/devPackage").matching {
+    include 'agent-api.jar'
+  }
+
+  serverApi = fileTree(teamCityDir + "/devPackage").matching {
+    include 'server-api.jar'
+  }
+
+  commonApi = fileTree(teamCityDir + "/devPackage").matching {
+    include 'common-api.jar'
+  }
+

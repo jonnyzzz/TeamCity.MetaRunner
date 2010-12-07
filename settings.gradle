@@ -13,4 +13,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-include "powershell-agent", "powershell-common", "powershell-server", "powershell-test"
+include "meta-runner-agent", "meta-runner-common", "meta-runner-server"

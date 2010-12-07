@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<teamcity-meta-runner
+        xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        xmlns="urn:schemas-jetbrains-net:teamcity:meta-runner"
+        >
+
+  <runner-parameters>
+    <parameter name="keyt" scope="config">
+      <short-name>aaa</short-name>
+      <type-text/>
+    </parameter>
+    <parameter name="ZZZ" scope="runner">
+      <short-name>sss</short-name>
+      <type-hidden/>
+    </parameter>
+    <parameter name="ZZZ" scope="config">
+      <short-name>sss</short-name>
+      <type-hidden/>
+    </parameter>
+    <parameter name="aaaa" scope="runner">
+      <short-name>sss</short-name>
+      <type-hidden/>
+    </parameter>
+  </runner-parameters>
+
+  <steps>
+    <step run-type="Ant">
+      <parameters>
+        <parameter name="aaaa" scope="runner">
+          <ref ref="3323"/>
+        </parameter>
+      </parameters>
+    </step>
+  </steps>
+
+
+</teamcity-meta-runner>

@@ -16,78 +16,34 @@
 
 import org.apache.tools.ant.filters.*;
 
-def TCPathVar = "path.variable.teamcitydistribution"
-def TCPathVarServer = "teamcity.path.variable.teamcitydistribution"
-
-def version = System.getProperties()['build.number'];
-if (version == null) version = 'snapshot-' + new Date().format('yyyyMMdd'+"'z'"+'hhmmss'); 
-
-dependencies {
-  def teamCityDir = '';
-  [TCPathVar, TCPathVarServer].each {
-    if (project.hasProperty(it)) {
-      teamCityDir = project.getProperties()[it];
-    }
-  }
-
-  def tmp = System.getProperty(TCPathVarServer);
-  if (tmp != null) {
-    teamCityDir = tmp;
-  }
-
-  tmp = System.getenv(TCPathVarServer);
-  if (tmp != null) {
-    teamCityDir = tmp;
-  }
-
-  
-  if (!new File(teamCityDir).isDirectory()) {
-     throw new StopExecutionException("Failed to find TeamCity home at ${teamCityDir}");
-  }
-
-  teamCityLib = fileTree(teamCityDir + "/webapps/ROOT/WEB-INF/lib").matching {
-    include 'annotations.jar'
-    include 'openapi.jar'
-    include 'util.jar'
-  }
-
-  annotationsJar = fileTree(teamCityDir + "/webapps/ROOT/WEB-INF/lib").matching {
-    include 'annotations.jar'
-  }
-
-  log4j = fileTree(teamCityDir + "/webapps/ROOT/WEB-INF/lib").matching {
-    include 'log4j*.jar'
-  }
-
-  agentApi = fileTree(teamCityDir + "/devPackage").matching {
-    include 'agent-api.jar'
-  }
-
-  serverApi = fileTree(teamCityDir + "/devPackage").matching {
-    include 'server-api.jar'
-  }
-
-  commonApi = fileTree(teamCityDir + "/devPackage").matching {
-    include 'common-api.jar'
-  }
-
-}
+apply from: 'build.teamcity.gradle'
 
 allprojects {
-  tcVersion="6.0-SNAPSHOT"
-  apply plugin: 'java'
-}
+  apply plugin: 'scala'
 
-subprojects {
+  repositories {
+    mavenCentral()
+  }
+
   dependencies {
+
+    // Libraries needed to run the scala tools
+    scalaTools 'org.scala-lang:scala-compiler:2.7.7'
+    scalaTools 'org.scala-lang:scala-library:2.7.7'
+
+    // Libraries needed for scala api
+    compile 'org.scala-lang:scala-library:2.7.7'
+
     compile annotationsJar
     compile log4j
     compile teamCityLib
+    
   }
-}
 
-task debug << {
-  [annotationsJar, commonApi, log4j].each { println it; println "${it.empty}"}
+  test {
+    useTestNG()
+    scanForTestClasses = true
+  }
 }
 
 
@@ -113,58 +69,3 @@ project (':meta-runner-server') {
   }
 }
 
-/*
-task dist(dependsOn: [  ':powershell-common:build',
-                        ':powershell-server:build',
-                        ':powershell-agent:build'  ]) {
-  description = 'Create meta runner plugin package for TeamCity'
-  doLast {
-    gradleDir = new File(distsDir, 'powershell')
-    gradleServer = new File(gradleDir, 'server')
-    gradleAgent = new File(gradleDir, 'agent')
-    gradleTmp = new File(distsDir, 'tmp')
-
-    gradleServer.mkdirs()
-    gradleAgent.mkdirs()
-    gradleTmp.mkdirs()
-
-    copy {
-      [
-        project(':powershell-common'),
-        project(':powershell-agent')
-      ].each { from it.libsDir }
-      into new File(gradleTmp, 'powershell-agent'){{mkdirs();}}
-    }
-
-    task zipAgent(type: Zip) {
-      from gradleTmp  
-      archiveName ='powershell-agent.zip'
-      destinationDir = gradleAgent
-    }
-    zipAgent.execute()
-
-    copy {
-      from project(':powershell-server').libsDir
-      from project(':powershell-common').libsDir
-      into gradleServer
-    }
-
-    copy {
-      into gradleDir
-      from (projectDir) {
-        include 'teamcity-plugin.xml'
-        filter(ReplaceTokens, tokens:[VERSION: version ])
-      }
-    }
-  
-    task zipPlugin(type: Zip) {
-      from gradleDir
-      archiveName='teamcity-meta-runner.zip'
-    }
-
-    zipPlugin.execute()
-
-    println "##teamcity[publishArtifacts '${zipPlugin.archivePath}']"
-  }
-}
-*/

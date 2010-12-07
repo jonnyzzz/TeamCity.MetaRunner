@@ -9,6 +9,9 @@
   <component name="DependencyValidationManager">
     <option name="SKIP_IMPORT_STATEMENTS" value="false" />
   </component>
+  <component name="EntryPointsManager">
+    <entry_points version="2.0" />
+  </component>
   <component name="FacetStructureConfigurable.UI">
     <splitter-proportions>
       <SplitterProportionsDataImpl />
@@ -50,21 +53,15 @@
       <SplitterProportionsDataImpl />
     </splitter-proportions>
   </component>
-  <component name="PerforceDirect.Settings">
-    <option name="useP4CONFIG" value="false" />
-    <option name="port" value="perforce.labs.intellij.net:1666" />
-    <option name="client" value="UNIT-331" />
-    <option name="user" value="Eugene.Petrenko" />
-    <option name="passwd" value="dfdbdfcfdfcddfcbdffadfe3dfdfdfd3" />
-    <option name="USE_LOGIN" value="true" />
-    <option name="LOGIN_SILENTLY" value="true" />
-  </component>
   <component name="ProjectLibrariesConfigurable.UI">
     <splitter-proportions>
       <SplitterProportionsDataImpl />
     </splitter-proportions>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_5" assert-keyword="true" jdk-15="true" project-jdk-name="1.5" project-jdk-type="JavaSDK">
+  <component name="ProjectResources">
+    <default-html-doctype>http://www.w3.org/1999/xhtml</default-html-doctype>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_5" assert-keyword="true" jdk-15="true" project-jdk-name="1.6" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />
   </component>
   <component name="SvnBranchConfigurationManager">
