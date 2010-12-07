@@ -14,16 +14,21 @@
 
   <xs:complexType name="TParametersDefinition">
     <xs:sequence>
-      <xs:element name="parameter" type="TParameterDef"/>
+      <xs:element name="parameter" type="TParameterDef" minOccurs="1" maxOccurs="unbounded"/>
     </xs:sequence>
   </xs:complexType>
 
   <xs:complexType name="TParameter">
-    <xs:all/>
+    <xs:choice minOccurs="1" maxOccurs="1">
+      <xs:element name="ref">
+        <xs:complexType>
+          <xs:attribute name="ref" type="TParameterKey" use="required"/>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="value" type="xs:string"/>
+    </xs:choice>
     <xs:attribute name="name" type="TParameterKey" use="required"/>
     <xs:attribute name="scope" type="TParameterScope" use="required"/>
-    <xs:attribute name="ref" type="TParameterKey" use="optional"/>
-    <xs:attribute name="value" type="xs:string" use="optional" />
   </xs:complexType>
 
   <xs:complexType name="TType" abstract="true">
@@ -66,11 +71,10 @@
     <xs:sequence minOccurs="1" maxOccurs="1">
       <xs:element name="short-name" type="xs:string" minOccurs="1" maxOccurs="1"/>
       <xs:element name="description" type="xs:string" minOccurs="0" maxOccurs="1"/>
-      <xs:choice minOccurs="0" maxOccurs="1">
+      <xs:choice minOccurs="1" maxOccurs="1">
         <xs:element name="type-text" type="TTypeText"/>
         <xs:element name="type-choise" type="TTypeChoose"/>
         <xs:element name="type-hidden" type="TTypeHidden"/>
-        <xs:element name="type" type="TType"/>
       </xs:choice>
     </xs:sequence>
     <xs:attribute name="type" type="TParameterType" use="optional" default="text"/>
@@ -103,16 +107,27 @@
   </xs:simpleType>
 
   <xs:complexType name="TStep">
-    <xs:sequence>
+    <xs:all>
       <xs:element name="parameters" type="TParametersCollection" minOccurs="0" maxOccurs="1"/>
-    </xs:sequence>
+      <xs:element name="resource">
+        <xs:complexType>
+          <xs:attribute name="relative-path" type="xs:string" use="optional" default=""/>
+        </xs:complexType>
+      </xs:element>
+    </xs:all>
     <xs:attribute name="run-type" type="TParameterKey" use="required"/>
   </xs:complexType>
 
   <xs:element name="teamcity-meta-runner">
     <xs:complexType>
       <xs:sequence minOccurs="1" maxOccurs="1">
-        <xs:element name="runner-parameters" type="TParametersDefinition" minOccurs="0" maxOccurs="1"/>
+        <xs:element name="runner-parameters" type="TParametersDefinition" minOccurs="0" maxOccurs="1">
+          <xs:unique name="parameter-names-should-be-unique">
+            <xs:selector xpath="j:parameter"/>
+            <xs:field xpath="@name"/>
+            <xs:field xpath="@scope"/>
+          </xs:unique>
+        </xs:element>
         <xs:element name="steps" minOccurs="0" maxOccurs="1">
           <xs:complexType>
             <xs:sequence>
