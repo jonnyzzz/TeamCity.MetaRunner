@@ -1,8 +1,10 @@
 package jetbrains.buildserver.metarunner.xml
 
-import scala.xml._
-import java.util.List
-import java.io.{FileInputStream, File}
+import java.io.File
+import javax.xml.XMLConstants
+import javax.xml.transform.stream.StreamSource
+import javax.xml.validation.SchemaFactory
+import org.xml.sax.InputSource
 
 /**
  * @author Eugene Petrenko (eugene.petrenko@jetbrains.com)
@@ -12,9 +14,13 @@ import java.io.{FileInputStream, File}
 class Parser {
 
   def parse(spec: File) = {
-    def reader = new FileInputStream(spec)
-    def xml = XML.load(reader);
+    // A schema can be loaded in like ...
 
+    val sf = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI)
+    val s = sf.newSchema(new StreamSource(new File("classpath:/meta-runner-config.xsd")))
+
+    val is : InputSource = new InputSource(spec.getPath)
+    val xml = new SchemaAwareFactoryAdapter(s).load(is)
 
     println(xml)
 
