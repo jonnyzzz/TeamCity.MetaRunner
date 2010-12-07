@@ -1,0 +1,127 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        targetNamespace="urn:schemas-jetbrains-net:teamcity:meta-runner"
+        xmlns="urn:schemas-jetbrains-net:teamcity:meta-runner"
+        xmlns:j="urn:schemas-jetbrains-net:teamcity:meta-runner"
+        elementFormDefault="qualified"
+        >
+
+  <xs:complexType name="TParametersCollection">
+    <xs:sequence>
+      <xs:element name="parameter" type="TParameter" minOccurs="1" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="TParametersDefinition">
+    <xs:sequence>
+      <xs:element name="parameter" type="TParameterDef"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="TParameter">
+    <xs:all/>
+    <xs:attribute name="name" type="TParameterKey" use="required"/>
+    <xs:attribute name="scope" type="TParameterScope" use="required"/>
+    <xs:attribute name="ref" type="TParameterKey" use="optional"/>
+    <xs:attribute name="value" type="xs:string" use="optional" />
+  </xs:complexType>
+
+  <xs:complexType name="TType" abstract="true">
+  </xs:complexType>
+
+  <xs:complexType name="TTypeText" >
+    <xs:complexContent>
+      <xs:extension base="TType">
+        <xs:attribute name="text-area" type="xs:boolean" use="optional" default="false"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="TTypeChoose">
+    <xs:complexContent>
+      <xs:extension base="TType">
+        <xs:sequence>
+          <xs:element name="option" minOccurs="1" maxOccurs="unbounded">
+            <xs:complexType>
+              <xs:simpleContent>
+                <xs:extension base="xs:string">
+                  <xs:attribute name="value" type="TParameterKey" use="required"/>
+                  <xs:attribute name="default" type="xs:boolean" use="optional" default="false"/>
+                </xs:extension>
+              </xs:simpleContent>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="TTypeHidden">
+    <xs:complexContent>
+      <xs:extension base="TType"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="TParameterDef">
+    <xs:sequence minOccurs="1" maxOccurs="1">
+      <xs:element name="short-name" type="xs:string" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="description" type="xs:string" minOccurs="0" maxOccurs="1"/>
+      <xs:choice minOccurs="0" maxOccurs="1">
+        <xs:element name="type-text" type="TTypeText"/>
+        <xs:element name="type-choise" type="TTypeChoose"/>
+        <xs:element name="type-hidden" type="TTypeHidden"/>
+        <xs:element name="type" type="TType"/>
+      </xs:choice>
+    </xs:sequence>
+    <xs:attribute name="type" type="TParameterType" use="optional" default="text"/>
+    <xs:attribute name="name" type="TParameterKey" use="required"/>
+    <xs:attribute name="scope" type="TParameterScope" use="required"/>
+    <xs:attribute name="default" type="xs:string" use="optional"/>
+  </xs:complexType>
+
+  <xs:simpleType name="TParameterScope">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="system"/>
+      <xs:enumeration value="env"/>
+      <xs:enumeration value="config"/>
+      <xs:enumeration value="runner"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="TParameterType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="text"/>
+      <xs:enumeration value="text-area"/>
+      <xs:enumeration value="hidden"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="TParameterKey">
+    <xs:restriction base="xs:string">
+      <xs:minLength value="1"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="TStep">
+    <xs:sequence>
+      <xs:element name="parameters" type="TParametersCollection" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+    <xs:attribute name="run-type" type="TParameterKey" use="required"/>
+  </xs:complexType>
+
+  <xs:element name="teamcity-meta-runner">
+    <xs:complexType>
+      <xs:sequence minOccurs="1" maxOccurs="1">
+        <xs:element name="runner-parameters" type="TParametersDefinition" minOccurs="0" maxOccurs="1"/>
+        <xs:element name="steps" minOccurs="0" maxOccurs="1">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="step" type="TStep" minOccurs="1" maxOccurs="unbounded"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  
+</xs:schema>
