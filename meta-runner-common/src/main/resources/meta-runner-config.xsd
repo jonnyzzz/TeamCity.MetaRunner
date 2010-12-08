@@ -79,7 +79,6 @@
     </xs:sequence>
     <xs:attribute name="type" type="TParameterType" use="optional" default="text"/>
     <xs:attribute name="name" type="TParameterKey" use="required"/>
-    <xs:attribute name="scope" type="TParameterScope" use="required"/>
     <xs:attribute name="default" type="xs:string" use="optional"/>
   </xs:complexType>
 

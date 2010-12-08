@@ -1,23 +1,20 @@
-<?xml version="1.0"?>
-<teamcity-meta-runner
-        xmlns:xs="http://www.w3.org/2001/XMLSchema"
-        xmlns="urn:schemas-jetbrains-net:teamcity:meta-runner"
-        >
+<teamcity-meta-runner xmlns="urn:schemas-jetbrains-net:teamcity:meta-runner">
 
   <runner-parameters>
-    <parameter name="keyt" scope="config">
+    <parameter name="keyt">
       <short-name>aaa</short-name>
+      <description>edewedasd</description>
       <type-text/>
     </parameter>
-    <parameter name="ZZZ" scope="runner">
+    <parameter name="ZZZ">
       <short-name>sss</short-name>
       <type-hidden/>
     </parameter>
-    <parameter name="ZZZ" scope="config">
+    <parameter name="ZZZ">
       <short-name>sss</short-name>
       <type-hidden/>
     </parameter>
-    <parameter name="aaaa" scope="runner">
+    <parameter name="3323" default="wsasss">
       <short-name>sss</short-name>
       <type-hidden/>
     </parameter>
@@ -29,9 +26,17 @@
         <parameter name="aaaa" scope="runner">
           <ref ref="3323"/>
         </parameter>
+        <parameter name="qqq" scope="runner">
+          <value>sss</value>
+        </parameter>
       </parameters>
+      <resource relative-path=""/>
+    </step>
+    <step run-type="ddd">
+      <resource/>
     </step>
   </steps>
 
 
 </teamcity-meta-runner>
+
