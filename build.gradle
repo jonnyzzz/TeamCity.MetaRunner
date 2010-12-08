@@ -28,15 +28,20 @@ allprojects {
   dependencies {
 
     // Libraries needed to run the scala tools
-    scalaTools 'org.scala-lang:scala-compiler:2.7.7'
-    scalaTools 'org.scala-lang:scala-library:2.7.7'
+    scalaTools 'org.scala-lang:scala-compiler:2.8.1'
+    scalaTools 'org.scala-lang:scala-library:2.8.1'
 
     // Libraries needed for scala api
-    compile 'org.scala-lang:scala-library:2.7.7'
+    compile 'org.scala-lang:scala-library:2.8.1'
 
     compile annotationsJar
     compile log4j
     compile teamCityLib
+   
+
+    testCompile jmock
+    testCompile testNG
+    testCompile jmock_old
     
   }
 
@@ -58,6 +63,7 @@ project (':meta-runner-agent') {
   dependencies {
     compile project(':meta-runner-common')
     compile agentApi
+    compile agentInternalApi
   }
 }
 

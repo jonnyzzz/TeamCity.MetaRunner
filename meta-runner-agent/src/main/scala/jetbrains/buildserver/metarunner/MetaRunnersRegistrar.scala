@@ -18,7 +18,7 @@ class MetaRunnersRegistrar(val events : EventDispatcher[AgentLifeCycleListener],
 
       for(x <- locator.loadMetaRunners) {
         val runner = new MetaRunnerBuildServiceFactory(x,facade)
-        extensions.registerExtension(classOf[AgentBuildRunner], "meta-runner: " + runner.getType, runner)
+        extensions.registerExtension(classOf[AgentBuildRunner], "meta-runner@" + runner.getType, runner)
       }
 
       events.removeListener(this)

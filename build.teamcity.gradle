@@ -45,6 +45,11 @@ if (version == null) version = 'snapshot-' + new Date().format('yyyyMMdd'+"'z'"+
     include 'agent-api.jar'
   }
 
+  agentInternalApi = fileTree(teamCityDir + "/buildAgent/lib").matching {
+    include 'agent.jar'
+  }
+
+
   serverApi = fileTree(teamCityDir + "/devPackage").matching {
     include 'server-api.jar'
   }
@@ -52,4 +57,11 @@ if (version == null) version = 'snapshot-' + new Date().format('yyyyMMdd'+"'z'"+
   commonApi = fileTree(teamCityDir + "/devPackage").matching {
     include 'common-api.jar'
   }
+
+
+
+  testNG = fileTree("lib/testng").matching { include '*.jar' }
+  jmock = fileTree("lib/jmock").matching { include '*.jar' }
+  jmock_old = fileTree('lib/jmock-1.2').matching { include '*.jar' }
+
 

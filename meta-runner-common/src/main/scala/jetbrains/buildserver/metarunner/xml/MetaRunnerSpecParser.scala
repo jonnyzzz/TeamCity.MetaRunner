@@ -5,7 +5,7 @@ import javax.xml.XMLConstants
 import javax.xml.validation.SchemaFactory
 import javax.xml.transform.stream.StreamSource
 import org.xml.sax.{InputSource}
-import xml.{Node, Elem}
+import scala.xml.{Node, Elem}
 import com.intellij.openapi.util.text.StringUtil
 
 /**

@@ -2,15 +2,12 @@ package jetbrains.buildserver.metarunner.xml
 
 import jetbrains.buildServer.BaseTestCase
 import org.testng.annotations.Test
-import java.io.File
-import jetbrains.buildServer.agent.ClasspathUtil
 import jetbrains.buildServer.util.FileUtil
 
 /**
  * @author Eugene Petrenko (eugene.petrenko@jetbrains.com)
  * 07.12.10 15:43 
- */
-
+*/
 
 @Test
 class MetaRunnerSpecParserTest extends BaseTestCase {
