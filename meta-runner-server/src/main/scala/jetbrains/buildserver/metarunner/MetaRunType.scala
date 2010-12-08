@@ -3,15 +3,20 @@ package jetbrains.buildserver.metarunner
 import java.lang.String
 import xml.RunnerSpec
 import java.util.{TreeMap, Collections, Map}
-import collection.immutable.HashMap
 import jetbrains.buildServer.serverSide.{InvalidProperty, PropertiesProcessor, RunType}
+import jetbrains.buildServer.controllers.BaseController
+import org.springframework.web.servlet.ModelAndView
+import jetbrains.buildServer.web.openapi.{WebControllerManager, PluginDescriptor}
+import javax.servlet.http.{HttpServletResponse, HttpServletRequest}
 
 /**
  * @author Eugene Petrenko (eugene.petrenko@jetbrains.com)
  * 08.12.10 23:59 
  */
 
-class MetaRunType(val spec : RunnerSpec) extends RunType {
+class MetaRunType(val spec : RunnerSpec,
+                  val descriptor : PluginDescriptor,
+                  val webController : WebControllerManager) extends RunType {
   def getDescription = spec.description
 
   def getDisplayName = spec.shortName
@@ -28,9 +33,20 @@ class MetaRunType(val spec : RunnerSpec) extends RunType {
     map
   }
 
-  def getViewRunnerParamsJspFilePath = ""
+  private def registerController(path: String, name : String) = {
+    val jsp = descriptor.getPluginResourcesPath(path)
+    val fullName = descriptor.getPluginResourcesPath(getType + "-" + name)
+    webController.registerController(fullName,
+    new BaseController{
+      def doHandle(p1: HttpServletRequest, p2: HttpServletResponse) = new ModelAndView(jsp)
+    })
+    fullName
+  }
 
-  def getEditRunnerParamsJspFilePath = ""
+
+  val getViewRunnerParamsJspFilePath = registerController("view-meta-runner.jsp", "view.html")
+
+  val getEditRunnerParamsJspFilePath = registerController("edit-meta-runner.jsp", "edit.html")
 
   def getRunnerPropertiesProcessor = {
     new PropertiesProcessor{

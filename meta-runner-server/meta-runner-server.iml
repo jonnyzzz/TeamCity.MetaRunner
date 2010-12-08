@@ -5,6 +5,7 @@
       <configuration>
         <fileset id="fileset1" name="meta-runner-server" removed="false">
           <file>file://$MODULE_DIR$/../meta-runner-common/src/main/resources/META-INF/build-server-plugin-meta-runner.xml</file>
+          <file>file://$MODULE_DIR$/src/main/resources/META-INF/build-server-plugin-meta-runner.xml</file>
         </fileset>
       </configuration>
     </facet>
@@ -55,9 +56,10 @@
     </orderEntry>
     <orderEntry type="library" scope="TEST" name="TestFramework" level="project" />
     <orderEntry type="library" scope="TEST" name="Test-Api" level="project" />
-    <orderEntry type="library" name="Scala" level="project" />
     <orderEntry type="library" name="Server-Internal" level="project" />
+    <orderEntry type="library" name="Scala" level="project" />
     <orderEntry type="library" name="Common-Internal" level="project" />
+    <orderEntry type="library" name="TeamCity runtime" level="project" />
   </component>
 </module>
 

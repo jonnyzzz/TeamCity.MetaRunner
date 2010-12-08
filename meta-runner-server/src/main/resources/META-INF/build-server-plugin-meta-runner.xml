@@ -7,4 +7,5 @@
         >
 
   <bean class="jetbrains.buildserver.metarunner.ServerSpecLocator"/>
+  <bean class="jetbrains.buildserver.metarunner.MetaRunnersRegistrar"/>
 </beans>

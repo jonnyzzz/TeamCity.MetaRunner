@@ -89,6 +89,7 @@
       <root url="jar://$teamcitydistribution$/webapps/ROOT/WEB-INF/lib/ehcache-1.6.0.jar!/" />
       <root url="jar://$teamcitydistribution$/webapps/ROOT/WEB-INF/lib/ehcache-1.6.0-patch.jar!/" />
       <root url="jar://$teamcitydistribution$/webapps/ROOT/WEB-INF/lib/ant-runner-server.jar!/" />
+      <root url="jar://$teamcitydistribution$/lib/servlet-api.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
