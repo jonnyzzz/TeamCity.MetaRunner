@@ -34,6 +34,8 @@ class MetaRunType(val spec : RunnerSpec) extends RunType {
 
   def getRunnerPropertiesProcessor = {
     new PropertiesProcessor{
+      //TODO: call refered RunType property processors in this processor
+      //TODO: to check if the runner could be started in principle
       def process(p1: Map[String, String]) = Collections.emptyList[InvalidProperty]
     }
   }
