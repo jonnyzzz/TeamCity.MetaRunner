@@ -7,37 +7,46 @@ package jetbrains.buildserver.metarunner.xml
 
 trait RunnerSpec {
   def parameterDef : List[ParameterDef];
-  def runners : List[StepDef]
+  def runners : List[RunnerStepSpec]
+  def runType : String
 }
 
+trait RunnerStepSpec {
+  def runType : String
+  def parameters : List[RunnerStepParams]
+}
 
-class StepDef(runnerType : String, resources : RunnerResources, parameters : List[RunnerParmeter])
+trait RunnerStepParams {
+  def key: String
+  def scope :ParameterScope
+  def value : String
+}
 
-class RunnerResources(relativePath : String)
+class StepDef(val runType : String,
+              val resources : RunnerResources,
+              val parameters : List[RunnerParameter]) extends RunnerStepSpec
 
-abstract class RunnerParmeter(key : String, scope : ParameterScope)
-case class RunnerParameterRef(key : String, scope : ParameterScope, refName : String) extends RunnerParmeter(key = key, scope = scope)
-case class RunnerParameterVakue(key: String, scope :ParameterScope, value : String) extends RunnerParmeter(key = key, scope = scope)
+class RunnerResources(val relativePath : String)
+
+class RunnerParameter(val key: String,
+                      val scope :ParameterScope,
+                      val value : String) extends RunnerStepParams
 
 
 class ParameterDef(val key: String,
                    val parameterType: ParameterType,
-                   val scope: ParameterScope,
                    val default: String,
                    val shortName: String,
                    val description: String
                   ) {
   override def toString : String = {
-    "ParameterDef[ key=" + key + ", scope=" + scope +", type=" + parameterType + " ]"
+    "ParameterDef[ key=" + key + ", type=" + parameterType + " ]"
   }
 }
 
-
 abstract class ParameterScope
 case object RunnerScope extends ParameterScope
-case object ConfigScope extends ParameterScope
-case object SystemScope extends ParameterScope
-case object EnvScope extends ParameterScope
+case object BuildScope extends ParameterScope
 
 class ChooserItem(value : String, description : String, isDefault : Boolean)
 

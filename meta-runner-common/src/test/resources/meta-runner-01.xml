@@ -22,17 +22,14 @@
 
   <steps>
     <step run-type="Ant">
-      <parameters>
-        <parameter name="aaaa" scope="runner">
-          <ref ref="3323"/>
-        </parameter>
-        <parameter name="qqq" scope="runner">
-          <value>sss</value>
-        </parameter>
+      <parameters scope="runner">
+        <param name="sss" value="444"/>
+        <param name="qqq" value="444"/>
+        <param name="pp" >UUU</param>
       </parameters>
-      <resource relative-path=""/>
-    </step>
-    <step run-type="ddd">
+     <resource relative-path=""/>
+   </step>
+   <step run-type="ddd">
       <resource/>
     </step>
   </steps>

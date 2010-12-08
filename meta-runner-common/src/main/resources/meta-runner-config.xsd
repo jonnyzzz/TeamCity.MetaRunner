@@ -8,8 +8,18 @@
 
   <xs:complexType name="TParametersCollection">
     <xs:sequence>
-      <xs:element name="parameter" type="TParameter" minOccurs="1" maxOccurs="unbounded"/>
+      <xs:element name="param" minOccurs="1" maxOccurs="unbounded">
+        <xs:complexType>
+          <xs:simpleContent>
+            <xs:extension base="xs:string">
+              <xs:attribute name="name" use="required"/>
+              <xs:attribute name="value" use="optional"/>
+            </xs:extension>
+          </xs:simpleContent>
+        </xs:complexType>
+      </xs:element>
     </xs:sequence>
+    <xs:attribute name="scope" type="TParameterScope" use="required"/>
   </xs:complexType>
 
   <xs:complexType name="TParametersDefinition">
@@ -84,9 +94,7 @@
 
   <xs:simpleType name="TParameterScope">
     <xs:restriction base="xs:string">
-      <xs:enumeration value="system"/>
-      <xs:enumeration value="env"/>
-      <xs:enumeration value="config"/>
+      <xs:enumeration value="build"/>
       <xs:enumeration value="runner"/>
     </xs:restriction>
   </xs:simpleType>
@@ -135,6 +143,7 @@
           </xs:complexType>
         </xs:element>
       </xs:sequence>
+      <xs:attribute name="runType" type="TParameter" use="required"/>
     </xs:complexType>
   </xs:element>
   

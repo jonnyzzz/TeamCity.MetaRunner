@@ -18,7 +18,7 @@ package jetbrains.buildserver.metarunner;
 
 import jetbrains.buildServer.BaseTestCase;
 import jetbrains.buildServer.util.FileUtil;
-import jetbrains.buildserver.metarunner.xml.Parser;
+import jetbrains.buildserver.metarunner.xml.MetaRunnerSpecParser;
 import org.testng.annotations.Test;
 
 import java.io.File;
@@ -34,6 +34,6 @@ public class ModelReaderTest extends BaseTestCase {
     File f = createTempFile();
     FileUtil.copyResource(this.getClass(), "/meta-runner-01.xml", f);
 
-    new Parser().parse(f);
+    new MetaRunnerSpecParser().parse(f);
   }
 }

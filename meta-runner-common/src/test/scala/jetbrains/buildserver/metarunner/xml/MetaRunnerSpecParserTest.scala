@@ -13,13 +13,13 @@ import jetbrains.buildServer.util.FileUtil
 
 
 @Test
-class ParserTest extends BaseTestCase {
+class MetaRunnerSpecParserTest extends BaseTestCase {
 
   @Test
   def test_01() = {
     val f = createTempFile()
     FileUtil.copyResource(this.getClass(), "/meta-runner-01.xml", f)
 
-    new Parser().parse(f)
+    new MetaRunnerSpecParser().parse(f)
   }
 }

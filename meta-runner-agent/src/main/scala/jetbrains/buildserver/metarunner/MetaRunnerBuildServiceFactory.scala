@@ -1,18 +1,36 @@
 package jetbrains.buildserver.metarunner
 
 import jetbrains.buildServer.agent._
+import xml.RunnerSpec
 
 /**
  * @author Eugene Petrenko (eugene.petrenko@jetbrains.com)
  * 07.12.10 14:30 
  */
 
-class MetaRunnerBuildServiceFactory extends  AgentBuildRunner with AgentBuildRunnerInfo {
-  def getRunnerInfo = null
+class MetaRunnerBuildServiceFactory(val spec : RunnerSpec,
+                                    val facade : BuildProcessFacade
+                                   ) extends AgentBuildRunner with AgentBuildRunnerInfo {
+  @Override
+  def getRunnerInfo = this
 
-  def createBuildProcess(runningBuild: AgentRunningBuild, context: BuildRunnerContext) = null
+  @Override
+  def createBuildProcess(runningBuild: AgentRunningBuild, context: BuildRunnerContext) = {
+    new MetaRunnerBuildProcess(
+      spec,
+      facade,
+      runningBuild,
+      context
+    )
+  }
 
-  def canRun(agentConfiguration: BuildAgentConfiguration) = false
+  @Override
+  def getType = spec.runType
 
-  def getType = ""
+  @Override
+  def canRun(agentConfiguration: BuildAgentConfiguration) = {
+    //TODO: check all required build runners are available on build agent.
+    //TODO: this is done on the server side now
+    true
+  }
 }

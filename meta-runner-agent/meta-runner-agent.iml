@@ -35,6 +35,7 @@
     <orderEntry type="library" name="Scala" level="project" />
     <orderEntry type="library" scope="TEST" name="TestFramework" level="project" />
     <orderEntry type="library" scope="TEST" name="Test-Api" level="project" />
+    <orderEntry type="library" name="Agent-Internal" level="project" />
   </component>
 </module>
 
