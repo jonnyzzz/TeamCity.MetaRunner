@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="Server-Internal">
+    <CLASSES>
+      <root url="jar://$teamcitydistribution$/webapps/ROOT/WEB-INF/lib/web.jar!/" />
+      <root url="jar://$teamcitydistribution$/webapps/ROOT/WEB-INF/lib/server.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

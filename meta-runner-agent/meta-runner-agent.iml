@@ -5,7 +5,6 @@
       <configuration>
         <fileset id="fileset1" name="metarunner-agent" removed="false">
           <file>file://$MODULE_DIR$/../meta-runner-common/src/main/resources/META-INF/build-agent-plugin-meta-runner.xml</file>
-          <file>file://$MODULE_DIR$/src/main/resources/META-INF/build-agent-plugin-meta-runner.xml</file>
         </fileset>
       </configuration>
     </facet>
@@ -13,6 +12,7 @@
       <configuration>
         <option name="compilerLibraryLevel" value="Project" />
         <option name="compilerLibraryName" value="Scala-compiler" />
+        <option name="explainTypeErrors" value="true" />
       </configuration>
     </facet>
   </component>
@@ -37,6 +37,7 @@
     <orderEntry type="library" scope="TEST" name="TestFramework" level="project" />
     <orderEntry type="library" scope="TEST" name="Test-Api" level="project" />
     <orderEntry type="library" name="Agent-Internal" level="project" />
+    <orderEntry type="library" name="Common-Internal" level="project" />
   </component>
 </module>
 

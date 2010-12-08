@@ -4,7 +4,7 @@ import java.io.File
 import com.intellij.openapi.diagnostic.Logger
 import xml.{MetaRunnerSpecParser, RunnerSpec}
 import jetbrains.buildServer.web.openapi.PluginDescriptor
-import java.util.List
+import jetbrains.buildServer.plugins.bean.PluginInfo
 
 /**
  * @author Eugene Petrenko (eugene.petrenko@jetbrains.com)
@@ -16,8 +16,7 @@ class ServerSpecLocator(val description : PluginDescriptor,
   val LOG = Logger.getInstance(getClass.getName())
 
   def loadMetaRunners : List[RunnerSpec] = {
-    val root = new File(description.getPluginRoot, "meta-runners").listFiles;
-
+    val root = new File(description.asInstanceOf[PluginInfo].getPluginRoot(), "meta-runners").listFiles;
 
     if (root == null)
       Nil

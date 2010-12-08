@@ -12,6 +12,24 @@
   <component name="EntryPointsManager">
     <entry_points version="2.0" />
   </component>
+  <component name="FacetAutodetectingManager">
+    <autodetection-disabled>
+      <facet-type id="Spring">
+        <modules>
+          <module name="meta-runner-common">
+            <files>
+              <file url="file://$PROJECT_DIR$/meta-runner-common/build/classes/main/META-INF/build-agent-plugin-meta-runner.xml" />
+              <file url="file://$PROJECT_DIR$/meta-runner-common/build/classes/main/META-INF/build-server-plugin-meta-runner.xml" />
+              <file url="file://$PROJECT_DIR$/meta-runner-common/build/classes/main/META-INF/teamcity-meta-runner-common-beans.xml" />
+              <file url="file://$PROJECT_DIR$/meta-runner-common/src/main/resources/META-INF/build-agent-plugin-meta-runner.xml" />
+              <file url="file://$PROJECT_DIR$/meta-runner-common/src/main/resources/META-INF/build-server-plugin-meta-runner.xml" />
+              <file url="file://$PROJECT_DIR$/meta-runner-common/src/main/resources/META-INF/teamcity-meta-runner-common-beans.xml" />
+            </files>
+          </module>
+        </modules>
+      </facet-type>
+    </autodetection-disabled>
+  </component>
   <component name="FacetStructureConfigurable.UI">
     <splitter-proportions>
       <SplitterProportionsDataImpl />
