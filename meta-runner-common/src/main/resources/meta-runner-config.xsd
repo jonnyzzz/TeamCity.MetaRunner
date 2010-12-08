@@ -128,6 +128,7 @@
   <xs:element name="teamcity-meta-runner">
     <xs:complexType>
       <xs:sequence minOccurs="1" maxOccurs="1">
+        <xs:element name="desription" type="xs:string" minOccurs="0" maxOccurs="1"/>
         <xs:element name="runner-parameters" type="TParametersDefinition" minOccurs="0" maxOccurs="1">
           <xs:unique name="parameter-names-should-be-unique">
             <xs:selector xpath="j:parameter"/>
@@ -144,6 +145,7 @@
         </xs:element>
       </xs:sequence>
       <xs:attribute name="runType" type="TParameter" use="required"/>
+      <xs:attribute name="shortName" type="TParameter" use="required"/>
     </xs:complexType>
   </xs:element>
   

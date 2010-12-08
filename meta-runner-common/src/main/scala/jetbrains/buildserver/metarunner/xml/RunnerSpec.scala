@@ -6,9 +6,11 @@ package jetbrains.buildserver.metarunner.xml
  */
 
 trait RunnerSpec {
-  def parameterDef : List[ParameterDef];
+  def parameterDefs : List[ParameterDef];
   def runners : List[RunnerStepSpec]
   def runType : String
+  def shortName : String
+  def description : String
 }
 
 trait RunnerStepSpec {

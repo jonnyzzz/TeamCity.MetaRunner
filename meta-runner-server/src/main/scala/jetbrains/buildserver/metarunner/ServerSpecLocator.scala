@@ -16,6 +16,8 @@ class ServerSpecLocator(val description : PluginDescriptor,
   val LOG = Logger.getInstance(getClass.getName())
 
   def loadMetaRunners : List[RunnerSpec] = {
+    //TODO: Add filewatcher
+    //TODO: Use plugin data folder too
     val root = new File(description.asInstanceOf[PluginInfo].getPluginRoot(), "meta-runners").listFiles;
 
     if (root == null)

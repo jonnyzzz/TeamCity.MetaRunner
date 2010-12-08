@@ -42,6 +42,8 @@ class MetaRunnerSpecParser {
     }
 
     val runTypeValue = (xml \ "@runType").text
+    val runTypeShortName = (xml \ "@shortName").text
+    val runTypeDescription = (xml \ "descpription").text
 
     val paramDefs = (xml \ "runner-parameters" \ "parameter").foldLeft(Nil: List[ParameterDef])((list, elem) => {
       new ParameterDef(
@@ -88,10 +90,10 @@ class MetaRunnerSpecParser {
 
     new RunnerSpec{
       def runType = runTypeValue
-
       def runners = stepDefs
-
-      def parameterDef = parameterDef
+      def parameterDefs = parameterDefs
+      def description = runTypeDescription
+      def shortName = runTypeShortName
     }
   }
 
