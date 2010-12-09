@@ -30,6 +30,7 @@ class MetaRunnerSpecParser {
       param match {
         case x@ <type-text>{_*}</type-text> => TextType(false)
         case x@ <type-hidden>{_*}</type-hidden> => HiddenType
+        //TODO: support choise
         case x => throw new RuntimeException("Failed to parse: " + x)
       }
     }
