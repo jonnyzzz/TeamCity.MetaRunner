@@ -7,6 +7,7 @@ import javax.xml.transform.stream.StreamSource
 import org.xml.sax.{InputSource}
 import scala.xml.{Node, Elem}
 import com.intellij.openapi.util.text.StringUtil
+import collection.JavaConversions
 
 /**
  * @author Eugene Petrenko (eugene.petrenko@jetbrains.com)
@@ -89,11 +90,11 @@ class MetaRunnerSpecParser {
     })
 
     new RunnerSpec{
-      def runType = runTypeValue
-      def runners = stepDefs
-      def parameterDefs = paramDefs
-      def description = runTypeDescription
-      def shortName = runTypeShortName
+      val runType = runTypeValue
+      val runners = JavaConversions.asJavaCollection(stepDefs)
+      val parameterDefs = JavaConversions.asJavaCollection(paramDefs)
+      val description = runTypeDescription
+      val shortName = runTypeShortName
     }
   }
 

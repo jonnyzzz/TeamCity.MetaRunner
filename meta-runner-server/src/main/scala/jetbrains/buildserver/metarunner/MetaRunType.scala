@@ -8,7 +8,7 @@ import jetbrains.buildServer.controllers.BaseController
 import org.springframework.web.servlet.ModelAndView
 import jetbrains.buildServer.web.openapi.{WebControllerManager, PluginDescriptor}
 import javax.servlet.http.{HttpServletResponse, HttpServletRequest}
-
+import scala.collection.JavaConversions._
 /**
  * @author Eugene Petrenko (eugene.petrenko@jetbrains.com)
  * 08.12.10 23:59 

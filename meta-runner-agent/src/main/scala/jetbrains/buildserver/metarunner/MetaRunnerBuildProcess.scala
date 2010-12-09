@@ -5,8 +5,8 @@ import jetbrains.buildServer.agent._
 import java.util.concurrent.atomic.{AtomicReference, AtomicBoolean}
 import xml._
 import jetbrains.buildserver.metarunner.util.BuildParametersUtil._
-import java.lang.String
 import jetbrains.buildServer.RunBuildException
+import scala.collection.JavaConversions._
 
 /**
  * @author Eugene Petrenko (eugene.petrenko@jetbrains.com)

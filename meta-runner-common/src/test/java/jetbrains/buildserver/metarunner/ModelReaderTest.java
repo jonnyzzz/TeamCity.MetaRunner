@@ -40,5 +40,6 @@ public class ModelReaderTest extends BaseTestCase {
     System.out.println("parse = " + parse);
     System.out.println("parse.parameterDefs() = " + parse.parameterDefs());
     System.out.println("parse.runners() = " + parse.runners());
+
   }
 }
