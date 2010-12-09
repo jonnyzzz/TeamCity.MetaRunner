@@ -9,7 +9,7 @@ abstract class ParameterType
 
 case class TextType(useTextArea : Boolean ) extends ParameterType
 case object HiddenType extends ParameterType
-case class CooserType(items : List[ChooserItem]) extends ParameterType
+case class ChooserType(items : List[ChooserItem]) extends ParameterType
 
 class ChooserItem(value : String, description : String, isDefault : Boolean)
 
