@@ -13,4 +13,27 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   --%>
+<%@ include file="/include.jsp" %>
 
+<l:settingsGroup title="${runner.shortName} Parameters">
+  <c:forEach items="${runner.parameterDefs}" var="p">
+    <tr>
+      <th>
+        <label for="${p.key}">${p.shortName}:</label>
+      </th>
+      <td>
+        <c:choose>
+          <c:when test="${p.parameterType.name eq 'text'}">
+
+          </c:when>
+          <c:when test="${p.parameterType.name eq 'hidden'}">
+
+          </c:when>
+          <c:when test="${p.parameterType.name eq 'list'}">
+
+          </c:when>
+        </c:choose>
+      </td>
+    </tr>
+  </c:forEach>
+</l:settingsGroup>

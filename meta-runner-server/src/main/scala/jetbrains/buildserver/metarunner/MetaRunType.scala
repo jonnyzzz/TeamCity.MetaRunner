@@ -41,8 +41,9 @@ class MetaRunType(val spec : RunnerSpec,
     webController.registerController(fullName,
     new BaseController{
       def doHandle(request: HttpServletRequest, response: HttpServletResponse): ModelAndView = {
-        new ModelAndView(jsp, JavaConversions.asJavaMap(Map(
-          "params" -> JavaConversions.asJavaCollection(spec.parameterDefs))))
+        val model = new java.util.HashMap[String, Object]
+        model.put("runner", spec)
+        new ModelAndView(jsp, model)
       }
     })
     fullName
