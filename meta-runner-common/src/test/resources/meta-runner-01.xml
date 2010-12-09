@@ -1,37 +1,25 @@
-<teamcity-meta-runner xmlns="urn:schemas-jetbrains-net:teamcity:meta-runner">
+<teamcity-meta-runner xmlns="urn:schemas-jetbrains-net:teamcity:meta-runner"
+                      runType="meta-001"
+                      shortName="meta">
 
   <runner-parameters>
-    <parameter name="keyt">
+    <parameter name="keyt" default="555">
       <short-name>aaa</short-name>
       <description>edewedasd</description>
       <type-text/>
-    </parameter>
-    <parameter name="ZZZ">
-      <short-name>sss</short-name>
-      <type-hidden/>
-    </parameter>
-    <parameter name="ZZZ">
-      <short-name>sss</short-name>
-      <type-hidden/>
-    </parameter>
-    <parameter name="3323" default="wsasss">
-      <short-name>sss</short-name>
-      <type-hidden/>
     </parameter>
   </runner-parameters>
 
   <steps>
     <step run-type="Ant">
       <parameters scope="runner">
-        <param name="sss" value="444"/>
-        <param name="qqq" value="444"/>
-        <param name="pp" >UUU</param>
+        <param name="run-param" value="444"/>
+      </parameters>
+      <parameters scope="build">
+        <param name="system.zzz">system-param</param>
       </parameters>
      <resource relative-path=""/>
    </step>
-   <step run-type="ddd">
-      <resource/>
-    </step>
   </steps>
 
 

@@ -91,7 +91,7 @@ class MetaRunnerSpecParser {
     new RunnerSpec{
       def runType = runTypeValue
       def runners = stepDefs
-      def parameterDefs = parameterDefs
+      def parameterDefs = paramDefs
       def description = runTypeDescription
       def shortName = runTypeShortName
     }

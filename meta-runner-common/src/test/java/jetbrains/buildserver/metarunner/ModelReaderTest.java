@@ -19,6 +19,7 @@ package jetbrains.buildserver.metarunner;
 import jetbrains.buildServer.BaseTestCase;
 import jetbrains.buildServer.util.FileUtil;
 import jetbrains.buildserver.metarunner.xml.MetaRunnerSpecParser;
+import jetbrains.buildserver.metarunner.xml.RunnerSpec;
 import org.testng.annotations.Test;
 
 import java.io.File;
@@ -28,12 +29,16 @@ import java.io.IOException;
  * @author Eugene Petrenko (eugene.petrenko@jetbrains.com)
  *         08.12.10 19:43
  */
-@Test
 public class ModelReaderTest extends BaseTestCase {
+  @Test
   public void test_01() throws IOException {
     File f = createTempFile();
     FileUtil.copyResource(this.getClass(), "/meta-runner-01.xml", f);
 
-    new MetaRunnerSpecParser().parse(f);
+    final RunnerSpec parse = new MetaRunnerSpecParser().parse(f);
+
+    System.out.println("parse = " + parse);
+    System.out.println("parse.parameterDefs() = " + parse.parameterDefs());
+    System.out.println("parse.runners() = " + parse.runners());
   }
 }
