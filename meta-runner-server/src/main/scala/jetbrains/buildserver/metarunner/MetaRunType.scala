@@ -9,6 +9,8 @@ import org.springframework.web.servlet.ModelAndView
 import jetbrains.buildServer.web.openapi.{WebControllerManager, PluginDescriptor}
 import javax.servlet.http.{HttpServletResponse, HttpServletRequest}
 import scala.collection.JavaConversions._
+import collection.JavaConversions
+
 /**
  * @author Eugene Petrenko (eugene.petrenko@jetbrains.com)
  * 08.12.10 23:59 
@@ -38,7 +40,10 @@ class MetaRunType(val spec : RunnerSpec,
     val fullName = descriptor.getPluginResourcesPath(getType + "-" + name)
     webController.registerController(fullName,
     new BaseController{
-      def doHandle(p1: HttpServletRequest, p2: HttpServletResponse) = new ModelAndView(jsp)
+      def doHandle(request: HttpServletRequest, response: HttpServletResponse): ModelAndView = {
+        new ModelAndView(jsp, JavaConversions.asJavaMap(Map(
+          "params" -> JavaConversions.asJavaCollection(spec.parameterDefs))))
+      }
     })
     fullName
   }
