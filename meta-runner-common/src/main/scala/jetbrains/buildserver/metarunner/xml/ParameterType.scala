@@ -5,11 +5,11 @@ package jetbrains.buildserver.metarunner.xml
  * 07.12.10 15:09 
  */
 
-abstract class ParameterType
+abstract class ParameterType(name: String)
 
-case class TextType(useTextArea : Boolean) extends ParameterType
-case object HiddenType extends ParameterType
-case class ChooserType(items : List[ChooserItem]) extends ParameterType
+case class TextType(useTextArea : Boolean) extends ParameterType("text")
+case object HiddenType extends ParameterType("hidden")
+case class ChooserType(items : List[ChooserItem]) extends ParameterType("list")
 
 class ChooserItem(value : String, description : String, isDefault : Boolean)
 
