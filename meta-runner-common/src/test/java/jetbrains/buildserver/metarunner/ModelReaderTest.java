@@ -18,12 +18,13 @@ package jetbrains.buildserver.metarunner;
 
 import jetbrains.buildServer.BaseTestCase;
 import jetbrains.buildServer.util.FileUtil;
-import jetbrains.buildserver.metarunner.xml.MetaRunnerSpecParser;
-import jetbrains.buildserver.metarunner.xml.RunnerSpec;
+import jetbrains.buildserver.metarunner.xml.*;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Iterator;
 
 /**
  * @author Eugene Petrenko (eugene.petrenko@jetbrains.com)
@@ -37,9 +38,26 @@ public class ModelReaderTest extends BaseTestCase {
 
     final RunnerSpec parse = new MetaRunnerSpecParser().parse(f);
 
-    System.out.println("parse = " + parse);
     System.out.println("parse.parameterDefs() = " + parse.parameterDefs());
-    System.out.println("parse.runners() = " + parse.runners());
+    Assert.assertEquals(parse.parameterDefs().size(), 1);
+    final ParameterDef pd = parse.parameterDefs().iterator().next();
+    Assert.assertEquals(pd.defaultValue(), "555");
+    Assert.assertEquals(pd.description(), "edewedasd");
+    Assert.assertEquals(pd.key(), "keyt");
+//    Assert.assertEquals(((TextType) pd.parameterType()).useTextArea, false);
+    Assert.assertEquals(pd.shortName(), "aaa");
 
+    System.out.println("parse.runners() = " + parse.runners());
+    Assert.assertEquals(parse.runners().size(), 1);
+    final RunnerStepSpec r = parse.runners().iterator().next();
+
+    Assert.assertEquals(r.runType(), "Ant");
+    Assert.assertEquals(r.parameters().size(), 2);
+    final Iterator<? extends RunnerStepParams> pit = r.parameters().iterator();
+    final RunnerStepParams p1 = pit.next();
+    final RunnerStepParams p2 = pit.next();
+
+    Assert.assertNotNull(p1);
+    Assert.assertNotNull(p2);
   }
 }

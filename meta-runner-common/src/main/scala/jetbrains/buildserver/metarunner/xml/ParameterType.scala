@@ -7,7 +7,7 @@ package jetbrains.buildserver.metarunner.xml
 
 abstract class ParameterType
 
-case class TextType(useTextArea : Boolean ) extends ParameterType
+case class TextType(useTextArea : Boolean) extends ParameterType
 case object HiddenType extends ParameterType
 case class ChooserType(items : List[ChooserItem]) extends ParameterType
 

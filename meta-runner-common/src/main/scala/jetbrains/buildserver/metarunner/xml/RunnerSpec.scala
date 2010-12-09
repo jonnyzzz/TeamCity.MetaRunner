@@ -2,6 +2,7 @@ package jetbrains.buildserver.metarunner.xml
 
 import java.util.Collection
 import collection.JavaConversions
+import org.jetbrains.annotations.NotNull
 
 /**
  * @author Eugene Petrenko (eugene.petrenko@jetbrains.com)
@@ -18,6 +19,7 @@ trait RunnerStepParams {
 class StepDef(val runType : String,
               val resources : RunnerResources,
               val parameterList : List[RunnerParameter]) extends RunnerStepSpec {
+  @NotNull
   def parameters = JavaConversions.asJavaCollection(parameterList)
 }
 

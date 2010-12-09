@@ -17,6 +17,7 @@
 package jetbrains.buildserver.metarunner.xml;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * @author Eugene Petrenko (eugene.petrenko@jetbrains.com)
@@ -27,7 +28,7 @@ public interface ParameterDef {
   String key();
   @NotNull
   ParameterType parameterType();
-  @NotNull
+  @Nullable
   String defaultValue();
   @NotNull
   String shortName();
