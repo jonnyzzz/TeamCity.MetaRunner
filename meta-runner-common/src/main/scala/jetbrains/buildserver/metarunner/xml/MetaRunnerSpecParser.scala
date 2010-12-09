@@ -47,7 +47,7 @@ class MetaRunnerSpecParser {
     val runTypeDescription = (xml \ "descpription").text
 
     val paramDefs = (xml \ "runner-parameters" \ "parameter").foldLeft(Nil: List[ParameterDef])((list, elem) => {
-      new ParameterDef(
+      new ParameterDefImpl(
         (elem \ "@name").text,
         HiddenType,
         (elem \ "default").text,

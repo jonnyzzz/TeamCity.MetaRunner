@@ -9,12 +9,12 @@ import collection.JavaConversions
  */
 
 
-class ParameterDef(val key: String,
+class ParameterDefImpl(val key: String,
                    val parameterType: ParameterType,
-                   val default: String,
+                   val defaultValue: String,
                    val shortName: String,
                    val description: String
-                  ) {
+                  ) extends ParameterDef {
   override def toString : String = {
     "ParameterDef[ key=" + key + ", type=" + parameterType + " ]"
   }

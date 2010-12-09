@@ -26,8 +26,8 @@ class MetaRunType(val spec : RunnerSpec,
   def getDefaultRunnerProperties = {
     val map = new TreeMap[String, String]
     for(x <- spec.parameterDefs) {
-      if (x.default != null) {
-        map.put(x.key, x.default)
+      if (x.defaultValue != null) {
+        map.put(x.key, x.defaultValue)
       }
     }
     map
