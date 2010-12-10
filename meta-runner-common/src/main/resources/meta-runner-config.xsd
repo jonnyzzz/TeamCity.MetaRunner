@@ -133,7 +133,6 @@
           <xs:unique name="parameter-names-should-be-unique">
             <xs:selector xpath="j:parameter"/>
             <xs:field xpath="@name"/>
-            <xs:field xpath="@scope"/>
           </xs:unique>
         </xs:element>
         <xs:element name="steps" minOccurs="0" maxOccurs="1">
