@@ -71,6 +71,8 @@ project (':meta-runner-server') {
   dependencies {
     compile project(':meta-runner-common')    
     compile serverApi
+    compile serverLibs
+    compile commonImpl
   }
 }
 

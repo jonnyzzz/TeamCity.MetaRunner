@@ -58,6 +58,17 @@ if (version == null) version = 'snapshot-' + new Date().format('yyyyMMdd'+"'z'"+
     include 'common-api.jar'
   }
 
+  commonImpl = fileTree(teamCityDir + "/webapps/ROOT/WEB-INF/lib").matching {
+    include 'common-impl.jar'
+  }
+
+
+  serverLibs = fileTree(teamCityDir + "/webapps/ROOT/WEB-INF/lib").matching {
+     include 'spring*.jar'     
+     include 'commons-logging*.jar'
+  }          + fileTree(teamCityDir + "/lib").matching { 
+     include 'servlet*.jar'
+  }
 
 
   testNG = fileTree("lib/testng").matching { include '*.jar' }
