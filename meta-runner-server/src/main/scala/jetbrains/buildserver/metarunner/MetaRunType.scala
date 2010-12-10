@@ -1,7 +1,7 @@
 package jetbrains.buildserver.metarunner
 
 import java.lang.String
-import xml.RunnerSpec
+import ui.{ParameterDefBean, RunnerSpecBean}
 import java.util.{TreeMap, Collections, Map}
 import jetbrains.buildServer.serverSide.{InvalidProperty, PropertiesProcessor, RunType}
 import jetbrains.buildServer.controllers.BaseController
@@ -10,6 +10,7 @@ import jetbrains.buildServer.web.openapi.{WebControllerManager, PluginDescriptor
 import javax.servlet.http.{HttpServletResponse, HttpServletRequest}
 import scala.collection.JavaConversions._
 import collection.JavaConversions
+import xml.{ParameterDef, RunnerSpec}
 
 /**
  * @author Eugene Petrenko (eugene.petrenko@jetbrains.com)
@@ -42,13 +43,27 @@ class MetaRunType(val spec : RunnerSpec,
     new BaseController{
       def doHandle(request: HttpServletRequest, response: HttpServletResponse): ModelAndView = {
         val model = new java.util.HashMap[String, Object]
-        model.put("runner", spec)
+        model.put("runner", new RunnerSpecBean {
+          override def getParameterDefs = spec.parameterDefs.map(toParameterBean)
+          override def getRunType       = spec.runType
+          override def getShortName     = spec.shortName
+          override def getDescription   = spec.description
+        })
         new ModelAndView(jsp, model)
       }
     })
     fullName
   }
 
+  private def toParameterBean(p: ParameterDef): ParameterDefBean = {
+    new ParameterDefBean {
+      def getDescription  = p.description
+      def getShortName    = p.shortName
+      def getDefaultValue = p.defaultValue
+      def getKey          = p.key
+      def getValue        = "some value (get it somehow from xml)"
+    }
+  }
 
   val getViewRunnerParamsJspFilePath = registerController("view-meta-runner.jsp", "view.html")
 
