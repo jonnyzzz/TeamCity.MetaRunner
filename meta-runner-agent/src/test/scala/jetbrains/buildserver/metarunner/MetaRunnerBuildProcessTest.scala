@@ -94,19 +94,12 @@ class MetaRunnerBuildProcessTest {
     m.assertIsSatisfied()
   }
 
-
-
-
   def mockRunnerSpec(runnerz : List[RunnerStepSpec]) = {
     new RunnerSpec{
       def description = "this is description"
-
       def shortName = "this is short name"
-
       def runType = "runType007"
-
       def runners = runnerz
-
       def parameterDefs = Nil : List[ParameterDef]
     }
   }
