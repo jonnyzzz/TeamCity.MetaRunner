@@ -65,14 +65,14 @@ class MetaRunnerBuildProcessTest {
     m.checking(new Expectations(){
       import Expectations._
 
-      allowing(facade).createBuildRunnerContext(build, "meta-run-type", "", runner)
+      oneOf(facade).createBuildRunnerContext(build, "meta-run-type", "", runner)
       will(returnValue(step))
 
-      allowing(step).addRunnerParameter("key", "555")
-      allowing(step).addSystemProperty("AAA", "555")
-      allowing(step).addEnvironmentVariable("ZZZ", "ZZ3Z")
+      oneOf(step).addRunnerParameter("key", "555")
+      oneOf(step).addSystemProperty("AAA", "555")
+      oneOf(step).addEnvironmentVariable("ZZZ", "ZZ3Z")
 
-      allowing(facade).createExecutable(build, step)
+      oneOf(facade).createExecutable(build, step)
       will(returnValue(buildProcess))
 
       oneOf(buildProcess).start()
