@@ -10,19 +10,19 @@ import scala.collection.JavaConversions._
 import jetbrains.buildServer.parameters.ReferencesResolverUtil.ReferencesResolverListener
 import jetbrains.buildServer.parameters.ReferencesResolverUtil
 import java.lang.{StringBuilder, String}
+import jetbrains.buildServer.util.FileUtil._
+import com.intellij.openapi.util.io.FileUtil
 
 /**
  * @author Eugene Petrenko (eugene.petrenko@jetbrains.com)
  * 08.12.10 21:49 
  */
 
-class MetaRunnerBuildProcess(
-                                    val spec : RunnerSpec,
-                                    val factory: BuildProcessFacade,
-                                    val build : AgentRunningBuild,
-                                    val runner : BuildRunnerContext
-                                    )
-        extends BuildProcess {
+class MetaRunnerBuildProcess(private val spec: RunnerSpec,
+                             private val factory: BuildProcessFacade,
+                             private val build: AgentRunningBuild,
+                             private val runner: BuildRunnerContext
+                            ) extends BuildProcess {
   private val myIsInterrupted = new AtomicBoolean(false)
   private val myIsFinished = new AtomicBoolean(false)
   private val myCurrrentStep = new AtomicReference[BuildProcess](null)
@@ -30,7 +30,12 @@ class MetaRunnerBuildProcess(
   private def checkInterrupted() : Boolean = myIsInterrupted.get()
 
   def start = {
+    if (spec.resourcesFolder().isDirectory()) {
+      val resources = createTempDirectory("meta-runner-" + spec.runType, ".resources", build.getAgentTempDirectory())
+      FileUtil.copyDir(spec.resourcesFolder(), resources)
 
+      runner.addRunnerParameter("meta.runner.resources.path", getCanonicalFile(resources).getPath())
+    }
   }
 
   def interrupt = {

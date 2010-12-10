@@ -7,6 +7,10 @@ import xml._
 import org.jmock.{Expectations, Mockery}
 import jetbrains.buildServer.agent._
 import scala.collection.JavaConversions._
+import org.jetbrains.annotations.NotNull
+import jetbrains.buildServer.BaseTestCase
+import java.io.File
+import org.jmock.api.Expectation
 
 /**
  * @author Eugene Petrenko (eugene.petrenko@jetbrains.com)
@@ -14,7 +18,7 @@ import scala.collection.JavaConversions._
  */
 
 @Test
-class MetaRunnerBuildProcessTest {
+class MetaRunnerBuildProcessTest extends BaseTestCase {
 
   @Test
   def test_01 = {
@@ -25,53 +29,31 @@ class MetaRunnerBuildProcessTest {
 
   @Test
   def test_02 = {
-
-    doTest(new DoTest() {
-      val step = m.mock(classOf[BuildRunnerContext], "step-runner")
-
-      override def setupExpectations : Expectations = {
+    doTest(new OneStepTest() {
+      override def setupExpectations = {
         new Expectations() {
           import Expectations._
-          oneOf(facade).createBuildRunnerContext(build, "meta-run-type", "", runner)
-          will(returnValue(step))
 
           oneOf(step).addRunnerParameter("key", "555")
           oneOf(step).addSystemProperty("AAA", "555")
           oneOf(step).addEnvironmentVariable("ZZZ", "ZZ3Z")
-
-          oneOf(facade).createExecutable(build, step)
-          will(returnValue(buildProcess))
-
-          oneOf(buildProcess).start()
-          oneOf(buildProcess).waitFor()
-          will(returnValue(BuildFinishedStatus.FINISHED_SUCCESS))
-        }
+        } :: super.setupExpectations()
       }
-      override def getRunnerSpec() : RunnerSpec = {
-        return mockRunnerSpec(
-          new RunnerStepSpec() {
-            def parameters = new RunnerStepParams() {
-              def value = "555"
 
-              def scope = RunnerScope
-
-              def key = "key"
-            } :: new RunnerStepParams() {
-              def value = "ZZ3Z"
-
-              def scope = BuildScope
-
-              def key = "env.ZZZ"
-            } :: (new RunnerStepParams() {
-              def value = "555"
-
-              def scope = BuildScope
-
-              def key = "system.AAA"
-            } :: Nil)
-
-            def runType = "meta-run-type"
-          } :: Nil)
+      override def getRunnerParmeters()  = {
+        new RunnerStepParams() {
+          def value = "555"
+          def scope = RunnerScope
+          def key = "key"
+        } :: new RunnerStepParams() {
+          def value = "ZZ3Z"
+          def scope = BuildScope
+          def key = "env.ZZZ"
+        } :: (new RunnerStepParams() {
+          def value = "555"
+          def scope = BuildScope
+          def key = "system.AAA"
+        } :: Nil)
       }
     })
   }
@@ -79,40 +61,54 @@ class MetaRunnerBuildProcessTest {
 
   @Test
   def test_meta_parameter_reference() {
-    doTest(new DoTest() {
+    doTest(new OneStepTest() {
       val runnerParameters = asJavaMap(Map[String,String](("AAA"->"zpzpz")))
-      val step = m.mock(classOf[BuildRunnerContext], "step-runner")
 
       override protected def setupExpectations() = {
         new Expectations() {
-          import Expectations._
-
-          allowing(runner).getRunnerParameters();
-          will(returnValue(runnerParameters));
-
-          oneOf(facade).createBuildRunnerContext(build, "meta-ref", "", runner)
-          will(returnValue(step))
+          allowing(runner).getRunnerParameters()
+          will(Expectations.returnValue(runnerParameters));
 
           oneOf(step).addRunnerParameter("key", "zz-zpzpz-uu")
-
-          oneOf(facade).createExecutable(build, step)
-          will(returnValue(buildProcess))
-
-          oneOf(buildProcess).start()
-          oneOf(buildProcess).waitFor()
-          will(returnValue(BuildFinishedStatus.FINISHED_SUCCESS))
-        }
+        } :: super.setupExpectations()
       }
 
-      protected def getRunnerSpec() : RunnerSpec = {
-        mockRunnerSpec(new RunnerStepSpec(){
-          def parameters  = (new RunnerParameter("key", RunnerScope, "zz-%meta.AAA%-uu") :: Nil)
-          def runType = "meta-ref"
-        } :: Nil)
-      }
+      override def getRunnerParmeters() = (new RunnerParameter("key", RunnerScope, "zz-%meta.AAA%-uu") :: Nil)
     })
+  }
+
+
+  private abstract class OneStepTest extends DoTest {
+    protected val step = m.mock(classOf[BuildRunnerContext], "step-runner")
+    override protected def setupExpectations() = {
+      new Expectations() {
+        import Expectations._
+
+        allowing(runner).getRunnerParameters();
+
+        oneOf(facade).createBuildRunnerContext(build, "meta-ref", "", runner)
+        will(Expectations.returnValue(step))
+
+        oneOf(facade).createExecutable(build, step)
+        will(Expectations.returnValue(buildProcess))
+
+        oneOf(buildProcess).start()
+        oneOf(buildProcess).waitFor()
+        will(Expectations.returnValue(BuildFinishedStatus.FINISHED_SUCCESS))
+      } :: super.setupExpectations()
+    }
+
+    protected def getRunnerParmeters() : List[_ <: RunnerStepParams];
+
+    protected final def getRunnerSpec() : RunnerSpec = {
+      mockRunnerSpec(new RunnerStepSpec(){
+        val parameters  = asJavaCollection(getRunnerParmeters())
+        val runType = "meta-ref"
+      } :: Nil)
+    }
 
   }
+
 
   private abstract class DoTest {
     protected val m = new Mockery()
@@ -121,9 +117,7 @@ class MetaRunnerBuildProcessTest {
     protected val runner = m.mock(classOf[BuildRunnerContext])
     protected val buildProcess = m.mock(classOf[BuildProcess])
 
-    protected def setupExpectations() : Expectations = {
-      new Expectations()
-    }
+    protected def setupExpectations() : List[Expectations] = Nil
 
     protected def runnerParameterDef(key: String, value:String) = {
       new ParameterDef() {
@@ -141,25 +135,32 @@ class MetaRunnerBuildProcessTest {
 
     protected def mockRunnerSpec(runnerz: List[RunnerStepSpec]) = {
       new RunnerSpec {
+        @NotNull
         def description = "this is description"
-
+        @NotNull
         def shortName = "this is short name"
-
+        @NotNull
         def runType = "runType007"
-
+        @NotNull
         def runners = runnerz
-
+        @NotNull
         def parameterDefs = Nil: List[ParameterDef]
+        @NotNull
+        val resourcesFolder = createTempDir()
       }
     }
 
     protected def getRunnerSpec(): RunnerSpec
 
     final def doTest() = {
-      m.checking(setupExpectations())
+
+      setupExpectations().foreach(m.checking)
       m.checking(new Expectations() {
         import Expectations._
-
+        allowing(build).getAgentTempDirectory()
+        val tempDir: File = createTempDir()
+        will(Expectations.returnValue(tempDir))
+        allowing(runner).addRunnerParameter(`with`(equal("meta.runner.resources.path")), `with`(any(classOf[String])))
       })
 
 

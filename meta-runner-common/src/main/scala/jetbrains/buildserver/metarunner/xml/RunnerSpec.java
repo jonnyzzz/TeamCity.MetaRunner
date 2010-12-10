@@ -18,6 +18,7 @@ package jetbrains.buildserver.metarunner.xml;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
 import java.util.Collection;
 
 /**
@@ -39,4 +40,7 @@ public interface RunnerSpec {
 
   @NotNull
   String description();
+
+  @NotNull
+  File resourcesFolder();
 }

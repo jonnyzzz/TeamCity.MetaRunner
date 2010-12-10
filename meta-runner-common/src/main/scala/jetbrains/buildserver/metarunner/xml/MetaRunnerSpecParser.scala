@@ -8,6 +8,7 @@ import org.xml.sax.{InputSource}
 import scala.xml.{Node, Elem}
 import com.intellij.openapi.util.text.StringUtil
 import collection.JavaConversions
+import org.jetbrains.annotations.NotNull
 
 /**
  * @author Eugene Petrenko (eugene.petrenko@jetbrains.com)
@@ -94,11 +95,18 @@ class MetaRunnerSpecParser {
     })
 
     new RunnerSpec{
+      @NotNull
       val runType = runTypeValue
+      @NotNull
       val runners = JavaConversions.asJavaCollection(stepDefs)
+      @NotNull
       val parameterDefs = JavaConversions.asJavaCollection(paramDefs)
+      @NotNull
       val description = runTypeDescription
+      @NotNull
       val shortName = runTypeShortName
+      @NotNull
+      val resourcesFolder = spec.getParentFile()
     }
   }
 
