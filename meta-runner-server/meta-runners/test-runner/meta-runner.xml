@@ -1,0 +1,26 @@
+<teamcity-meta-runner xmlns="urn:schemas-jetbrains-net:teamcity:meta-runner"
+                      runType="meta-001"
+                      shortName="meta">
+
+  <runner-parameters>
+    <parameter name="keyt" default="555">
+      <short-name>aaa</short-name>
+      <description>edewedasd</description>
+      <type-text/>
+    </parameter>
+  </runner-parameters>
+
+  <steps>
+    <step run-type="Ant">
+      <parameters scope="runner">
+        <param name="run-param" value="444"/>
+      </parameters>
+      <parameters scope="build">
+        <param name="system.zzz">system-param</param>
+      </parameters>
+     <resource relative-path=""/>
+   </step>
+  </steps>
+
+
+</teamcity-meta-runner>
