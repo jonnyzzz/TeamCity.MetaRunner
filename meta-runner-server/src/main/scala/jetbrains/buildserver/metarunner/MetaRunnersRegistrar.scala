@@ -9,11 +9,11 @@ import jetbrains.buildServer.web.openapi.{WebControllerManager, PluginDescriptor
  * 09.12.10 0:06 
  */
 
-class MetaRunnersRegistrar(val loader: MetaRunnerSpecsLoader,
-                           val registry : RunTypeRegistry,
-                           val disp : EventDispatcher[BuildServerListener],
-                           val descriptor : PluginDescriptor,
-                           val webControllerManager : WebControllerManager) {
+class MetaRunnersRegistrar(loader: MetaRunnerSpecsLoader,
+                           registry : RunTypeRegistry,
+                           disp : EventDispatcher[BuildServerListener],
+                           descriptor : PluginDescriptor,
+                           webControllerManager : WebControllerManager) {
   disp.addListener(new BuildServerAdapter{
     override def pluginsLoaded = {
 

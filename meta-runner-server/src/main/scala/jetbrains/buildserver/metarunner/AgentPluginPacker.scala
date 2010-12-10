@@ -18,7 +18,7 @@ class AgentPluginPacker(private val paths: PluginPaths) {
     file.getParentFile.mkdirs()
     using(new ZipOutputStream(new FileOutputStream(file)))(
       zip => {
-        zipDirectory(zip, basePath, paths.getAgentLibs())
+        zipDirectory(zip, basePath + "lib/", paths.getAgentLibs())
         zipDirectory(zip, basePath + Constants.SpecFolder + "/", paths.getMetaDefsPath())
       }
     )

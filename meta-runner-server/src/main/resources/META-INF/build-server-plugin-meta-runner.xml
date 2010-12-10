@@ -9,7 +9,7 @@
   <bean class="jetbrains.buildserver.metarunner.ServerSpecLocator"/>
   <bean class="jetbrains.buildserver.metarunner.AgentPluginPacker"/>
 
-  <bean class="jetbrains.buildserver.metarunner.PluginPaths"/>
+  <bean class="jetbrains.buildserver.metarunner.PluginPathsImpl"/>
 
   <bean class="jetbrains.buildserver.metarunner.MetaRunnersRegistrar"/>
   <bean class="jetbrains.buildserver.metarunner.AgentPluginRegistrar"/>

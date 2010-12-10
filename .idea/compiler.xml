@@ -18,6 +18,8 @@
       <entry name="?*.tld" />
       <entry name="?*.ftl" />
       <entry name="?*.xsd" />
+      <entry name="?*.js" />
+      <entry name="?*.jsp" />
     </wildcardResourcePatterns>
     <annotationProcessing enabled="false" useClasspath="true" />
   </component>

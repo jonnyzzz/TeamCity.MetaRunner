@@ -78,7 +78,7 @@ public class AgentPluginPackerTest extends BaseTestCase {
     }
 
     System.out.println("entries = " + entries);
-    Assert.assertTrue(entries.contains("meta-runner/libF/bbb.txt"));
+    Assert.assertTrue(entries.contains("meta-runner/lib/libF/bbb.txt"));
     Assert.assertTrue(entries.contains("meta-runner/meta-runners/folder/aaa.txt"));
   }
 }
