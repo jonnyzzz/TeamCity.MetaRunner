@@ -7,6 +7,9 @@ import xml._
 import jetbrains.buildserver.metarunner.util.BuildParametersUtil._
 import jetbrains.buildServer.RunBuildException
 import scala.collection.JavaConversions._
+import jetbrains.buildServer.parameters.ReferencesResolverUtil.ReferencesResolverListener
+import jetbrains.buildServer.parameters.ReferencesResolverUtil
+import java.lang.{StringBuilder, String}
 
 /**
  * @author Eugene Petrenko (eugene.petrenko@jetbrains.com)
@@ -55,19 +58,43 @@ class MetaRunnerBuildProcess(
     BuildFinishedStatus.FINISHED_SUCCESS
   }
 
+  private def replaceMetaReferences(text : String) = {
+    val buffer = new StringBuilder()
+    ReferencesResolverUtil.resolve(text, new ReferencesResolverListener(){
+      def appendReference(referenceKey: String) = {
+        referenceKey match {
+          case META_PREFIX(x) => {
+            val resolved = runner.getRunnerParameters.get(x)
+            if (resolved != null) {
+              buffer.append(resolved)
+              true
+            } else {
+              false
+            }
+          }
+          case _ => false
+        }
+      }
+
+      def appendText(text: String) = {
+        buffer.append(text)
+      }
+    })
+    buffer.toString()
+  }
+
   private def callRunner(spec : RunnerStepSpec) : BuildFinishedStatus = {
-
-
     //TODO: Support working directory
     val ctx = factory.createBuildRunnerContext(build, spec.runType, "", runner)
     for( par <- spec.parameters) {
       val key = par.scope
+      val value = replaceMetaReferences(par.value)
       key match {
-        case RunnerScope => ctx.addRunnerParameter(par.key, par.value)
+        case RunnerScope => ctx.addRunnerParameter(par.key, value)
         case BuildScope =>
           par.key match {
-            case ENV_PREFIX(x) => ctx.addEnvironmentVariable(x, par.value)
-            case SYSTEM_PREFIX(x) => ctx.addSystemProperty(x, par.value)
+            case ENV_PREFIX(x) => ctx.addEnvironmentVariable(x, value)
+            case SYSTEM_PREFIX(x) => ctx.addSystemProperty(x, value)
             case x => throw new RunBuildException(
               "Build parameter should start with " +
                       "" + Constants.ENV_PREFIX + " or " +

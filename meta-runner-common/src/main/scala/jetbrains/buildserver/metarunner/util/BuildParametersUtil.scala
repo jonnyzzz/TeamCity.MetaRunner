@@ -25,4 +25,5 @@ object BuildParametersUtil {
 
   object ENV_PREFIX extends StartsWith(Constants.ENV_PREFIX)
   object SYSTEM_PREFIX extends StartsWith(Constants.SYSTEM_PREFIX)
+  object META_PREFIX extends StartsWith("meta.")
 }
