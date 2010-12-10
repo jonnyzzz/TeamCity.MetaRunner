@@ -21,6 +21,6 @@
 
 <c:forEach items="${runner.parameterDefs}" var="p">
   <div class="parameter">
-    <c:out value="${p.shortName}"/>: <strong><c:out value="${p.value}"/></strong>
+    <c:out value="${p.shortName}"/>: <strong><props:displayValue name="${p.value}" emptyValue="<empty>"/></strong></strong>
   </div>
 </c:forEach>
