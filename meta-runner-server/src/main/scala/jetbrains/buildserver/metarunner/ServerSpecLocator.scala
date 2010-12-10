@@ -12,7 +12,7 @@ import jetbrains.buildServer.plugins.bean.PluginInfo
  */
 
 class ServerSpecLocator(private val parser: MetaRunnerSpecParser,
-                        private val paths: PluginPaths)
+                        private val paths: MetaPaths)
         extends MetaRunnerSpecsLoader {
   val LOG = Logger.getInstance(getClass.getName())
 

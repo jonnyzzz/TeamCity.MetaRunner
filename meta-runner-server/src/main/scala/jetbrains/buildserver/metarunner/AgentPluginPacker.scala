@@ -9,7 +9,7 @@ import java.io.{Closeable, FileOutputStream, FileInputStream, File}
  * 10.12.10 12:57 
  */
 
-class AgentPluginPacker(private val paths: PluginPaths) {
+class AgentPluginPacker(private val paths: MetaPaths) {
 
   def packPlugin() : File = {
     val basePath = "meta-runner/"

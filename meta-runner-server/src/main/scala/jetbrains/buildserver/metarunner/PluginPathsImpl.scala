@@ -9,7 +9,7 @@ import org.jetbrains.annotations.NotNull
  * 10.12.10 15:21 
  */
 
-class PluginPathsImpl(private val description : PluginInfo) extends PluginPaths {
+class PluginPathsImpl(private val description : PluginInfo) extends MetaPaths {
   private def getRoot() = description.getPluginRoot()
 
   @NotNull

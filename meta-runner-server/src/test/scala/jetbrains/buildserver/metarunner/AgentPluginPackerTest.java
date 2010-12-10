@@ -50,7 +50,7 @@ public class AgentPluginPackerTest extends BaseTestCase {
         new File(this, "bbb.txt").createNewFile();}};
     }};
 
-    AgentPluginPacker p = new AgentPluginPacker(new PluginPaths(){
+    AgentPluginPacker p = new AgentPluginPacker(new MetaPaths(){
       @NotNull
       public File getMetaDefsPath() {
         return metadataPath;
