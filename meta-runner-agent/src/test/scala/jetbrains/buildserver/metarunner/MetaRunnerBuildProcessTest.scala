@@ -3,10 +3,10 @@ package jetbrains.buildserver.metarunner
 import org.testng.annotations.Test
 import scala.collection.JavaConversions._
 import org.testng.Assert
-import jetbrains.buildServer.agent.{BuildFinishedStatus, BuildRunnerContext, AgentRunningBuild, BuildProcessFacade}
 import java.lang.String
 import xml._
 import org.jmock.{Expectations, Mockery}
+import jetbrains.buildServer.agent._
 
 /**
  * @author Eugene Petrenko (eugene.petrenko@jetbrains.com)
@@ -42,15 +42,20 @@ class MetaRunnerBuildProcessTest {
     val build = m.mock(classOf[AgentRunningBuild])
     val runner = m.mock(classOf[BuildRunnerContext])
     val step = m.mock(classOf[BuildRunnerContext], "step-runner")
+    val buildProcess = m.mock(classOf[BuildProcess])
     val runnerSpec = mockRunnerSpec(
       new RunnerStepSpec(){
         def parameters = new RunnerStepParams(){
           def value = "555"
           def scope = RunnerScope
           def key = "key"
+        } :: new RunnerStepParams(){
+          def value = "ZZ3Z"
+          def scope = BuildScope
+          def key = "env.ZZZ"
         } :: ( new RunnerStepParams(){
           def value = "555"
-          def scope = RunnerScope
+          def scope = BuildScope
           def key = "system.AAA"
         } :: Nil )
 
@@ -65,6 +70,14 @@ class MetaRunnerBuildProcessTest {
 
       allowing(step).addRunnerParameter("key", "555")
       allowing(step).addSystemProperty("AAA", "555")
+      allowing(step).addEnvironmentVariable("ZZZ", "ZZ3Z")
+
+      allowing(facade).createExecutable(build, step)
+      will(returnValue(buildProcess))
+
+      oneOf(buildProcess).start()
+      oneOf(buildProcess).waitFor()
+      will(returnValue(BuildFinishedStatus.FINISHED_SUCCESS))
     })
 
 
@@ -77,6 +90,8 @@ class MetaRunnerBuildProcessTest {
 
     mr.start()
     Assert.assertEquals(mr.waitFor(), BuildFinishedStatus.FINISHED_SUCCESS)
+
+    m.assertIsSatisfied()
   }
 
 

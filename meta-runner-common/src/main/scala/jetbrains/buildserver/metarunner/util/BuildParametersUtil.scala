@@ -18,7 +18,9 @@ object BuildParametersUtil {
         None
       }
 
-    def apply(variable: String) = pattern + variable
+    def apply(variable: String) = {
+      pattern + variable
+    }
   }
 
   object ENV_PREFIX extends StartsWith(Constants.ENV_PREFIX)

@@ -67,7 +67,7 @@ class MetaRunnerBuildProcess(
         case BuildScope =>
           par.key match {
             case ENV_PREFIX(x) => ctx.addEnvironmentVariable(x, par.value)
-            case SYSTEM_PREFIX(x) => ctx.addEnvironmentVariable(x, par.value)
+            case SYSTEM_PREFIX(x) => ctx.addSystemProperty(x, par.value)
             case x => throw new RunBuildException(
               "Build parameter should start with " +
                       "" + Constants.ENV_PREFIX + " or " +
