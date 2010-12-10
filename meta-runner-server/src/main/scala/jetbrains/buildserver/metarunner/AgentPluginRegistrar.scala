@@ -1,8 +1,7 @@
 package jetbrains.buildserver.metarunner
 
 import jetbrains.buildServer.util.EventDispatcher
-import jetbrains.buildServer.serverSide.impl.agent.AgentPluginPublisher
-import jetbrains.buildServer.serverSide.{BuildServerAdapter, BuildServerListener}
+import jetbrains.buildServer.serverSide.{AgentDistributionMonitor, BuildServerAdapter, BuildServerListener}
 
 /**
  * @author Eugene Petrenko (eugene.petrenko@jetbrains.com)
@@ -11,7 +10,7 @@ import jetbrains.buildServer.serverSide.{BuildServerAdapter, BuildServerListener
 
 class AgentPluginRegistrar(private val packer: AgentPluginPacker,
                            private val dispatcher: EventDispatcher[BuildServerListener],
-                           private val publisher: AgentPluginPublisher) {
+                           private val publisher: AgentDistributionMonitor) {
   dispatcher.addListener(new BuildServerAdapter() {
     override def pluginsLoaded = {
       publisher.registerAgentPlugin(packer.packPlugin())
