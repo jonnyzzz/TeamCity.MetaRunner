@@ -1,9 +1,6 @@
 def TCPathVar = "path.variable.teamcitydistribution"
 def TCPathVarServer = "teamcity.path.variable.teamcitydistribution"
 
-def version = System.getProperties()['build.number'];
-if (version == null) version = 'snapshot-' + new Date().format('yyyyMMdd'+"'z'"+'hhmmss'); 
-
 
   def teamCityDir = '';
   [TCPathVar, TCPathVarServer].each {
@@ -31,6 +28,7 @@ if (version == null) version = 'snapshot-' + new Date().format('yyyyMMdd'+"'z'"+
     include 'annotations.jar'
     include 'openapi.jar'
     include 'util.jar'
+    include 'jdom.jar'
   }
 
   annotationsJar = fileTree(teamCityDir + "/webapps/ROOT/WEB-INF/lib").matching {
@@ -53,6 +51,11 @@ if (version == null) version = 'snapshot-' + new Date().format('yyyyMMdd'+"'z'"+
   serverApi = fileTree(teamCityDir + "/devPackage").matching {
     include 'server-api.jar'
   }
+
+  serverInternal = fileTree(teamCityDir + "/webapps/ROOT/WEB-INF/lib").matching {
+    include 'server.jar'
+  }
+
 
   commonApi = fileTree(teamCityDir + "/devPackage").matching {
     include 'common-api.jar'

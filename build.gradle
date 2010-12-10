@@ -18,6 +18,8 @@ import org.apache.tools.ant.filters.*;
 
 apply from: 'build.teamcity.gradle'
 
+scalaLibraryName = 'org.scala-lang:scala-library:2.8.1'
+
 allprojects {
   apply plugin: 'scala'
 
@@ -32,7 +34,7 @@ allprojects {
     scalaTools 'org.scala-lang:scala-library:2.8.1'
 
     // Libraries needed for scala api
-    compile 'org.scala-lang:scala-library:2.8.1'
+    compile scalaLibraryName
 
     compile annotationsJar
     compile log4j
@@ -73,6 +75,8 @@ project (':meta-runner-server') {
     compile serverApi
     compile serverLibs
     compile commonImpl
+    compile serverInternal
   }
 }
 
+apply from: 'build.package.gradle'

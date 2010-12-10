@@ -1,0 +1,59 @@
+import org.apache.tools.ant.filters.*;
+
+
+task dist(dependsOn: [  ':meta-runner-common:build',
+                        ':meta-runner-server:build',
+                        ':meta-runner-agent:build'  ]) {
+  description = 'Create meta-Runner plugin package for TeamCity'
+  doLast {
+    gradleDir = new File(distsDir, 'meta-runner')
+    gradleServer = new File(gradleDir, 'server')
+    gradleAgentLib = new File(gradleDir, 'agent-lib')
+    gradleMeta = new File(gradleDir, 'meta-runners')
+
+    [gradleDir, gradleServer, gradleAgentLib, gradleMeta].each{ it.mkdirs() }
+
+
+    copy {
+      from project(':meta-runner-common').libsDir
+      from project(':meta-runner-agent').libsDir
+      from (project.configurations.compile.resolve()) {  include 'scala*.jar'  }
+
+      into gradleAgentLib
+    }
+
+    copy {
+      from('meta-runner-server/meta-runners')
+      into gradleMeta
+    }
+
+    copy {
+      from project(':meta-runner-common').libsDir
+      from project(':meta-runner-server').libsDir
+      from (project.configurations.compile.resolve()) {  include 'scala*.jar'  }
+      into gradleServer
+    }
+
+
+    version = System.getProperties()['build.number'];
+    if (version == null) version = 'snapshot-' + new Date().format('yyyyMMdd'+"'z'"+'hhmmss'); 
+
+    copy {
+      into gradleDir
+      from (projectDir) {
+        include 'teamcity-plugin.xml'
+        filter(ReplaceTokens, tokens:[VERSION: version ])
+      }
+    }
+  
+    task zipPlugin(type: Zip) {
+      from gradleDir
+      archiveName='teamcity-meta-runner.zip'
+    }
+
+    zipPlugin.execute()
+
+    println "##teamcity[publishArtifacts '${zipPlugin.archivePath}']"
+  }
+}
+
