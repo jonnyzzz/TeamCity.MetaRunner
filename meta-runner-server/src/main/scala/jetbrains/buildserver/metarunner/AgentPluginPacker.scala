@@ -9,13 +9,13 @@ import java.io.{Closeable, FileOutputStream, FileInputStream, File}
  * 10.12.10 12:57 
  */
 
-class AgentPluginPacker(private val locator: MetaRunnerSpecsLoader,
-                        private val paths: PluginPaths) {
+class AgentPluginPacker(private val paths: PluginPaths) {
 
   def packPlugin() : File = {
     val basePath = "meta-runner/"
 
     val file: File = paths.getAgentPluginDest()
+    file.getParentFile.mkdirs()
     using(new ZipOutputStream(new FileOutputStream(file)))(
       zip => {
         zipDirectory(zip, basePath, paths.getAgentLibs())
@@ -29,11 +29,12 @@ class AgentPluginPacker(private val locator: MetaRunnerSpecsLoader,
     val files = root.listFiles()
     if (files != null) {
       for (x <- files) {
-        if (root.isFile) {
-          zip.putNextEntry(new ZipEntry(prefix + root.getName()))
-          using(new FileInputStream(root))(fis => FileUtil.copyStreams(fis, zip))
+        if (x.isFile) {
+          zip.putNextEntry(new ZipEntry(prefix + x.getName()));
+          using(new FileInputStream(x))(fis => FileUtil.copyStreams(fis, zip));
+          zip.closeEntry();
         } else {
-          zipDirectory(zip, prefix + root.getName() + "/", x)
+          zipDirectory(zip, prefix + x.getName() + "/", x);
         }
       }
     }
