@@ -11,6 +11,8 @@ import org.jetbrains.annotations.NotNull
 import jetbrains.buildServer.BaseTestCase
 import java.io.File
 import org.jmock.api.Expectation
+import com.intellij.openapi.util.io.FileUtil
+import org.hamcrest.{Description, BaseMatcher, Matcher}
 
 /**
  * @author Eugene Petrenko (eugene.petrenko@jetbrains.com)
@@ -77,6 +79,67 @@ class MetaRunnerBuildProcessTest extends BaseTestCase {
     })
   }
 
+  @Test
+  def test_meta_resources_not_exist() {
+    doTest(new OneStepTest() {
+      val runnerParameters = asJavaMap(Map[String,String](("AAA"->"zpzpz")))
+
+      override protected def setupExpectations() = {
+        new Expectations() {
+          allowing(runner).getRunnerParameters()
+          will(Expectations.returnValue(runnerParameters));
+
+          oneOf(step).addRunnerParameter("key", "zz-zpzpz-uu")
+        } :: super.setupExpectations()
+      }
+
+
+      override protected def getRunnerSpec() = {
+        val spec = super.getRunnerSpec()
+        FileUtil.delete(spec.resourcesFolder)
+        spec
+      }
+
+      override def getRunnerParmeters() = (new RunnerParameter("key", RunnerScope, "zz-%meta.AAA%-uu") :: Nil)
+    })
+  }
+
+  @Test
+  def test_meta_resources_exist_files() {
+    doTest(new OneStepTest() {
+      val runnerParameters = asJavaMap(Map[String,String](("AAA"->"zpzpz")))
+
+      override protected def setupExpectations() = {
+        new Expectations() {
+          allowing(runner).getRunnerParameters()
+          will(Expectations.returnValue(runnerParameters));
+
+          oneOf(step).addRunnerParameter("key", "zz-zpzpz-uu")
+        } :: super.setupExpectations()
+      }
+
+      override protected def getRunnerSpec() = {
+        val spec = super.getRunnerSpec()
+        new File(spec.resourcesFolder, "folder-001").mkdirs()
+        new File(spec.resourcesFolder, "root-file.txt").createNewFile()
+        new File(spec.resourcesFolder, "folder-002").mkdirs()
+        new File(spec.resourcesFolder, "folder-002/file.txt").createNewFile()
+        spec
+      }
+
+      override protected def afterRunnerStarted() = {
+        val res = getResourcesPath()
+        Assert.assertNotNull(res)
+        Assert.assertTrue(res.isDirectory())
+        Assert.assertTrue(new File(res, "folder-001").isDirectory())
+        Assert.assertTrue(new File(res, "root-file.txt").isFile())
+        Assert.assertTrue(new File(res, "folder-002/file.txt").isFile())
+      }
+
+      override def getRunnerParmeters() = (new RunnerParameter("key", RunnerScope, "zz-%meta.AAA%-uu") :: Nil)
+    })
+  }
+
 
   private abstract class OneStepTest extends DoTest {
     protected val step = m.mock(classOf[BuildRunnerContext], "step-runner")
@@ -100,7 +163,7 @@ class MetaRunnerBuildProcessTest extends BaseTestCase {
 
     protected def getRunnerParmeters() : List[_ <: RunnerStepParams];
 
-    protected final def getRunnerSpec() : RunnerSpec = {
+    protected def getRunnerSpec() : RunnerSpec = {
       mockRunnerSpec(new RunnerStepSpec(){
         val parameters  = asJavaCollection(getRunnerParmeters())
         val runType = "meta-ref"
@@ -145,7 +208,12 @@ class MetaRunnerBuildProcessTest extends BaseTestCase {
       }
     }
 
-    protected def getRunnerSpec(): RunnerSpec
+    protected def getRunnerSpec(): RunnerSpec;
+
+    protected def afterRunnerStarted() = {}
+
+    private var resourcesPath : File = null
+    protected def getResourcesPath() = resourcesPath
 
     final def doTest() = {
 
@@ -155,7 +223,14 @@ class MetaRunnerBuildProcessTest extends BaseTestCase {
         allowing(build).getAgentTempDirectory()
         val tempDir: File = createTempDir()
         will(Expectations.returnValue(tempDir))
-        allowing(runner).addRunnerParameter(`with`(equal("meta.runner.resources.path")), `with`(any(classOf[String])))
+        allowing(runner).addRunnerParameter(`with`(equal("meta.runner.resources.path")), `with`(new BaseMatcher[String]() {
+          def describeTo(p1: Description) = { p1.appendText("<meta.runner.resources.path>") }
+
+          def matches(p1: AnyRef) = {
+            resourcesPath = new File(p1.asInstanceOf[String])
+            true
+          }
+        }))
       })
 
 
@@ -169,6 +244,9 @@ class MetaRunnerBuildProcessTest extends BaseTestCase {
       )
 
       mr.start()
+
+      afterRunnerStarted()
+
       Assert.assertEquals(mr.waitFor(), BuildFinishedStatus.FINISHED_SUCCESS)
 
       m.assertIsSatisfied()
