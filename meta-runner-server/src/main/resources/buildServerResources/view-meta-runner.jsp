@@ -34,7 +34,7 @@
             <c:set var="text" value='<%= (TextType) p.parameterType() %>'/>
             <c:choose>
               <c:when test="${text.useTextArea}">
-                <props:multilineProperty name="${p.key}" value="${p.defaultValue}"/>
+                <props:multilineProperty name="${p.key}" linkTitle="Expand" expanded="${true}" cols="40" rows="3"/>
               </c:when>
               <c:otherwise>
                 <props:textProperty name="${p.key}" value="${p.defaultValue}"/>

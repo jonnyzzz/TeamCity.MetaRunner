@@ -1,0 +1,20 @@
+<component name="ArtifactManager">
+  <artifact name="server-plugin">
+    <output-path>$PROJECT_DIR$/out/artifacts/server_plugin</output-path>
+    <root id="root">
+      <element id="directory" name="server">
+        <element id="archive" name="meta-runner-server.jar">
+          <element id="module-output" name="meta-runner-server" />
+        </element>
+        <element id="archive" name="meta-runner-common.jar">
+          <element id="module-output" name="meta-runner-common" />
+        </element>
+        <element id="library" level="project" name="Scala" />
+      </element>
+      <element id="directory" name="meta-runners">
+        <element id="dir-copy" path="$PROJECT_DIR$/meta-runner-server/meta-runners" />
+      </element>
+      <element id="file-copy" path="$PROJECT_DIR$/teamcity-plugin.xml" />
+    </root>
+  </artifact>
+</component>
