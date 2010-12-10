@@ -15,6 +15,15 @@
         <element id="dir-copy" path="$PROJECT_DIR$/meta-runner-server/meta-runners" />
       </element>
       <element id="file-copy" path="$PROJECT_DIR$/teamcity-plugin.xml" />
+      <element id="directory" name="agent-libs">
+        <element id="library" level="project" name="Scala" />
+        <element id="archive" name="meta-runner-common.jar">
+          <element id="module-output" name="meta-runner-common" />
+        </element>
+        <element id="archive" name="meta-runner-agent.jar">
+          <element id="module-output" name="meta-runner-agent" />
+        </element>
+      </element>
     </root>
   </artifact>
 </component>
