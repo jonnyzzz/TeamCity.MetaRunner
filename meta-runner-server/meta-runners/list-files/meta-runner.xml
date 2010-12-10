@@ -16,7 +16,6 @@
         <param name="command.executable" value="cmd" />
         <param name="command.parameters" value="/c dir /b/s %meta.relative_path%" />
       </parameters>
-     <resource/>
    </step>
   </steps>
 </teamcity-meta-runner>

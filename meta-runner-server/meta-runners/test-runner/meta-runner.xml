@@ -18,7 +18,6 @@
       <parameters scope="build">
         <param name="system.zzz">system-param</param>
       </parameters>
-     <resource relative-path=""/>
    </step>
   </steps>
 

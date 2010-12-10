@@ -106,7 +106,6 @@ class MetaRunnerBuildProcessTest extends BaseTestCase {
         val runType = "meta-ref"
       } :: Nil)
     }
-
   }
 
 
@@ -122,13 +121,9 @@ class MetaRunnerBuildProcessTest extends BaseTestCase {
     protected def runnerParameterDef(key: String, value:String) = {
       new ParameterDef() {
         def description = "desc " + key
-
         def shortName = key
-
         def defaultValue = value
-
         def parameterType = null
-
         def key = ""
       }
     }

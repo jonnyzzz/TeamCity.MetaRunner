@@ -116,11 +116,6 @@
   <xs:complexType name="TStep">
     <xs:sequence>
       <xs:element name="parameters" type="TParametersCollection" minOccurs="0" maxOccurs="unbounded"/>
-      <xs:element name="resource">
-        <xs:complexType>
-          <xs:attribute name="relative-path" type="xs:string" use="optional" default=""/>
-        </xs:complexType>
-      </xs:element>
     </xs:sequence>
     <xs:attribute name="run-type" type="TParameterKey" use="required"/>
   </xs:complexType>
