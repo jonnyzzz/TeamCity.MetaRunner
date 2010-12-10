@@ -1,0 +1,22 @@
+<teamcity-meta-runner xmlns="urn:schemas-jetbrains-net:teamcity:meta-runner"
+                      runType="meta-list-files-windows"
+                      shortName="List Files">
+
+  <runner-parameters>
+    <parameter name="relative_path" default=".">
+      <short-name>Path to list files</short-name>
+      <description>Specify root path to list files. Use '.' for checkout root</description>
+      <type-text/>
+    </parameter>
+  </runner-parameters>
+
+  <steps>
+    <step run-type="simpleRunner">
+      <parameters scope="runner">
+        <param name="command.executable" value="cmd" />
+        <param name="command.parameters" value="/c dir /b/s %meta.relative_path%" />
+      </parameters>
+     <resource/>
+   </step>
+  </steps>
+</teamcity-meta-runner>
