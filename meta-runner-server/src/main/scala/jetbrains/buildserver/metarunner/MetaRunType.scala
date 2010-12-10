@@ -9,7 +9,6 @@ import org.springframework.web.servlet.ModelAndView
 import jetbrains.buildServer.web.openapi.{WebControllerManager, PluginDescriptor}
 import javax.servlet.http.{HttpServletResponse, HttpServletRequest}
 import scala.collection.JavaConversions._
-import collection.JavaConversions
 import xml.{ParameterDef, RunnerSpec}
 
 /**
@@ -45,9 +44,6 @@ class MetaRunType(val spec : RunnerSpec,
         val model = new java.util.HashMap[String, Object]
         model.put("runner", new RunnerSpecBean {
           override def getParameterDefs = spec.parameterDefs.map(toParameterBean)
-          override def getRunType       = spec.runType
-          override def getShortName     = spec.shortName
-          override def getDescription   = spec.description
         })
         new ModelAndView(jsp, model)
       }
@@ -59,9 +55,7 @@ class MetaRunType(val spec : RunnerSpec,
     new ParameterDefBean {
       def getDescription  = p.description
       def getShortName    = p.shortName
-      def getDefaultValue = p.defaultValue
       def getKey          = p.key
-      def getValue        = "some value (get it somehow from xml)"
     }
   }
 

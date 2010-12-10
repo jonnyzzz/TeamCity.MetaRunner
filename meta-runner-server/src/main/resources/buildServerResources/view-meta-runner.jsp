@@ -14,13 +14,11 @@
 ~ limitations under the License.
 --%>
 <%@ taglib prefix="props" tagdir="/WEB-INF/tags/props" %>
-<%@ page import="jetbrains.buildserver.metarunner.xml.TextType" %>
-<%@ page import="jetbrains.buildserver.metarunner.xml.ChooserType" %>
-<%@ include file="/include.jsp" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <jsp:useBean id="runner" scope="request" type="jetbrains.buildserver.metarunner.ui.RunnerSpecBean"/>
 
 <c:forEach items="${runner.parameterDefs}" var="p">
   <div class="parameter">
-    <c:out value="${p.shortName}"/>: <strong><props:displayValue name="${p.value}" emptyValue="<empty>"/></strong></strong>
+    <c:out value="${p.shortName}"/>: <props:displayValue name="${p.value}" emptyValue="<empty>"/>
   </div>
 </c:forEach>

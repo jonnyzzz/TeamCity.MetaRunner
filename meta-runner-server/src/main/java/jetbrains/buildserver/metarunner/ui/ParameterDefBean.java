@@ -18,20 +18,12 @@ package jetbrains.buildserver.metarunner.ui;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Collection;
-
 /**
  * @author dmitry.neverov
  */
-public interface RunnerSpecBean {
+public interface ParameterDefBean {
   @NotNull
-  Collection<ParameterDefBean> getParameterDefs();
-
-//  @NotNull
-//  Collection<? extends RunnerStepSpec> getRunners();
-
-  @NotNull
-  String getRunType();
+  String getKey();
 
   @NotNull
   String getShortName();

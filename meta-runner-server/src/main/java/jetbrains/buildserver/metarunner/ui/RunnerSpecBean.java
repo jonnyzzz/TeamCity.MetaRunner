@@ -17,20 +17,13 @@
 package jetbrains.buildserver.metarunner.ui;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+
+import java.util.Collection;
 
 /**
  * @author dmitry.neverov
  */
-public interface ParameterDefBean {
+public interface RunnerSpecBean {
   @NotNull
-  String getKey();
-  @Nullable
-  String getDefaultValue();
-  @NotNull
-  String getShortName();
-  @NotNull
-  String getDescription();
-  @NotNull
-  String getValue();
+  Collection<ParameterDefBean> getParameterDefs();
 }
