@@ -14,16 +14,20 @@
  * limitations under the License.
  */
 
-package jetbrains.buildserver.metarunner.ui;
+package jetbrains.buildserver.metarunner;
 
 import org.jetbrains.annotations.NotNull;
-
-import java.util.Collection;
 
 /**
  * @author dmitry.neverov
  */
-public interface RunnerSpecBean {
+public interface ParameterDefBean {
   @NotNull
-  Collection<ParameterDefBean> getParameterDefs();
+  String getKey();
+
+  @NotNull
+  String getShortName();
+
+  @NotNull
+  String getDescription();
 }

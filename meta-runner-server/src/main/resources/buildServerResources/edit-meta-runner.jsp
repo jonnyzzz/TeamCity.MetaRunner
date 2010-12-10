@@ -15,7 +15,7 @@
   --%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="props" tagdir="/WEB-INF/tags/props" %>
-<jsp:useBean id="runner" scope="request" type="jetbrains.buildserver.metarunner.ui.RunnerSpecBean"/>
+<jsp:useBean id="runner" scope="request" type="jetbrains.buildserver.metarunner.RunnerSpecBean"/>
 
 <c:forEach items="${runner.parameterDefs}" var="p">
   <tr>

@@ -13,7 +13,7 @@ class PluginPathsImpl(private val description : PluginInfo) extends PluginPaths 
   private def getRoot() = description.getPluginRoot()
 
   @NotNull
-  def getMetaDefsPath() : File = new File(getRoot(), Constants.SpecFolder)
+  def getMetaDefsPath() : File = new File(getRoot(), MetaRunnerConstants.SpecFolder)
 
   @NotNull
   def getAgentLibs() = new File(getRoot(), "agent-libs")

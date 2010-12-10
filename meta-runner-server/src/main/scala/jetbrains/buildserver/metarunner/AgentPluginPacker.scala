@@ -19,7 +19,7 @@ class AgentPluginPacker(private val paths: PluginPaths) {
     using(new ZipOutputStream(new FileOutputStream(file)))(
       zip => {
         zipDirectory(zip, basePath + "lib/", paths.getAgentLibs())
-        zipDirectory(zip, basePath + Constants.SpecFolder + "/", paths.getMetaDefsPath())
+        zipDirectory(zip, basePath + MetaRunnerConstants.SpecFolder + "/", paths.getMetaDefsPath())
       }
     )
     file

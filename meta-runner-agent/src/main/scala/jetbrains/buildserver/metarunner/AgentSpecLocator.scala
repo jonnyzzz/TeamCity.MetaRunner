@@ -15,7 +15,7 @@ class AgentSpecLocator(val description : PluginDescriptor,
   val LOG = Logger.getInstance(getClass.getName())
 
   def loadMetaRunners : List[RunnerSpec] = {
-    val root = new File(description.getPluginRoot, Constants.SpecFolder).listFiles;
+    val root = new File(description.getPluginRoot, MetaRunnerConstants.SpecFolder).listFiles;
 
     if (root == null)
       Nil

@@ -15,10 +15,10 @@
 --%>
 <%@ taglib prefix="props" tagdir="/WEB-INF/tags/props" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<jsp:useBean id="runner" scope="request" type="jetbrains.buildserver.metarunner.ui.RunnerSpecBean"/>
+<jsp:useBean id="runner" scope="request" type="jetbrains.buildserver.metarunner.RunnerSpecBean"/>
 
 <c:forEach items="${runner.parameterDefs}" var="p">
   <div class="parameter">
-    <c:out value="${p.shortName}"/>: <props:displayValue name="${p.value}" emptyValue="<empty>"/>
+    <c:out value="${p.shortName}"/>: <props:displayValue name="${p.key}" emptyValue="<empty>"/>
   </div>
 </c:forEach>

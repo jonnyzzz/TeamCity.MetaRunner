@@ -1,7 +1,6 @@
 package jetbrains.buildserver.metarunner
 
 import java.lang.String
-import ui.{ParameterDefBean, RunnerSpecBean}
 import java.util.{TreeMap, Collections, Map}
 import jetbrains.buildServer.serverSide.{InvalidProperty, PropertiesProcessor, RunType}
 import jetbrains.buildServer.controllers.BaseController
@@ -10,6 +9,7 @@ import jetbrains.buildServer.web.openapi.{WebControllerManager, PluginDescriptor
 import javax.servlet.http.{HttpServletResponse, HttpServletRequest}
 import scala.collection.JavaConversions._
 import xml.{ParameterDef, RunnerSpec}
+import org.jetbrains.annotations.NotNull
 
 /**
  * @author Eugene Petrenko (eugene.petrenko@jetbrains.com)
@@ -39,11 +39,12 @@ class MetaRunType(val spec : RunnerSpec,
     val jsp = descriptor.getPluginResourcesPath(path)
     val fullName = descriptor.getPluginResourcesPath(getType + "-" + name)
     webController.registerController(fullName,
-    new BaseController{
+    new BaseController(){
       def doHandle(request: HttpServletRequest, response: HttpServletResponse): ModelAndView = {
         val model = new java.util.HashMap[String, Object]
-        model.put("runner", new RunnerSpecBean {
-          override def getParameterDefs = spec.parameterDefs.map(toParameterBean)
+        model.put("runner", new RunnerSpecBean() {
+          @NotNull
+          def getParameterDefs() = spec.parameterDefs.map(toParameterBean)
         })
         new ModelAndView(jsp, model)
       }
@@ -52,10 +53,13 @@ class MetaRunType(val spec : RunnerSpec,
   }
 
   private def toParameterBean(p: ParameterDef): ParameterDefBean = {
-    new ParameterDefBean {
-      def getDescription  = p.description
-      def getShortName    = p.shortName
-      def getKey          = p.key
+    new ParameterDefBean() {
+      @NotNull
+      def getDescription()  = p.description
+      @NotNull
+      def getShortName()    = p.shortName
+      @NotNull
+      def getKey()          = p.key
     }
   }
 

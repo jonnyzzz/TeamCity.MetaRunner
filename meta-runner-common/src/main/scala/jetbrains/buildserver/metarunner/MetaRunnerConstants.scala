@@ -5,6 +5,6 @@ package jetbrains.buildserver.metarunner
  * 10.12.10 14:04 
  */
 
-object Constants {
+object MetaRunnerConstants {
   def SpecFolder = "meta-runners"
 }
