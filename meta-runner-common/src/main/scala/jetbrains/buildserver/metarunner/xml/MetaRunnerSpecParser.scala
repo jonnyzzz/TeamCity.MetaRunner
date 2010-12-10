@@ -84,7 +84,6 @@ class MetaRunnerSpecParser {
     }
 
     val stepDefs = (xml \ "steps" \ "step").foldLeft(Nil: List[StepDef])((list, elem) => {
-      println("found step: ")
       val step = new StepDef(
         (elem \ "@run-type").text,
         new RunnerResources((elem \ "resource" \ "@relative-path").text),
