@@ -21,9 +21,9 @@
   <tr>
     <th><label for="${p.key}"><c:out value="${p.shortName}"/></label></th>
     <td>
-      <props:textProperty name="${p.key}"/>
-      <span class="smallNote"><c:out value="${p.description}"/></span>
+      <props:textProperty name="${p.key}" className="longField"/>
       <span class="error" id="error_${p.key}"></span>
+      <span class="smallNote"><c:out value="${p.description}"/></span>
     </td>
   </tr>
 </c:forEach>

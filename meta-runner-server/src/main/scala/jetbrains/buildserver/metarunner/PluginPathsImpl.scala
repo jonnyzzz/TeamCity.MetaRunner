@@ -19,5 +19,5 @@ class PluginPathsImpl(private val description : PluginInfo) extends PluginPaths 
   def getAgentLibs() = new File(getRoot(), "agent-libs")
 
   @NotNull
-  def getAgentPluginDest() = new File(getRoot(), "tmp/agent-plugin.zip")
+  def getAgentPluginDest() = new File(getRoot(), "tmp/meta-runner-agent.zip")
 }
