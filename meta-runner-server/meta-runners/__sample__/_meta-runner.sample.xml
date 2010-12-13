@@ -1,0 +1,31 @@
+<teamcity-meta-runner xmlns="urn:schemas-jetbrains-net:teamcity:meta-runner"
+                      runType="meta-list-files-windows"
+                      shortName="List Files">
+
+  <!-- in this section runner parameters are defined -->
+  <runner-parameters>
+    <!-- for each <parameter> element there will be an editor field shown on the web UI -->
+    <parameter name="relative_path" default=".">
+      <short-name>Path to list files</short-name>
+      <description>Specify root path to list files. Use '.' for checkout root</description>
+      <type-text/>
+    </parameter>
+  </runner-parameters>
+
+  <!-- here we define call to build runners to implement this build runner -->
+  <steps>
+    <!-- runner call is written here -->
+    <step run-type="simpleRunner">
+      <!-- parameters that will be set to this runner -->
+      <!-- use %meta.meta.runner.resources.path% to referer to meta-runner resources -->
+      <parameters scope="runner">
+        <param name="command.executable" value="cmd" />
+        <param name="command.parameters" value="/c dir /b/s %meta.relative_path%" />
+      </parameters>
+      <parameters scope="build">
+        <param name="env.CUSTOM_RUNNER">333</param>
+        <param name="system.SystemProperty">this is a system property</param>
+      </parameters>
+   </step>
+  </steps>
+</teamcity-meta-runner>

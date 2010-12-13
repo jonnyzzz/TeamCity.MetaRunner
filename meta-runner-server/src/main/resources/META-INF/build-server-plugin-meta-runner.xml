@@ -23,4 +23,7 @@
 
   <bean class="jetbrains.buildserver.metarunner.specs.SpecsWatcher"/>
   <bean class="jetbrains.buildserver.metarunner.specs.SpacsWatcherController"/>
+
+
+  <bean class="jetbrains.buildserver.metarunner.samples.SamplesDeployer"/>
 </beans>
