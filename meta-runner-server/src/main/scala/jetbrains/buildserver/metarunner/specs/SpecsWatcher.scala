@@ -26,7 +26,7 @@ class SpecsWatcher(private val specsRoots: MetaRunnerSpecsPaths) {
           Set(root)
         } else {
           val files = root.listFiles()
-          if (files == null)
+          if (files == null || root.getName.startsWith("_"))
             Set()
           else
             (files map collectFiles).foldLeft(Set[File]()) (_++_)

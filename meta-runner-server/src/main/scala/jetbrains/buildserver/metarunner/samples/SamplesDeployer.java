@@ -62,7 +62,9 @@ public class SamplesDeployer {
       }
 
       try {
-        FileUtil.copyDir(myPaths.getBundledPluginsPath(), new File(users, "__samples__"));
+        final File samples = new File(users, "__samples__");
+        samples.mkdirs();
+        FileUtil.copyDir(myPaths.getBundledPluginsPath(), samples);
 
       } catch (IOException e) {
         LOG.warn("Failed to unpack meta-runner samples to: " + users);
