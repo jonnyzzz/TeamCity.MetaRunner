@@ -1,8 +1,8 @@
 package jetbrains.buildserver.metarunner
 
+import impl.MetaRunnerSpecLoaderBase
 import jetbrains.buildServer.agent.plugins.beans.PluginDescriptor
 import java.io.File
-import com.intellij.openapi.diagnostic.Logger
 import xml.{MetaRunnerSpecParser, RunnerSpec}
 
 /**
@@ -10,28 +10,12 @@ import xml.{MetaRunnerSpecParser, RunnerSpec}
  * 08.12.10 22:47 
  */
 
-class AgentSpecLocator(val description : PluginDescriptor,
-                       val parser : MetaRunnerSpecParser) extends MetaRunnerSpecsLoader {
-  val LOG = Logger.getInstance(getClass.getName())
-
+class AgentSpecLocator(private val description : PluginDescriptor,
+                       private val parser : MetaRunnerSpecParser)
+        extends MetaRunnerSpecLoaderBase(parser)
+        with MetaRunnerSpecsLoader {
   def loadMetaRunners : List[RunnerSpec] = {
-    val root = new File(description.getPluginRoot, MetaRunnerConstants.SpecFolder).listFiles;
-
-    if (root == null)
-      Nil
-    else {
-      root.foldLeft(Nil : List[RunnerSpec])((list, dir) => {
-        val desc = new File(dir, "meta-runner.xml")
-        LOG.info("Loading: " + desc)
-        try {
-          parser.parse(desc) :: list
-        } catch {
-          case x : Throwable => {
-            LOG.warn("Failed to parse meta-runner. " + x.getMessage, x)
-            list
-          }
-        }
-      })
-    }
+    val root = new File(description.getPluginRoot, MetaRunnerConstants.SpecFolder);
+    loadPluginFromFolder(root)
   }
 }
