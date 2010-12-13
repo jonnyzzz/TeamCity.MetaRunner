@@ -5,6 +5,7 @@ import java.io.File
 import jetbrains.buildServer.plugins.bean.PluginInfo
 import org.jetbrains.annotations.NotNull
 import jetbrains.buildServer.serverSide.ServerPaths
+import scala.collection.JavaConversions._
 
 /**
  * @author Eugene Petrenko (eugene.petrenko@jetbrains.com)
@@ -33,4 +34,6 @@ class PluginPathsImpl(info : PluginInfo, paths : ServerPaths)
     usersRoot.mkdirs()
     usersRoot
   }
+
+  def getSpecRoots = getBundledPluginsPath :: getUserPluginsPath :: Nil
 }

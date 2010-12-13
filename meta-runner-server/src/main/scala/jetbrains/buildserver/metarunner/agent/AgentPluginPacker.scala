@@ -7,6 +7,7 @@ import jetbrains.buildserver.metarunner.{MetaRunnerConstants, MetaRunnerSpecsPat
 import jetbrains.buildserver.metarunner.xml.RunnerSpec
 import java.util.List
 import scala.collection.JavaConversions._
+import com.intellij.openapi.diagnostic.Logger
 
 /**
  * @author Eugene Petrenko (eugene.petrenko@jetbrains.com)
@@ -14,8 +15,11 @@ import scala.collection.JavaConversions._
  */
 
 class AgentPluginPacker(private val paths: AgentPluginLibrariesLocator) {
+  private val LOG = Logger.getInstance(getClass.getName)
 
   def packPlugin(destFile : File, runners : List[RunnerSpec]) = {
+    LOG.info("Packing agent plugin")
+
     val basePath = "meta-runner/"
 
     destFile.getParentFile.mkdirs()

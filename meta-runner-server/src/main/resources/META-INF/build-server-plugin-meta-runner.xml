@@ -6,11 +6,21 @@
         default-autowire="constructor"
         >
 
-  <bean class="jetbrains.buildserver.metarunner.ServerSpecLocator"/>
+  <bean class="jetbrains.buildserver.metarunner.proxy.UpdatableSpecsLocator">
+    <constructor-arg>
+      <bean class="jetbrains.buildserver.metarunner.ServerSpecLocator"/>
+    </constructor-arg>
+  </bean>
+
+  <bean class="jetbrains.buildserver.metarunner.proxy.SpecsRefresher"/>
+
   <bean class="jetbrains.buildserver.metarunner.agent.AgentPluginPacker"/>
 
   <bean class="jetbrains.buildserver.metarunner.PluginPathsImpl"/>
 
   <bean class="jetbrains.buildserver.metarunner.MetaRunnersRegistrar"/>
   <bean class="jetbrains.buildserver.metarunner.agent.AgentPluginRegistrar"/>
+
+  <bean class="jetbrains.buildserver.metarunner.specs.SpecsWatcher"/>
+  <bean class="jetbrains.buildserver.metarunner.specs.SpacsWatcherController"/>
 </beans>

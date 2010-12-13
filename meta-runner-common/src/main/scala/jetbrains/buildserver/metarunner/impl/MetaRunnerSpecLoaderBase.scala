@@ -10,6 +10,8 @@ import jetbrains.buildserver.metarunner.xml.{MetaRunnerSpecParser, RunnerSpec}
  */
 
 class MetaRunnerSpecLoaderBase(private val parser : MetaRunnerSpecParser) {
+  private val XML_NAME = "meta-runner.xml"
+
   protected val LOG = Logger.getInstance(getClass.getName())
 
   protected  def loadPluginFromFolder(path: File) = {
@@ -20,15 +22,20 @@ class MetaRunnerSpecLoaderBase(private val parser : MetaRunnerSpecParser) {
       Nil
     else {
       root.foldLeft(Nil: List[RunnerSpec])((list, dir) => {
-        val desc = new File(dir, "meta-runner.xml")
-        LOG.info("Loading: " + desc)
-        try {
-          parser.parse(desc) :: list
-        } catch {
-          case x: Throwable => {
-            LOG.warn("Failed to parse meta-runner. " + x.getMessage, x)
-            list
+        val desc = new File(dir, XML_NAME)
+        if (desc.exists) {
+          LOG.info("Loading meta-runner spec from: " + desc)
+          try {
+            parser.parse(desc) :: list
+          } catch {
+            case x: Throwable => {
+              LOG.warn("Failed to parse meta-runner. " + x.getMessage, x)
+              list
+            }
           }
+        } else {
+          LOG.info("Failed to load meta-runner spec from: " + desc)
+          list
         }
       })
     }

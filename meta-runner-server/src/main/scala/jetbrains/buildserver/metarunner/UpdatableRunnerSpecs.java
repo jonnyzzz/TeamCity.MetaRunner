@@ -16,16 +16,16 @@
 
 package jetbrains.buildserver.metarunner;
 
-import org.jetbrains.annotations.NotNull;
-
-import java.io.File;
-import java.util.Collection;
+import jetbrains.buildServer.util.Action;
+import jetbrains.buildServer.util.Disposable;
+import jetbrains.buildserver.metarunner.xml.RunnerSpec;
 
 /**
  * @author Eugene Petrenko (eugene.petrenko@jetbrains.com)
- *         10.12.10 15:28
+ *         13.12.10 23:15
  */
-public interface MetaRunnerSpecsPaths {
-  @NotNull
-  Collection<File> getSpecRoots();
+public interface UpdatableRunnerSpecs extends MetaRunnerSpecsLoader {
+  Disposable onRunnerSpecAdded(Action<RunnerSpec> action);
+  Disposable onRunnerSpecChanged(Action<RunnerSpec> action);
+  Disposable onRunnerSpecRemoved(Action<RunnerSpec> action);
 }

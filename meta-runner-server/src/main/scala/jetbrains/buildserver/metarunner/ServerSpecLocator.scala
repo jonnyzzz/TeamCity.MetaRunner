@@ -1,8 +1,8 @@
 package jetbrains.buildserver.metarunner
 
 import impl.MetaRunnerSpecLoaderBase
-import java.io.File
 import xml.{MetaRunnerSpecParser, RunnerSpec}
+import scala.collection.JavaConversions._
 
 /**
  * @author Eugene Petrenko (eugene.petrenko@jetbrains.com)
@@ -15,8 +15,7 @@ class ServerSpecLocator(private val parser: MetaRunnerSpecParser,
         with MetaRunnerSpecsLoader {
 
   def loadMetaRunners: List[RunnerSpec] = {
-    val homes = paths.getUserPluginsPath :: paths.getBundledPluginsPath :: (Nil : List[File])
-    homes.map(loadPluginFromFolder).foldLeft(Nil : List[RunnerSpec])((list, rr) =>(list ::: rr))
+    paths.getSpecRoots.map(loadPluginFromFolder).flatten(identity).toList
   }
 }
 
