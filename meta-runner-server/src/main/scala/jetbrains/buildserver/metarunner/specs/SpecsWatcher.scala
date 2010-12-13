@@ -36,9 +36,13 @@ class SpecsWatcher(private val specsRoots: MetaRunnerSpecsPaths) {
     }
   })
   watcher.setSleepingPeriod(10000)
+  def fireChanged: Unit = {
+    listeners.foreach(_.run())
+  }
+
   watcher.registerListener(new ChangeListener() {
     def changeOccured(p1: String) = {
-      listeners.foreach(_.run())
+      fireChanged
     }
   })
 
@@ -51,7 +55,10 @@ class SpecsWatcher(private val specsRoots: MetaRunnerSpecsPaths) {
     }
   }
 
-  def start = watcher.start
+  def start = {
+    fireChanged
+    watcher.start
+  }
 
   def stop = watcher.stop
 }

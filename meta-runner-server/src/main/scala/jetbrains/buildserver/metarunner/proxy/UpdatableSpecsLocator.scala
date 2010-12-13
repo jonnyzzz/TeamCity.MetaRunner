@@ -19,7 +19,6 @@ class UpdatableSpecsLocator(private val loader: MetaRunnerSpecsLoader)
   private val myRunners = new HashMap[String, ProxifiedRunnerSpecs]
 
   def reloadRenners() = {
-    //TODO: ensure concurrency here
     this.synchronized{
       val found = HashSet[String]()
       loader.loadMetaRunners.foreach(newSpec => {
@@ -73,5 +72,4 @@ class UpdatableSpecsLocator(private val loader: MetaRunnerSpecsLoader)
 
     def apply(h: RunnerSpec) = handlers.foreach(_.apply(h))
   }
-
 }

@@ -20,12 +20,14 @@ import jetbrains.buildServer.BaseTestCase;
 import jetbrains.buildServer.util.WaitForAssert;
 import jetbrains.buildserver.metarunner.MetaRunnerSpecsPaths;
 import org.jetbrains.annotations.NotNull;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -33,6 +35,30 @@ import java.util.concurrent.atomic.AtomicInteger;
  *         13.12.10 22:24
  */
 public class SpecsWatcherTest extends BaseTestCase {
+
+  @Test
+  public void test_fire_changed_on_start() throws IOException {
+    final File path = createTempDir();
+
+    MetaRunnerSpecsPaths paths = new MetaRunnerSpecsPaths() {
+      @NotNull
+      public Collection<File> getSpecRoots() {
+        return Collections.singleton(path);
+      }
+    };
+    SpecsWatcher sw = new SpecsWatcher(paths);
+
+    final AtomicBoolean changed = new AtomicBoolean();
+    sw.addFilesChangedListener(new Runnable() {
+      public void run() {
+        changed.set(true);
+      }
+    });
+
+    sw.start();
+    Assert.assertTrue(changed.get());
+  }
+
   @Test
   public void test_watchFiles() throws IOException {
     final File path = createTempDir();
