@@ -3,6 +3,7 @@ package jetbrains.buildserver.metarunner
 import java.io.File
 import com.intellij.openapi.diagnostic.Logger
 import xml.{MetaRunnerSpecParser, RunnerSpec}
+import jetbrains.buildServer.serverSide.ServerPaths
 
 /**
  * @author Eugene Petrenko (eugene.petrenko@jetbrains.com)
@@ -10,15 +11,14 @@ import xml.{MetaRunnerSpecParser, RunnerSpec}
  */
 
 class ServerSpecLocator(private val parser: MetaRunnerSpecParser,
-                        private val paths: MetaPaths)
+                        private val paths: MetaRunnerSpecsPaths)
         extends MetaRunnerSpecsLoader {
   val LOG = Logger.getInstance(getClass.getName())
 
-  def loadMetaRunners: List[RunnerSpec] = {
-    //TODO: Add filewatcher
-    //TODO: Use plugin data folder too
-    val root = paths.getMetaDefsPath().listFiles;
+  private def loadPluginFromFolder(path: File) = {
+    LOG.info("Loading meta-runner specs from: " + path)
 
+    val root = path.listFiles;
     if (root == null)
       Nil
     else {
@@ -35,6 +35,11 @@ class ServerSpecLocator(private val parser: MetaRunnerSpecParser,
         }
       })
     }
+  }
+
+  def loadMetaRunners: List[RunnerSpec] = {
+    val homes = paths.getUserPluginsPath :: paths.getBundledPluginsPath :: (Nil : List[File])
+    homes.map(loadPluginFromFolder).foldLeft(Nil : List[RunnerSpec])((list, rr) =>(list ::: rr))
   }
 }
 

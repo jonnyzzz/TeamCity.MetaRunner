@@ -2,7 +2,7 @@ package jetbrains.buildserver.metarunner.agent
 
 import jetbrains.buildServer.util.EventDispatcher
 import jetbrains.buildServer.serverSide.{AgentDistributionMonitor, BuildServerAdapter, BuildServerListener}
-import jetbrains.buildserver.metarunner.{MetaRunnerSpecsLoader, MetaPaths}
+import jetbrains.buildserver.metarunner.{MetaRunnerSpecsLoader, MetaRunnerSpecsPaths}
 import scala.collection.JavaConversions._
 
 /**
@@ -14,7 +14,7 @@ class AgentPluginRegistrar(private val packer: AgentPluginPacker,
                            private val dispatcher: EventDispatcher[BuildServerListener],
                            private val publisher: AgentDistributionMonitor,
                            private val pluginsLocator : MetaRunnerSpecsLoader,
-                           paths : MetaPaths) {
+                           private val paths : AgentPluginFileHolder) {
   val agentPluginZip = paths.getAgentPluginDest()
 
   dispatcher.addListener(new BuildServerAdapter() {

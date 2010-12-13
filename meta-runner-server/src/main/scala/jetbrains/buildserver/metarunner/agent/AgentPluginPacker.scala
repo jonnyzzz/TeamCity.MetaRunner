@@ -3,7 +3,7 @@ package jetbrains.buildserver.metarunner.agent
 import java.util.zip.{ZipEntry, ZipOutputStream}
 import jetbrains.buildServer.util.{FileUtil}
 import java.io.{Closeable, FileOutputStream, FileInputStream, File}
-import jetbrains.buildserver.metarunner.{MetaRunnerConstants, MetaPaths}
+import jetbrains.buildserver.metarunner.{MetaRunnerConstants, MetaRunnerSpecsPaths}
 import jetbrains.buildserver.metarunner.xml.RunnerSpec
 import java.util.List
 import scala.collection.JavaConversions._
