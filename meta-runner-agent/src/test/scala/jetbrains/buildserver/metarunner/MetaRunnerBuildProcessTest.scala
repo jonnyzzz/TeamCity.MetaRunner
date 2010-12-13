@@ -96,7 +96,7 @@ class MetaRunnerBuildProcessTest extends BaseTestCase {
 
       override protected def getRunnerSpec() = {
         val spec = super.getRunnerSpec()
-        FileUtil.delete(spec.resourcesFolder)
+        FileUtil.delete(spec.getMetaRunnerRoot)
         spec
       }
 
@@ -120,10 +120,10 @@ class MetaRunnerBuildProcessTest extends BaseTestCase {
 
       override protected def getRunnerSpec() = {
         val spec = super.getRunnerSpec()
-        new File(spec.resourcesFolder, "folder-001").mkdirs()
-        new File(spec.resourcesFolder, "root-file.txt").createNewFile()
-        new File(spec.resourcesFolder, "folder-002").mkdirs()
-        new File(spec.resourcesFolder, "folder-002/file.txt").createNewFile()
+        new File(spec.getMetaRunnerRoot, "folder-001").mkdirs()
+        new File(spec.getMetaRunnerRoot, "root-file.txt").createNewFile()
+        new File(spec.getMetaRunnerRoot, "folder-002").mkdirs()
+        new File(spec.getMetaRunnerRoot, "folder-002/file.txt").createNewFile()
         spec
       }
 
@@ -204,7 +204,7 @@ class MetaRunnerBuildProcessTest extends BaseTestCase {
         @NotNull
         def parameterDefs = Nil: List[ParameterDef]
         @NotNull
-        val resourcesFolder = createTempDir()
+        val getMetaRunnerRoot = createTempDir()
       }
     }
 

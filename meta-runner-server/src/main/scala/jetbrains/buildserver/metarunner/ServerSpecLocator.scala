@@ -3,8 +3,6 @@ package jetbrains.buildserver.metarunner
 import java.io.File
 import com.intellij.openapi.diagnostic.Logger
 import xml.{MetaRunnerSpecParser, RunnerSpec}
-import jetbrains.buildServer.web.openapi.PluginDescriptor
-import jetbrains.buildServer.plugins.bean.PluginInfo
 
 /**
  * @author Eugene Petrenko (eugene.petrenko@jetbrains.com)

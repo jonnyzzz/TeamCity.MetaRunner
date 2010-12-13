@@ -42,5 +42,5 @@ public interface RunnerSpec {
   String description();
 
   @NotNull
-  File resourcesFolder();
+  File getMetaRunnerRoot();
 }

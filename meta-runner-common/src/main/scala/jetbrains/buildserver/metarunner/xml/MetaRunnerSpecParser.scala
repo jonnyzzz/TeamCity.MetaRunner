@@ -106,7 +106,7 @@ class MetaRunnerSpecParser {
       @NotNull
       val shortName = runTypeShortName
       @NotNull
-      val resourcesFolder = spec.getParentFile()
+      val getMetaRunnerRoot = spec.getParentFile()
     }
   }
 

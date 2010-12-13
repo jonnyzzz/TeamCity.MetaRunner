@@ -30,9 +30,9 @@ class MetaRunnerBuildProcess(private val spec: RunnerSpec,
   private def checkInterrupted() : Boolean = myIsInterrupted.get()
 
   def start = {
-    if (spec.resourcesFolder().isDirectory()) {
+    if (spec.getMetaRunnerRoot().isDirectory()) {
       val resources = createTempDirectory("meta-runner-" + spec.runType, ".resources", build.getAgentTempDirectory())
-      FileUtil.copyDir(spec.resourcesFolder(), resources)
+      FileUtil.copyDir(spec.getMetaRunnerRoot(), resources)
 
       runner.addRunnerParameter("meta.runner.resources.path", getCanonicalFile(resources).getPath())
     }
