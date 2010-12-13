@@ -4,26 +4,29 @@ import java.util.zip.{ZipEntry, ZipOutputStream}
 import jetbrains.buildServer.util.{FileUtil}
 import java.io.{Closeable, FileOutputStream, FileInputStream, File}
 import jetbrains.buildserver.metarunner.{MetaRunnerConstants, MetaPaths}
+import jetbrains.buildserver.metarunner.xml.RunnerSpec
+import java.util.List
+import scala.collection.JavaConversions._
 
 /**
  * @author Eugene Petrenko (eugene.petrenko@jetbrains.com)
  * 10.12.10 12:57 
  */
 
-class AgentPluginPacker(private val paths: MetaPaths) {
+class AgentPluginPacker(private val paths: AgentPluginLibrariesLocator) {
 
-  def packPlugin() : File = {
+  def packPlugin(destFile : File, runners : List[RunnerSpec]) = {
     val basePath = "meta-runner/"
 
-    val file: File = paths.getAgentPluginDest()
-    file.getParentFile.mkdirs()
-    using(new ZipOutputStream(new FileOutputStream(file)))(
+    destFile.getParentFile.mkdirs()
+    using(new ZipOutputStream(new FileOutputStream(destFile)))(
       zip => {
         zipDirectory(zip, basePath + "lib/", paths.getAgentLibs())
-        zipDirectory(zip, basePath + MetaRunnerConstants.SpecFolder + "/", paths.getMetaDefsPath())
+        for(runner <- runners) {
+          zipDirectory(zip, basePath + MetaRunnerConstants.SpecFolder + "/" + runner.runType + "/", runner.getMetaRunnerRoot())
+        }
       }
     )
-    file
   }
 
   private def zipDirectory(zip: ZipOutputStream, prefix: String, root: File): Unit = {

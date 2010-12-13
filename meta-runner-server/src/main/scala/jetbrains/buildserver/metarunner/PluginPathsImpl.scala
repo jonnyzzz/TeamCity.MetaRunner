@@ -1,5 +1,6 @@
 package jetbrains.buildserver.metarunner
 
+import agent.AgentPluginLibrariesLocator
 import java.io.File
 import jetbrains.buildServer.plugins.bean.PluginInfo
 import org.jetbrains.annotations.NotNull
@@ -9,7 +10,7 @@ import org.jetbrains.annotations.NotNull
  * 10.12.10 15:21 
  */
 
-class PluginPathsImpl(private val description : PluginInfo) extends MetaPaths {
+class PluginPathsImpl(private val description : PluginInfo) extends MetaPaths with AgentPluginLibrariesLocator {
   private def getRoot() = description.getPluginRoot()
 
   @NotNull

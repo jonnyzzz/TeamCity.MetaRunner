@@ -17,14 +17,19 @@
 package jetbrains.buildserver.metarunner;
 
 import jetbrains.buildServer.BaseTestCase;
+import jetbrains.buildserver.metarunner.agent.AgentPluginLibrariesLocator;
 import jetbrains.buildserver.metarunner.agent.AgentPluginPacker;
+import jetbrains.buildserver.metarunner.xml.RunnerSpec;
 import org.jetbrains.annotations.NotNull;
+import org.jmock.Expectations;
+import org.jmock.Mockery;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Enumeration;
 import java.util.TreeSet;
 import java.util.zip.ZipEntry;
@@ -51,27 +56,25 @@ public class AgentPluginPackerTest extends BaseTestCase {
         new File(this, "bbb.txt").createNewFile();}};
     }};
 
-    AgentPluginPacker p = new AgentPluginPacker(new MetaPaths(){
-      @NotNull
-      public File getMetaDefsPath() {
-        return metadataPath;
-      }
+    AgentPluginPacker p = new AgentPluginPacker(new AgentPluginLibrariesLocator(){
       @NotNull
       public File getAgentLibs() {
         return libPath;
       }
-      @NotNull
-      public File getAgentPluginDest() {
-        return packFile;
-      }
     });
 
+    Mockery m = new Mockery();
+    final RunnerSpec sp = m.mock(RunnerSpec.class);
+    m.checking(new Expectations(){{
+      allowing(sp).runType(); will(returnValue("folder"));
+      allowing(sp).getMetaRunnerRoot(); will(returnValue(metadataPath));
+    }});
 
-    final File file = p.packPlugin();
-    Assert.assertEquals(file, packFile);
-    Assert.assertTrue(file.isFile());
+     p.packPlugin(packFile, Collections.singletonList(sp));
+    Assert.assertEquals(packFile, packFile);
+    Assert.assertTrue(packFile.isFile());
 
-    ZipFile zip = new ZipFile(file);
+    ZipFile zip = new ZipFile(packFile);
     Collection<String> entries = new TreeSet<String>();
     final Enumeration<? extends ZipEntry> e = zip.entries();
     while(e.hasMoreElements()) {
@@ -80,6 +83,6 @@ public class AgentPluginPackerTest extends BaseTestCase {
 
     System.out.println("entries = " + entries);
     Assert.assertTrue(entries.contains("meta-runner/lib/libF/bbb.txt"));
-    Assert.assertTrue(entries.contains("meta-runner/meta-runners/folder/aaa.txt"));
+    Assert.assertTrue(entries.contains("meta-runner/meta-runners/folder/folder/aaa.txt"));
   }
 }

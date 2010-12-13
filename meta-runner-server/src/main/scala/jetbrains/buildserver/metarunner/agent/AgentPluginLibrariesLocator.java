@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package jetbrains.buildserver.metarunner;
+package jetbrains.buildserver.metarunner.agent;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -22,12 +22,9 @@ import java.io.File;
 
 /**
  * @author Eugene Petrenko (eugene.petrenko@jetbrains.com)
- *         10.12.10 15:28
+ *         13.12.10 19:10
  */
-public interface MetaPaths {
+public interface AgentPluginLibrariesLocator {
   @NotNull
-  File getMetaDefsPath();
-
-  @NotNull
-  File getAgentPluginDest();
+  File getAgentLibs();
 }
