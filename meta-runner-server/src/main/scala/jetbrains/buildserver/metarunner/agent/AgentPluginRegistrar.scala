@@ -1,4 +1,4 @@
-package jetbrains.buildserver.metarunner
+package jetbrains.buildserver.metarunner.agent
 
 import jetbrains.buildServer.util.EventDispatcher
 import jetbrains.buildServer.serverSide.{AgentDistributionMonitor, BuildServerAdapter, BuildServerListener}

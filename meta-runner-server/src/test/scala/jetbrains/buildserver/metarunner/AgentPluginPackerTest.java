@@ -17,6 +17,7 @@
 package jetbrains.buildserver.metarunner;
 
 import jetbrains.buildServer.BaseTestCase;
+import jetbrains.buildserver.metarunner.agent.AgentPluginPacker;
 import org.jetbrains.annotations.NotNull;
 import org.testng.Assert;
 import org.testng.annotations.Test;
