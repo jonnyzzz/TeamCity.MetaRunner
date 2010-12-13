@@ -60,4 +60,7 @@ public class ModelReaderTest extends BaseTestCase {
     Assert.assertNotNull(p1);
     Assert.assertNotNull(p2);
   }
+
+
+  //TODO: add tests for broken config files.
 }
