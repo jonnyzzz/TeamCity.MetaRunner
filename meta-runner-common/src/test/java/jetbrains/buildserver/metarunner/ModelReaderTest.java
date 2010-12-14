@@ -38,6 +38,10 @@ public class ModelReaderTest extends BaseTestCase {
 
     final RunnerSpec parse = new MetaRunnerSpecParser().parse(f);
 
+    Assert.assertEquals(parse.description(), "ZZZ");
+    Assert.assertEquals(parse.shortName(), "meta");
+    Assert.assertEquals(parse.runType(), "meta-001");
+
     System.out.println("parse.parameterDefs() = " + parse.parameterDefs());
     Assert.assertEquals(parse.parameterDefs().size(), 1);
     final ParameterDef pd = parse.parameterDefs().iterator().next();

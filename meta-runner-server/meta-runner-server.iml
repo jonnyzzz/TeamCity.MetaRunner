@@ -6,6 +6,14 @@
         <fileset id="fileset1" name="meta-runner-server" removed="false">
           <file>file://$MODULE_DIR$/../meta-runner-common/src/main/resources/META-INF/build-server-plugin-meta-runner.xml</file>
           <file>file://$MODULE_DIR$/src/main/resources/META-INF/build-server-plugin-meta-runner.xml</file>
+          <file>jar://$teamcitydistribution$/webapps/ROOT/WEB-INF/lib/server.jar!/META-INF/build-server-declarative-extensibility.xml</file>
+          <file>jar://$teamcitydistribution$/webapps/ROOT/WEB-INF/lib/server.jar!/META-INF/build-server-plugin-agents-statistics.xml</file>
+          <file>jar://$teamcitydistribution$/webapps/ROOT/WEB-INF/lib/server.jar!/META-INF/buildServerCompatMode.xml</file>
+          <file>jar://$teamcitydistribution$/webapps/ROOT/WEB-INF/lib/server.jar!/META-INF/buildServerPermissions.xml</file>
+          <file>jar://$teamcitydistribution$/webapps/ROOT/WEB-INF/lib/server.jar!/META-INF/buildServerPluginsSupport.xml</file>
+          <file>jar://$teamcitydistribution$/webapps/ROOT/WEB-INF/lib/server.jar!/META-INF/buildServerSpring.xml</file>
+          <file>jar://$teamcitydistribution$/webapps/ROOT/WEB-INF/lib/common-impl.jar!/META-INF/shared-spring-sub-container.xml</file>
+          <file>jar://$teamcitydistribution$/webapps/ROOT/WEB-INF/lib/common-impl.jar!/META-INF/plugin-model-shared-spring.xml</file>
         </fileset>
       </configuration>
     </facet>

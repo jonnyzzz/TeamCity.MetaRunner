@@ -2,6 +2,7 @@
                       runType="meta-001"
                       shortName="meta">
 
+  <description>ZZZ</description>
   <runner-parameters>
     <parameter name="keyt" default="555">
       <short-name>aaa</short-name>

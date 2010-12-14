@@ -26,4 +26,7 @@
 
 
   <bean class="jetbrains.buildserver.metarunner.samples.SamplesDeployer"/>
+
+  <bean class="jetbrains.buildserver.metarunner.editor.SettingsTab"/>
+  <bean class="jetbrains.buildserver.metarunner.editor.SettingsController"/>
 </beans>

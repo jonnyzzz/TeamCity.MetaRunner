@@ -1,6 +1,7 @@
 <teamcity-meta-runner xmlns="urn:schemas-jetbrains-net:teamcity:meta-runner"
                       runType="meta-list-files-windows"
                       shortName="List Files">
+  <description>Lists files under specified directory</description>
 
   <runner-parameters>
     <parameter name="relative_path" default=".">
