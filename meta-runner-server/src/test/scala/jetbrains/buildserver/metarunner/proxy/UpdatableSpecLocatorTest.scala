@@ -1,11 +1,10 @@
 package jetbrains.buildserver.metarunner.proxy
 
 import org.testng.annotations.Test
-import jetbrains.buildserver.metarunner.{MetaRunnerSpecsLoader, UpdatableRunnerSpecs}
+import jetbrains.buildserver.metarunner.{MetaRunnerSpecsLoader}
 import org.testng.Assert
 import jetbrains.buildserver.metarunner.xml.RunnerSpec
 import jetbrains.buildServer.util.Action
-import java.util.concurrent.atomic.AtomicReference
 import org.jmock.{Expectations, Mockery}
 
 /**

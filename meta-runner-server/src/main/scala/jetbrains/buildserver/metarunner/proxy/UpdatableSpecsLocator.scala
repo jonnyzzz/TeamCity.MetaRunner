@@ -6,7 +6,6 @@ import jetbrains.buildserver.metarunner.xml.RunnerSpec
 import java.util.concurrent._
 import jetbrains.buildServer.util._
 import collection.mutable.{HashMap, HashSet, ListBuffer}
-import scala.Option
 
 /**
  * @author Eugene Petrenko (eugene.petrenko@jetbrains.com)
@@ -43,13 +42,15 @@ class UpdatableSpecsLocator(private val loader: MetaRunnerSpecsLoader)
         myRunners.remove(x)
       })
     }
+    onAllChanged(loadMetaRunners)
   }
 
   def loadMetaRunners = this.synchronized{myRunners.values.toList}
 
-  private val onAdd = new ExtensionHolder
-  private val onChange = new ExtensionHolder
-  private val onDelete = new ExtensionHolder
+  private val onAdd = new ExtensionHolder[RunnerSpec]
+  private val onChange = new ExtensionHolder[RunnerSpec]
+  private val onDelete = new ExtensionHolder[RunnerSpec]
+  private val onAllChanged = new ExtensionHolder[List[RunnerSpec]]
 
 
   def onRunnerSpecRemoved(action: Action[RunnerSpec]) = onDelete.addHandler(action)
@@ -58,10 +59,12 @@ class UpdatableSpecsLocator(private val loader: MetaRunnerSpecsLoader)
 
   def onRunnerSpecAdded(action: Action[RunnerSpec]) = onAdd.addHandler(action)
 
-  private class ExtensionHolder {
-    private val handlers = new CopyOnWriteArrayList[Action[RunnerSpec]]()
+  def onRunnersChanged(action : Action[List[RunnerSpec]]) = onAllChanged.addHandler(action)
 
-    def addHandler(h: Action[RunnerSpec]) = {
+  private class ExtensionHolder[T] {
+    private val handlers = new CopyOnWriteArrayList[Action[T]]()
+
+    def addHandler(h: Action[T]) = {
       handlers.add(h)
       new Disposable {
         def dispose = {
@@ -70,6 +73,6 @@ class UpdatableSpecsLocator(private val loader: MetaRunnerSpecsLoader)
       }
     }
 
-    def apply(h: RunnerSpec) = handlers.foreach(_.apply(h))
+    def apply(h: T) = handlers.foreach(_.apply(h))
   }
 }
