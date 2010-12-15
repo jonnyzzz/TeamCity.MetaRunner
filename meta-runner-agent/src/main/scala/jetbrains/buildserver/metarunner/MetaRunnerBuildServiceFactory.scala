@@ -8,9 +8,10 @@ import xml.RunnerSpec
  * 07.12.10 14:30 
  */
 
-class MetaRunnerBuildServiceFactory(val spec : RunnerSpec,
-                                    val facade : BuildProcessFacade
-                                   ) extends AgentBuildRunner with AgentBuildRunnerInfo {
+class MetaRunnerBuildServiceFactory(spec: RunnerSpec,
+                                    facade: BuildProcessFacade,
+                                    canRunCalculator: MetaRunnerCanRunCalculator)
+        extends AgentBuildRunner with AgentBuildRunnerInfo {
   @Override
   def getRunnerInfo = this
 
@@ -28,9 +29,5 @@ class MetaRunnerBuildServiceFactory(val spec : RunnerSpec,
   def getType = spec.runType
 
   @Override
-  def canRun(agentConfiguration: BuildAgentConfiguration) = {
-    //TODO: check all required build runners are available on build agent.
-    //TODO: this is done on the server side now
-    true
-  }
+  def canRun(agentConfiguration: BuildAgentConfiguration) = canRunCalculator.canRun(agentConfiguration)
 }

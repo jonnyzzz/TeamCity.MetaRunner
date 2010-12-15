@@ -18,11 +18,10 @@ import com.intellij.openapi.util.io.FileUtil
  * 08.12.10 21:49 
  */
 
-class MetaRunnerBuildProcess(private val spec: RunnerSpec,
-                             private val factory: BuildProcessFacade,
-                             private val build: AgentRunningBuild,
-                             private val runner: BuildRunnerContext
-                            ) extends BuildProcess {
+class MetaRunnerBuildProcess(spec: RunnerSpec,
+                             factory: BuildProcessFacade,
+                             build: AgentRunningBuild,
+                             runner: BuildRunnerContext) extends BuildProcess {
   private val myIsInterrupted = new AtomicBoolean(false)
   private val myIsFinished = new AtomicBoolean(false)
   private val myCurrrentStep = new AtomicReference[BuildProcess](null)
