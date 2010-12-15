@@ -1,11 +1,14 @@
 package jetbrains.buildserver.metarunner
 
 import org.testng.annotations.Test
-import xml.{ParameterDef, RunnerStepSpec, RunnerSpec}
-import scala.collection.JavaConversions._
 import jetbrains.buildServer.web.openapi.PluginDescriptor
-import jetbrains.buildServer.serverSide.RunTypeRegistry
 import org.jmock.{Expectations, Mockery}
+import xml._
+import org.testng.Assert
+import java.lang.String
+import jetbrains.buildServer.serverSide._
+import scala.collection.JavaConversions._
+import collection.immutable.List
 
 /**
  * @author Eugene Petrenko (eugene.petrenko@jetbrains.com)
@@ -30,6 +33,29 @@ class MetaRunTypeTest {
   }
 
   private def createRunnerSpec() : RunnerSpec = createRunnerSpec(List(), List())
+
+  private def paramDef(key: String) = new ParameterDef() {
+    def description = "param-" + key
+
+    def shortName = "short-" + key
+
+    def defaultValue = "defautl-"+key
+
+    def parameterType = TextType(false)
+
+    def key = key
+  }
+
+  private def paramRef(_scope : ParameterScope, _key: String, _value : String) = new RunnerStepParams() {
+    def key = _key
+    def value = _value
+    def scope = _scope
+  }
+
+  private def step(_type : String, refs : List[RunnerStepParams]) = new RunnerStepSpec() {
+    def runType = _type
+    def parameters = refs
+  }
 
   private def createUI = new MetaRunTypeUI {
     def getEditRunnerParamsJspFilePath = "edit.html"
@@ -58,5 +84,57 @@ class MetaRunTypeTest {
     )
 
     m.assertIsSatisfied
+  }
+
+  def runType(_type : String, proc : PropertiesProcessor) = new RunTypeWithExtensions {
+    def getViewRunnerParamsJspFilePath = "aaa"
+    def getEditRunnerParamsJspFilePath = "bbb"
+    def getRunnerPropertiesProcessor = proc
+    def getDefaultRunnerProperties = Map[String, String]()
+    def getAvailableExtensions = List[RunTypeExtension]()
+    def getRunType = new RunType(){
+      def getDescription = "desc" + _type
+      def getDisplayName = "disp" + _type
+      def getType = _type
+      def getDefaultRunnerProperties = Map[String,String]()
+      def getViewRunnerParamsJspFilePath = "aaa"
+      def getEditRunnerParamsJspFilePath = "bbb"
+      def getRunnerPropertiesProcessor = proc
+    }
+  }
+
+  def registry : RunTypeRegistry = registry(List())
+
+  def registry(runners : List[RunTypeWithExtensions]) : RunTypeRegistry = new RunTypeRegistry() {
+    def findExtendedRunType(p1: String) = runners.find(_.getRunType == p1).orNull
+    def getRegisteredRunTypes = throw new RuntimeException("register not supported")
+    def findRunType(p1: String) = throw new RuntimeException("register not supported")
+    def registerRunType(p1: RunType) = throw new RuntimeException("register not supported")
+  }
+
+  @Test
+  def test_parametersProcessor_empty() {
+    val v = new MetaRunTypePropertiesProcessor(createRunnerSpec(), registry)
+    Assert.assertTrue(v.process(Map[String, String]()).isEmpty)
+  }
+
+  @Test
+  def test_parametersProcessor_do_not_check_unused_params() {
+    val v = new MetaRunTypePropertiesProcessor(createRunnerSpec(List(), paramDef("a") :: Nil), registry)
+    Assert.assertTrue(v.process(Map[String, String]()).isEmpty)
+  }
+  def proc(errors : List[String]) = new PropertiesProcessor {
+    def process(properties: java.util.Map[String, String]) = properties.keys.filter(errors.toList.contains).map(x=>new InvalidProperty(x, "rrr" + x))
+  }
+
+  @Test
+  def test_parametersProcessor_call_runner_check() {
+    val v = new MetaRunTypePropertiesProcessor(createRunnerSpec(step("u", paramRef(RunnerScope, "q", "%meta.a%") :: Nil) :: Nil, paramDef("a") :: Nil), registry(runType("u", proc("q":: Nil))::Nil))
+    val list = v.process(Map[String, String]())
+    Assert.assertFalse(list.isEmpty)
+    Assert.assertEquals(list.size, 1)
+
+    //Error should be shown for "a"
+    Assert.assertEquals(list(0).getPropertyName, "a")
   }
 }

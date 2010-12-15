@@ -23,7 +23,7 @@ class MetaRunnersRegistrar(loader: UpdatableRunnerSpecs,
       spec,
       new MetaRunTypeUIImpl(spec, descriptor, webControllerManager),
       new MetaRunTypeDefaultPropertiesImpl(spec),
-      new MetaRunTypePropertiesProcessor(spec))
+      new MetaRunTypePropertiesProcessor(spec, registry))
 
     registry.registerRunType(runner)
   }
