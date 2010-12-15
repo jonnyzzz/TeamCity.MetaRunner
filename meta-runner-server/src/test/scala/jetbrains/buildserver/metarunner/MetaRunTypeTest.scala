@@ -18,7 +18,7 @@ import collection.immutable.List
 @Test
 class MetaRunTypeTest {
 
-  private def createRunnerSpec(runners : List[RunnerStepSpec], defs : List[ParameterDef]) : RunnerSpec = new RunnerSpec(){
+  private def createRunnerSpec(_runners : List[RunnerStepSpec], defs : List[ParameterDef]) : RunnerSpec = new RunnerSpec(){
     def getMetaRunnerRoot = throw new RuntimeException("not implemented")
 
     def description = "description-55"
@@ -27,7 +27,7 @@ class MetaRunTypeTest {
 
     def runType = "test-run-type"
 
-    def runners = runners
+    def runners = _runners
 
     def parameterDefs = defs
   }
@@ -86,29 +86,22 @@ class MetaRunTypeTest {
     m.assertIsSatisfied
   }
 
-  def runType(_type : String, proc : PropertiesProcessor) = new RunTypeWithExtensions {
+  def runType(_type : String, proc : PropertiesProcessor) = new RunType {
+    def getDescription = "desc" + _type
+    def getDisplayName = "disp" + _type
+    def getType = _type
+    def getDefaultRunnerProperties = Map[String,String]()
     def getViewRunnerParamsJspFilePath = "aaa"
     def getEditRunnerParamsJspFilePath = "bbb"
     def getRunnerPropertiesProcessor = proc
-    def getDefaultRunnerProperties = Map[String, String]()
-    def getAvailableExtensions = List[RunTypeExtension]()
-    def getRunType = new RunType(){
-      def getDescription = "desc" + _type
-      def getDisplayName = "disp" + _type
-      def getType = _type
-      def getDefaultRunnerProperties = Map[String,String]()
-      def getViewRunnerParamsJspFilePath = "aaa"
-      def getEditRunnerParamsJspFilePath = "bbb"
-      def getRunnerPropertiesProcessor = proc
-    }
   }
 
   def registry : RunTypeRegistry = registry(List())
 
-  def registry(runners : List[RunTypeWithExtensions]) : RunTypeRegistry = new RunTypeRegistry() {
-    def findExtendedRunType(p1: String) = runners.find(_.getRunType == p1).orNull
+  def registry(runners : List[RunType]) : RunTypeRegistry = new RunTypeRegistry() {
+    def findExtendedRunType(p1: String) = throw new RuntimeException("register not supported")
     def getRegisteredRunTypes = throw new RuntimeException("register not supported")
-    def findRunType(p1: String) = throw new RuntimeException("register not supported")
+    def findRunType(p1: String) = runners.find(_.getType.equals(p1)).orNull
     def registerRunType(p1: RunType) = throw new RuntimeException("register not supported")
   }
 
@@ -130,11 +123,11 @@ class MetaRunTypeTest {
   @Test
   def test_parametersProcessor_call_runner_check() {
     val v = new MetaRunTypePropertiesProcessor(createRunnerSpec(step("u", paramRef(RunnerScope, "q", "%meta.a%") :: Nil) :: Nil, paramDef("a") :: Nil), registry(runType("u", proc("q":: Nil))::Nil))
-    val list = v.process(Map[String, String]())
+    val list = v.process(Map[String, String]("a" ->"u"))
     Assert.assertFalse(list.isEmpty)
     Assert.assertEquals(list.size, 1)
 
     //Error should be shown for "a"
-    Assert.assertEquals(list(0).getPropertyName, "a")
+    Assert.assertEquals(list.iterator.next.getPropertyName, "a")
   }
 }

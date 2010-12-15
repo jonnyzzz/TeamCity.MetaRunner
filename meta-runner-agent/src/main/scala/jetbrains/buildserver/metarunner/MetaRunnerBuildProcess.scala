@@ -63,37 +63,13 @@ class MetaRunnerBuildProcess(private val spec: RunnerSpec,
     BuildFinishedStatus.FINISHED_SUCCESS
   }
 
-  private def replaceMetaReferences(text : String) = {
-    val buffer = new StringBuilder()
-    ReferencesResolverUtil.resolve(text, new ReferencesResolverListener(){
-      def appendReference(referenceKey: String) = {
-        referenceKey match {
-          case META_PREFIX(x) => {
-            val resolved = runner.getRunnerParameters.get(x)
-            if (resolved != null) {
-              buffer.append(resolved)
-              true
-            } else {
-              false
-            }
-          }
-          case _ => false
-        }
-      }
-
-      def appendText(text: String) = {
-        buffer.append(text)
-      }
-    })
-    buffer.toString()
-  }
-
   private def callRunner(spec : RunnerStepSpec) : BuildFinishedStatus = {
     //TODO: Support working directory
     val ctx = factory.createBuildRunnerContext(build, spec.runType, "", runner)
     for( par <- spec.parameters) {
       val key = par.scope
-      val value = replaceMetaReferences(par.value)
+      val value = MetaReferenceResolver(par.value, runner.getRunnerParameters)
+
       key match {
         case RunnerScope => ctx.addRunnerParameter(par.key, value)
         case BuildScope =>
