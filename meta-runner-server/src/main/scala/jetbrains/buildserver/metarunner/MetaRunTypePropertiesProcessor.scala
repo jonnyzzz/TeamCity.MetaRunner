@@ -12,7 +12,7 @@ import scala.collection.JavaConversions._
 
 class MetaRunTypePropertiesProcessor(spec: RunnerSpec, registry: RunTypeRegistry) extends PropertiesProcessor {
 
-  private def resolve(run: RunnerStepSpec, map: java.util.Map[String, String]): java.util.Collection[InvalidProperty] = {
+  private def resolve(run: RunnerStepSpec, map: java.util.Map[String, String]): Iterable[InvalidProperty] = {
     registry.findRunType(run.runType) match {
       case null => List()
       case runType => runType.getRunnerPropertiesProcessor match {
@@ -23,8 +23,8 @@ class MetaRunTypePropertiesProcessor(spec: RunnerSpec, registry: RunTypeRegistry
           x.process(actual) match {
             case null => List()
             //TODO: find back references to actual parameters
-            case props => props.flatMap(x=>{
-              subs(x.getPropertyName)._2.map(k=>new InvalidProperty(k, "[" + runType.getDisplayName + "] " + x.getInvalidReason))
+            case props => props.flatMap(x => {
+              subs(x.getPropertyName)._2.map(k => new InvalidProperty(k, "[" + runType.getDisplayName + "] " + x.getInvalidReason))
             })
           }
         }
@@ -33,6 +33,10 @@ class MetaRunTypePropertiesProcessor(spec: RunnerSpec, registry: RunTypeRegistry
   }
 
   def process(p1: java.util.Map[String, String]): java.util.Collection[InvalidProperty] = {
-    spec.runners.flatMap(x => resolve(x, p1)).toList
+    val q = spec.runners.flatMap(x => resolve(x, p1)).
+            groupBy(_.getPropertyName).
+            mapValues(x => x.foldLeft(new StringBuilder)((b, x) => b.append(x))).
+            map((p) => new InvalidProperty(p._1, p._2.toString))
+    q
   }
 }

@@ -130,4 +130,20 @@ class MetaRunTypeTest {
     //Error should be shown for "a"
     Assert.assertEquals(list.iterator.next.getPropertyName, "a")
   }
+
+  @Test
+  def test_parametersProcessor_call_runner_merge_error() {
+    val v = new MetaRunTypePropertiesProcessor(
+      createRunnerSpec(
+        step("u", paramRef(RunnerScope, "q", "%meta.a%") :: Nil) ::
+                step("u", paramRef(RunnerScope, "q", "%meta.a%") :: Nil) :: Nil, paramDef("a") :: Nil),
+      registry(runType("u", proc("q":: Nil))::Nil)
+    )
+    val list = v.process(Map[String, String]("a" ->"u"))
+    Assert.assertFalse(list.isEmpty)
+    Assert.assertEquals(list.size, 1)
+
+    //Error should be shown for "a"
+    Assert.assertEquals(list.iterator.next.getPropertyName, "a")
+  }
 }
