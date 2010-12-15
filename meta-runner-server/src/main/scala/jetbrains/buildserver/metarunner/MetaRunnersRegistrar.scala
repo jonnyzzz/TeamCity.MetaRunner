@@ -19,7 +19,13 @@ class MetaRunnersRegistrar(loader: UpdatableRunnerSpecs,
   private val LOG = Logger.getInstance(getClass.getName)
 
   private def addAction(spec : RunnerSpec) = {
-    registry.registerRunType(new MetaRunType(spec, descriptor, webControllerManager))
+    val runner = new MetaRunType(
+      spec,
+      new MetaRunTypeUIImpl(spec, descriptor, webControllerManager),
+      new MetaRunTypeDefaultPropertiesImpl(spec),
+      new MetaRunTypePropertiesProcessor(spec))
+
+    registry.registerRunType(runner)
   }
 
   private def removeAction(spec : RunnerSpec) = {

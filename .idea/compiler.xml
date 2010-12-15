@@ -20,6 +20,7 @@
       <entry name="?*.xsd" />
       <entry name="?*.js" />
       <entry name="?*.jsp" />
+      <entry name="?*.css" />
     </wildcardResourcePatterns>
     <annotationProcessing enabled="false" useClasspath="true" />
   </component>
