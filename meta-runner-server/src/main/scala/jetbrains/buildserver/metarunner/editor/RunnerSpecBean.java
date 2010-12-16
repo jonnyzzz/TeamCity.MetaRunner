@@ -16,6 +16,8 @@
 
 package jetbrains.buildserver.metarunner.editor;
 
+import jetbrains.buildserver.metarunner.usages.ReferenceFromConfiguration;
+import jetbrains.buildserver.metarunner.usages.ReferenceFromMetaRunner;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
@@ -34,4 +36,10 @@ public interface RunnerSpecBean {
 
   @NotNull
   Collection<String> getBasedOnRunners();
+
+  @NotNull
+  Collection<ReferenceFromConfiguration> getConfigurationReferences();
+
+  @NotNull
+  Collection<ReferenceFromMetaRunner> getMetaRunnerReferences();
 }

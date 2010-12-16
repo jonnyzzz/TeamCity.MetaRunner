@@ -10,6 +10,8 @@ import org.jetbrains.annotations.NotNull
 import jetbrains.buildServer.serverSide.RunTypeRegistry
 import jetbrains.buildServer.controllers.{RequestPermissionsChecker, AuthorizationInterceptor, BaseController}
 import jetbrains.buildserver.metarunner.xml.{RunnerSpec, RunnerStepSpec}
+import jetbrains.buildserver.metarunner.usages._
+import jetbrains.buildServer.BuildType
 
 /**
  * @author Eugene Petrenko (eugene.petrenko@jetbrains.com)
@@ -20,8 +22,8 @@ class SettingsController(webControllerManager: WebControllerManager,
                          descriptor: PluginDescriptor,
                          auth: AuthorizationInterceptor,
                          specs: UpdatableRunnerSpecs,
-                         registry: RunTypeRegistry
-                                )
+                         registry: RunTypeRegistry,
+                         usages : MetaRunnerUsages)
         extends BaseController {
   val path = descriptor.getPluginResourcesPath("admin.html")
 
@@ -60,6 +62,20 @@ class SettingsController(webControllerManager: WebControllerManager,
               }
             )
           }
+
+          val references = usages.resolveReferences(x)
+
+          @NotNull
+          def getConfigurationReferences = references.flatMap(_ match {
+            case x @ ReferenceFromConfiguration(_) => Some(x)
+            case _ => None
+          }).toList
+
+          @NotNull
+          def getMetaRunnerReferences = references.flatMap(_ match {
+            case x @ ReferenceFromMetaRunner(_) => Some(x)
+            case _ => None
+          }).toList
         })
       },
       "descr" -> descriptor)

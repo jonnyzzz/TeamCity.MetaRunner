@@ -29,4 +29,9 @@
 
   <bean class="jetbrains.buildserver.metarunner.editor.SettingsTab"/>
   <bean class="jetbrains.buildserver.metarunner.editor.SettingsController"/>
+
+
+  <bean class="jetbrains.buildserver.metarunner.usages.MetaRunnerUsagesImpl"/>
+  <bean class="jetbrains.buildserver.metarunner.usages.MetaRunnerMetaUsagesImpl"/>
+  <bean class="jetbrains.buildserver.metarunner.usages.MetaRunnerConfigurationUsagesImpl"/>
 </beans>

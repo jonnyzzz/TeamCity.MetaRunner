@@ -12,7 +12,7 @@ import collection.mutable.{HashMap, HashSet, ListBuffer}
  * 13.12.10 23:03 
  */
 
-class UpdatableSpecsLocator(private val loader: MetaRunnerSpecsLoader)
+class UpdatableSpecsLocator(loader: MetaRunnerSpecsLoader)
         extends MetaRunnerSpecsLoader
         with UpdatableRunnerSpecs {
   private val myRunners = new HashMap[String, ProxifiedRunnerSpecs]

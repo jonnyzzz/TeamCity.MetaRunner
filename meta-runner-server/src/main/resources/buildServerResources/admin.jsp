@@ -29,21 +29,37 @@
     <td>Runner Name</td>
     <td>Description</td>
     <td>Used Runners</td>
+    <td>Referred from</td>
   </tr>
   </thead>
   <tbody>
   <c:forEach var="it" items="${specs.runnerSpecs}">
     <tr>
       <td><c:out value="${it.runType}"/></td>
-      <td>
+      <td style="width:30%">
         <c:out value="${it.shortName}"/>
-        <div class="smallNote"><c:out value="${it.description}"/></div>
+        <div class="smallNote"><bs:trimWithTooltip>${it.description}</bs:trimWithTooltip></div>
       </td>
       <td>
         <c:forEach var="ii" items="${it.basedOnRunners}" varStatus="s">
           <c:if test="${not s.first}">, </c:if>
           <c:out value="${ii}"/>
         </c:forEach>
+      </td>
+      <td>
+        <c:set var="isFirst" value="${true}"/>
+        <c:set var="separator"><br /></c:set>
+        <c:forEach var="ii" items="${it.configurationReferences}" varStatus="s">
+          <c:if test="${not isFirst}">${separator}</c:if>
+          <c:set var="isFirst" value="${false}"/>
+          <bs:buildTypeLinkFull buildType="${ii.buildType}"/>
+        </c:forEach>
+        <c:forEach var="ii" items="${it.metaRunnerReferences}" varStatus="s">
+          <c:if test="${not isFirst}">${separator}</c:if>
+          <c:set var="isFirst" value="${false}"/>
+          Meta-Runner :: <c:out value="${ii.metaRunnerName}"/>
+        </c:forEach>
+        <c:if test="${isFirst}">No references</c:if>
       </td>
     </tr>
   </c:forEach>
