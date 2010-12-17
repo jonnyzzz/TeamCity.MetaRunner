@@ -183,10 +183,15 @@ class MetaRunnerBuildProcessTest extends BaseTestCase {
 
     protected def runnerParameterDef(key: String, value:String) = {
       new ParameterDef() {
+        @NotNull
         def description = "desc " + key
+        @NotNull
         def shortName = key
+        @NotNull
         def defaultValue = value
+        @NotNull
         def parameterType = null
+        @NotNull
         def key = ""
       }
     }

@@ -7,7 +7,7 @@ import javax.xml.transform.stream.StreamSource
 import org.xml.sax.{InputSource}
 import scala.xml.{Node, Elem}
 import com.intellij.openapi.util.text.StringUtil
-import collection.JavaConversions
+import collection.JavaConversions._
 import org.jetbrains.annotations.NotNull
 
 /**
@@ -48,59 +48,51 @@ class MetaRunnerSpecParser {
     val runTypeShortName = (xml \ "@shortName").text
     val runTypeDescription = (xml \ "description").text
 
-    val paramDefs = (xml \ "runner-parameters" \ "parameter").foldLeft(Nil: List[ParameterDef])((list, elem) => {
+    val paramDefs = (xml \ "runner-parameters" \ "parameter").map(elem => {
       new ParameterDefImpl(
         (elem \ "@name").text,
         HiddenType,
         (elem \ "@default").text,
         (elem \ "short-name").text,
         (elem \ "description").text
-      ) :: list
-    })
+      )
+    }).toList
 
     def parseStepParameterList(elem: Node, scope: ParameterScope): List[RunnerParameter] = {
-      val params =
-        (elem \ "param").foldLeft(Nil : List[RunnerParameter])((list, elem) => {
-          val key = (elem \ "@name").text
-          val valueText = (elem \ "value").text
-          val valueAttribute = (elem \ "@value").text
+      (elem \ "param").map(elem=> {
+        val key = (elem \ "@name").text
+        val valueText = (elem \ "value").text
+        val valueAttribute = (elem \ "@value").text
 
-          val defValue =
-            if (StringUtil.isEmptyOrSpaces(valueText))
-              valueAttribute
-            else
-              valueText
+        val defValue =
+          if (StringUtil.isEmptyOrSpaces(valueText))
+            valueAttribute
+          else
+            valueText
 
-          val param = new RunnerParameter(key, scope, defValue)
-          param :: list
-        })
-      params
+        (new RunnerParameter(key, scope, defValue))
+      }).toList
     }
 
     def parseStepParameters(elem: Node): List[RunnerParameter] = {
-      (elem \ "parameters").foldLeft(Nil: List[RunnerParameter])((list, elem) => {
-        val params: List[RunnerParameter] = parseStepParameterList(elem, parseScope(elem))
-        params ::: list
-      })
+      (elem \ "parameters").flatMap(elem => parseStepParameterList(elem, parseScope(elem))).toList
     }
 
-    val stepDefs = (xml \ "steps" \ "step").foldLeft(Nil: List[StepDef])((list, elem) => {
-      val step = new StepDef(
+    val stepDefs = (xml \ "steps" \ "step").map((elem) => {
+      new StepDef(
         (elem \ "@run-type").text,
         new RunnerResources((elem \ "resource" \ "@relative-path").text),
         parseStepParameters(elem)
       )
-
-      step :: list
     })
 
-    new RunnerSpec{
+    new RunnerSpec {
       @NotNull
       val runType = runTypeValue
       @NotNull
-      val runners = JavaConversions.asJavaCollection(stepDefs)
+      val runners : java.util.Collection[_ <: RunnerStepSpec] = stepDefs
       @NotNull
-      val parameterDefs = JavaConversions.asJavaCollection(paramDefs)
+      val parameterDefs : java.util.Collection[_ <: ParameterDef] = paramDefs
       @NotNull
       val description = runTypeDescription
       @NotNull

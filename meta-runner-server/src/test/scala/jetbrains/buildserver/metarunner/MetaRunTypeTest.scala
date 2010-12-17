@@ -9,6 +9,7 @@ import java.lang.String
 import jetbrains.buildServer.serverSide._
 import scala.collection.JavaConversions._
 import collection.immutable.List
+import org.jetbrains.annotations.NotNull
 
 /**
  * @author Eugene Petrenko (eugene.petrenko@jetbrains.com)
@@ -19,31 +20,33 @@ import collection.immutable.List
 class MetaRunTypeTest {
 
   private def createRunnerSpec(_runners : List[RunnerStepSpec], defs : List[ParameterDef]) : RunnerSpec = new RunnerSpec(){
+    @NotNull
     def getMetaRunnerRoot = throw new RuntimeException("not implemented")
-
+    @NotNull
     def description = "description-55"
-
+    @NotNull
     def shortName = "short-name-87"
-
+    @NotNull
     def runType = "test-run-type"
-
+    @NotNull
     def runners = _runners
-
+    @NotNull
     def parameterDefs = defs
   }
 
   private def createRunnerSpec() : RunnerSpec = createRunnerSpec(List(), List())
 
-  private def paramDef(key: String) = new ParameterDef() {
-    def description = "param-" + key
-
-    def shortName = "short-" + key
-
-    def defaultValue = "defautl-"+key
-
+  private def paramDef(_key: String) = new ParameterDef() {
+    @NotNull
+    def description = "param-" + _key
+    @NotNull
+    def shortName = "short-" + _key
+    @NotNull
+    def defaultValue = "defautl-" + _key
+    @NotNull
     def parameterType = TextType(false)
-
-    def key = key
+    @NotNull
+    def key = _key
   }
 
   private def paramRef(_scope : ParameterScope, _key: String, _value : String) = new RunnerStepParams() {

@@ -21,6 +21,7 @@ import jetbrains.buildServer.util.FileUtil;
 import jetbrains.buildserver.metarunner.xml.*;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import java.util.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -31,6 +32,27 @@ import java.util.Iterator;
  *         08.12.10 19:43
  */
 public class ModelReaderTest extends BaseTestCase {
+
+  @Test
+  public void test_02() throws IOException {
+    File f = createTempFile();
+    FileUtil.copyResource(this.getClass(), "/meta-runner-02.xml", f);
+
+    final RunnerSpec parse = new MetaRunnerSpecParser().parse(f);
+
+    List<String> runners = new ArrayList<String>();
+    for (RunnerStepSpec spec : parse.runners()) {
+      runners.add(spec.runType());
+    }
+    List<String> params = new ArrayList<String>();
+    for (ParameterDef d : parse.parameterDefs()) {
+      params.add(d.key());
+    }
+
+    Assert.assertEquals(Arrays.asList("Ant1", "Ant2"), runners);
+    Assert.assertEquals(Arrays.asList("key1", "key2"), params);
+  }
+
   @Test
   public void test_01() throws IOException {
     File f = createTempFile();

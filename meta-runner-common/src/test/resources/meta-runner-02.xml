@@ -1,0 +1,44 @@
+<teamcity-meta-runner xmlns="urn:schemas-jetbrains-net:teamcity:meta-runner"
+                      runType="meta-002"
+                      shortName="meta">
+
+  <description>ZZZ</description>
+  <runner-parameters>
+    <parameter name="key1" default="555">
+      <short-name>aaa</short-name>
+      <description>edewedasd</description>
+      <type-text/>
+    </parameter>
+    <parameter name="key2" default="555">
+      <short-name>aaa</short-name>
+      <description>edewedasd</description>
+      <type-text/>
+    </parameter>
+  </runner-parameters>
+
+  <steps>
+    <step run-type="Ant1">
+      <parameters scope="runner">
+        <param name="run-param1" value="122444"/>
+        <param name="run-param2" value="2221444"/>
+      </parameters>
+      <parameters scope="build">
+        <param name="system.zzz1">sys1tem-param</param>
+        <param name="system.zzz2">sys2tem-param</param>
+      </parameters>
+    </step>
+    <step run-type="Ant2">
+      <parameters scope="runner">
+        <param name="run-param1" value="122444"/>
+        <param name="run-param2" value="2221444"/>
+      </parameters>
+      <parameters scope="build">
+        <param name="system.zzz1">sys1tem-param</param>
+        <param name="system.zzz2">sys2tem-param</param>
+      </parameters>
+    </step>
+  </steps>
+
+
+</teamcity-meta-runner>
+

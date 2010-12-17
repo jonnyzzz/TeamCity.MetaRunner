@@ -1,21 +1,17 @@
 package jetbrains.buildserver.metarunner.xml
 
-import java.util.Collection
-import collection.JavaConversions
-
 /**
  * @author Eugene Petrenko (eugene.petrenko@jetbrains.com)
  * 07.12.10 15:09 
  */
 
-
 class ParameterDefImpl(val key: String,
-                   val parameterType: ParameterType,
-                   val defaultValue: String,
-                   val shortName: String,
-                   val description: String
-                  ) extends ParameterDef {
-  override def toString : String = {
+                       val parameterType: ParameterType,
+                       val defaultValue: String,
+                       val shortName: String,
+                       val description: String)
+        extends ParameterDef {
+  override def toString: String = {
     "ParameterDef[ key=" + key + ", type=" + parameterType + " ]"
   }
 }
