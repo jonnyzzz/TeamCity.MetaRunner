@@ -74,4 +74,9 @@ public class ProxifiedRunnerSpecs implements RunnerSpec {
   public File getMetaRunnerRoot() {
     return getSpec().getMetaRunnerRoot();
   }
+
+  @NotNull
+  public File getMetaRunnerXml() {
+    return getSpec().getMetaRunnerXml();
+  }
 }
