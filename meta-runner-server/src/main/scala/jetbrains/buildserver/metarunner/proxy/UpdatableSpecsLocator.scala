@@ -6,6 +6,7 @@ import jetbrains.buildserver.metarunner.xml.RunnerSpec
 import java.util.concurrent._
 import jetbrains.buildServer.util._
 import collection.mutable.{HashMap, HashSet, ListBuffer}
+import java.lang.String
 
 /**
  * @author Eugene Petrenko (eugene.petrenko@jetbrains.com)
@@ -16,6 +17,9 @@ class UpdatableSpecsLocator(loader: MetaRunnerSpecsLoader)
         extends MetaRunnerSpecsLoader
         with UpdatableRunnerSpecs {
   private val myRunners = new HashMap[String, ProxifiedRunnerSpecs]
+
+
+  def findRunnerSpec(runType: String) = myRunners.getOrElse(runType, null)
 
   def reloadRenners() = {
     this.synchronized{

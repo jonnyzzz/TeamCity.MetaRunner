@@ -19,6 +19,7 @@ package jetbrains.buildserver.metarunner;
 import jetbrains.buildServer.util.Action;
 import jetbrains.buildServer.util.Disposable;
 import jetbrains.buildserver.metarunner.xml.RunnerSpec;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * @author Eugene Petrenko (eugene.petrenko@jetbrains.com)
@@ -28,4 +29,7 @@ public interface UpdatableRunnerSpecs extends MetaRunnerSpecsLoader {
   Disposable onRunnerSpecAdded(Action<RunnerSpec> action);
   Disposable onRunnerSpecChanged(Action<RunnerSpec> action);
   Disposable onRunnerSpecRemoved(Action<RunnerSpec> action);
+
+  @Nullable
+  RunnerSpec findRunnerSpec(@Nullable String runType);
 }
