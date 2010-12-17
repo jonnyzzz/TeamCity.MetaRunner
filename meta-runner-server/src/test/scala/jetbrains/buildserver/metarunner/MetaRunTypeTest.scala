@@ -23,6 +23,8 @@ class MetaRunTypeTest {
     @NotNull
     def getMetaRunnerRoot = throw new RuntimeException("not implemented")
     @NotNull
+    def getMetaRunnerXml = throw new RuntimeException("not implemented")
+    @NotNull
     def description = "description-55"
     @NotNull
     def shortName = "short-name-87"

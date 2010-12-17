@@ -210,6 +210,8 @@ class MetaRunnerBuildProcessTest extends BaseTestCase {
         def parameterDefs = Nil: List[ParameterDef]
         @NotNull
         val getMetaRunnerRoot = createTempDir()
+        @NotNull
+        val getMetaRunnerXml = createTempFile()
       }
     }
 

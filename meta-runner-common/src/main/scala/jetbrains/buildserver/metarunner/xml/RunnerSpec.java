@@ -43,4 +43,7 @@ public interface RunnerSpec {
 
   @NotNull
   File getMetaRunnerRoot();
+
+  @NotNull
+  File getMetaRunnerXml();
 }
