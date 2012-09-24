@@ -8,6 +8,7 @@ import jetbrains.buildserver.metarunner.xml.RunnerSpec
 import java.util.List
 import scala.collection.JavaConversions._
 import com.intellij.openapi.diagnostic.Logger
+import java.util
 
 /**
  * @author Eugene Petrenko (eugene.petrenko@jetbrains.com)
@@ -17,7 +18,7 @@ import com.intellij.openapi.diagnostic.Logger
 class AgentPluginPacker(private val paths: AgentPluginLibrariesLocator) {
   private val LOG = Logger.getInstance(getClass.getName)
 
-  def packPlugin(destFile : File, runners : List[RunnerSpec]) = {
+  def packPlugin(destFile : File, runners : util.List[RunnerSpec]) {
     LOG.info("Packing agent plugin")
 
     val basePath = "meta-runner/"
@@ -25,24 +26,24 @@ class AgentPluginPacker(private val paths: AgentPluginLibrariesLocator) {
     destFile.getParentFile.mkdirs()
     using(new ZipOutputStream(new FileOutputStream(destFile)))(
       zip => {
-        zipDirectory(zip, basePath + "lib/", paths.getAgentLibs())
+        zipDirectory(zip, basePath + "lib/", paths.getAgentLibs)
         for(runner <- runners) {
-          zipDirectory(zip, basePath + MetaRunnerConstants.SpecFolder + "/" + runner.runType + "/", runner.getMetaRunnerRoot())
+          zipDirectory(zip, basePath + MetaRunnerConstants.SpecFolder + "/" + runner.runType + "/", runner.getMetaRunnerRoot)
         }
       }
     )
   }
 
-  private def zipDirectory(zip: ZipOutputStream, prefix: String, root: File): Unit = {
+  private def zipDirectory(zip: ZipOutputStream, prefix: String, root: File) {
     val files = root.listFiles()
     if (files != null) {
       for (x <- files) {
         if (x.isFile) {
-          zip.putNextEntry(new ZipEntry(prefix + x.getName()));
-          using(new FileInputStream(x))(fis => FileUtil.copyStreams(fis, zip));
-          zip.closeEntry();
+          zip.putNextEntry(new ZipEntry(prefix + x.getName))
+          using(new FileInputStream(x))(fis => FileUtil.copyStreams(fis, zip))
+          zip.closeEntry()
         } else {
-          zipDirectory(zip, prefix + x.getName() + "/", x);
+          zipDirectory(zip, prefix + x.getName + "/", x)
         }
       }
     }

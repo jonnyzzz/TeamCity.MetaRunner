@@ -9,14 +9,5 @@ import jetbrains.buildserver.metarunner.xml.RunnerSpec
 case class ReferenceFromMetaRunner(spec : RunnerSpec) extends Reference {
   def getDisplayText = "Meta Runner: " + spec.shortName
 
-  def getMetaRunnerName() : String = spec.shortName
+  def getMetaRunnerName = spec.shortName
 }
-
-
-
-
-
-
-
-
-

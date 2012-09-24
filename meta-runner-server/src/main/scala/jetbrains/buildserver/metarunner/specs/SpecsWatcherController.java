@@ -25,10 +25,10 @@ import org.jetbrains.annotations.NotNull;
  * @author Eugene Petrenko (eugene.petrenko@jetbrains.com)
  *         13.12.10 22:56
  */
-public class SpacsWatcherController {
+public class SpecsWatcherController {
   private final SpecsWatcher myWatcher;
 
-  public SpacsWatcherController(@NotNull final SpecsWatcher watcher,
+  public SpecsWatcherController(@NotNull final SpecsWatcher watcher,
                                 @NotNull EventDispatcher<BuildServerListener> disp) {
     myWatcher = watcher;
     disp.addListener(new BuildServerAdapter(){

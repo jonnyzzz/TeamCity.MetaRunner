@@ -22,7 +22,7 @@
   <bean class="jetbrains.buildserver.metarunner.agent.AgentPluginRegistrar"/>
 
   <bean class="jetbrains.buildserver.metarunner.specs.SpecsWatcher"/>
-  <bean class="jetbrains.buildserver.metarunner.specs.SpacsWatcherController"/>
+  <bean class="jetbrains.buildserver.metarunner.specs.SpecsWatcherController"/>
 
 
   <bean class="jetbrains.buildserver.metarunner.samples.SamplesDeployer"/>

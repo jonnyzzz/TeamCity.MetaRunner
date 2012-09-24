@@ -16,17 +16,17 @@ import org.jmock.{Expectations, Mockery}
 class UpdatableSpecLocatorTest {
 
   @Test
-  def test_initial() = {
+  def test_initial() {
     val m = new Mockery
     val ld = m.mock(classOf[MetaRunnerSpecsLoader])
 
     val s = new UpdatableSpecsLocator(ld)
     Assert.assertTrue(s.loadMetaRunners.isEmpty)
-    m.assertIsSatisfied
+    m.assertIsSatisfied()
   }
 
   @Test
-  def test_event_load() = {
+  def test_event_load() {
     val m = new Mockery
     val ld = m.mock(classOf[MetaRunnerSpecsLoader])
     val runner  = m.mock(classOf[RunnerSpec])
@@ -40,14 +40,14 @@ class UpdatableSpecLocatorTest {
     })
 
     val s = new UpdatableSpecsLocator(ld)
-    s.reloadRenners
+    s.reloadRenners()
 
     Assert.assertEquals(s.loadMetaRunners.size, 1)
-    m.assertIsSatisfied
+    m.assertIsSatisfied()
   }
 
   @Test
-  def test_event_add() = {
+  def test_event_add() {
     val m = new Mockery
     val ld = m.mock(classOf[MetaRunnerSpecsLoader])
     val runner  = m.mock(classOf[RunnerSpec])
@@ -63,11 +63,11 @@ class UpdatableSpecLocatorTest {
     val s = new UpdatableSpecsLocator(ld)
     var upd : RunnerSpec = null
     s.onRunnerSpecAdded(new Action[RunnerSpec]{
-      def apply(p: RunnerSpec) = {
+      def apply(p: RunnerSpec) {
         upd = p
       }
     })
-    s.reloadRenners
+    s.reloadRenners()
 
     Assert.assertEquals(s.loadMetaRunners.size, 1)
     val runner2 = s.loadMetaRunners.head
@@ -75,11 +75,11 @@ class UpdatableSpecLocatorTest {
     Assert.assertNotNull(upd)
     Assert.assertSame(runner2, upd)
 
-    m.assertIsSatisfied
+    m.assertIsSatisfied()
   }
 
   @Test
-  def test_event_change() = {
+  def test_event_change() {
     val m = new Mockery
     val ld = m.mock(classOf[MetaRunnerSpecsLoader])
     val runner = m.mock(classOf[RunnerSpec])
@@ -92,7 +92,7 @@ class UpdatableSpecLocatorTest {
     })
 
     val s = new UpdatableSpecsLocator(ld)
-    s.reloadRenners
+    s.reloadRenners()
 
     Assert.assertEquals(s.loadMetaRunners.size, 1)
     val runner1 = s.loadMetaRunners.head
@@ -101,12 +101,12 @@ class UpdatableSpecLocatorTest {
 
     var upd : RunnerSpec = null
     s.onRunnerSpecChanged(new Action[RunnerSpec]{
-      def apply(p: RunnerSpec) = {
+      def apply(p: RunnerSpec) {
         upd = p
       }
     })
 
-    s.reloadRenners
+    s.reloadRenners()
 
     Assert.assertEquals(s.loadMetaRunners.size, 1)
     val runner2 = s.loadMetaRunners.head
@@ -115,11 +115,11 @@ class UpdatableSpecLocatorTest {
     Assert.assertSame(runner1, runner2)
     Assert.assertSame(runner1, upd)
 
-    m.assertIsSatisfied
+    m.assertIsSatisfied()
   }
 
   @Test
-  def test_event_remove() = {
+  def test_event_remove() {
     val m = new Mockery
     val ld = m.mock(classOf[MetaRunnerSpecsLoader])
     val runner = m.mock(classOf[RunnerSpec])
@@ -135,7 +135,7 @@ class UpdatableSpecLocatorTest {
     })
 
     val s = new UpdatableSpecsLocator(ld)
-    s.reloadRenners
+    s.reloadRenners()
 
     Assert.assertEquals(s.loadMetaRunners.size, 1)
     val runner1 = s.loadMetaRunners.head
@@ -144,17 +144,17 @@ class UpdatableSpecLocatorTest {
 
     var upd : RunnerSpec = null
     s.onRunnerSpecRemoved(new Action[RunnerSpec]{
-      def apply(p: RunnerSpec) = {
+      def apply(p: RunnerSpec) {
         upd = p
       }
     })
 
-    s.reloadRenners
+    s.reloadRenners()
 
     Assert.assertEquals(s.loadMetaRunners.size, 0)
     Assert.assertNotNull(upd)
     Assert.assertSame(runner1, upd)
 
-    m.assertIsSatisfied
+    m.assertIsSatisfied()
   }
 }

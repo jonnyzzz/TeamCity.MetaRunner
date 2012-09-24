@@ -14,8 +14,6 @@ class ServerSpecLocator(private val parser: MetaRunnerSpecParser,
         extends MetaRunnerSpecLoaderBase(parser)
         with MetaRunnerSpecsLoader {
 
-  def loadMetaRunners: List[RunnerSpec] = {
+  def loadMetaRunners: List[RunnerSpec] =
     paths.getSpecRoots.map(loadPluginFromFolder).flatten(identity).toList
-  }
 }
-

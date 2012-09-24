@@ -46,7 +46,7 @@ class MetaRunTypeTest {
     @NotNull
     def defaultValue = "defautl-" + _key
     @NotNull
-    def parameterType = TextType(false)
+    def parameterType = TextType(useTextArea = false)
     @NotNull
     def key = _key
   }
@@ -107,7 +107,9 @@ class MetaRunTypeTest {
     def findExtendedRunType(p1: String) = throw new RuntimeException("register not supported")
     def getRegisteredRunTypes = throw new RuntimeException("register not supported")
     def findRunType(p1: String) = runners.find(_.getType.equals(p1)).orNull
-    def registerRunType(p1: RunType) = throw new RuntimeException("register not supported")
+    def registerRunType(p1: RunType) {
+      throw new RuntimeException("register not supported")
+    }
   }
 
   @Test

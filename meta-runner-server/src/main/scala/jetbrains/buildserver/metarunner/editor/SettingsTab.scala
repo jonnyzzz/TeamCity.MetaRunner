@@ -17,5 +17,5 @@ class SettingsTab(pagePlaces : PagePlaces,
           "Meta-Runners"
         ) {
   addCssFile(descriptor.getPluginResourcesPath("css/admin.css"))
-  register
+  register()
 }

@@ -32,11 +32,12 @@ class MetaRunTypePropertiesProcessor(spec: RunnerSpec, registry: RunTypeRegistry
     }
   }
 
-  def process(p1: java.util.Map[String, String]): java.util.Collection[InvalidProperty] = {
-    val q = spec.runners.flatMap(x => resolve(x, p1)).
-            groupBy(_.getPropertyName).
-            mapValues(x => x.foldLeft(new StringBuilder)((b, x) => b.append(x))).
-            map((p) => new InvalidProperty(p._1, p._2.toString))
-    q
-  }
+  def process(p1: java.util.Map[String, String]): java.util.Collection[InvalidProperty] =
+    spec.runners
+      .flatMap(x => resolve(x, p1))
+      .groupBy(_.getPropertyName)
+      .mapValues(x => x.foldLeft(new StringBuilder)((b, x) => b.append(x)))
+      .map((p) => new InvalidProperty(p._1, p._2.toString()))
+      .toList
+
 }

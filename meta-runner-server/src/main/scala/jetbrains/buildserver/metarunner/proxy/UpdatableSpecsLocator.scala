@@ -21,7 +21,7 @@ class UpdatableSpecsLocator(loader: MetaRunnerSpecsLoader)
 
   def findRunnerSpec(runType: String) = myRunners.getOrElse(runType, null)
 
-  def reloadRenners() = {
+  def reloadRenners() {
     this.synchronized{
       val found = HashSet[String]()
       loader.loadMetaRunners.foreach(newSpec => {
@@ -71,12 +71,14 @@ class UpdatableSpecsLocator(loader: MetaRunnerSpecsLoader)
     def addHandler(h: Action[T]) = {
       handlers.add(h)
       new Disposable {
-        def dispose = {
+        def dispose() {
           handlers.remove(h)
         }
       }
     }
 
-    def apply(h: T) = handlers.foreach(_.apply(h))
+    def apply(h: T) {
+      handlers.foreach(_.apply(h))
+    }
   }
 }

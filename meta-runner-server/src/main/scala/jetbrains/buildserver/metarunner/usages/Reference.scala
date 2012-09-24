@@ -6,7 +6,7 @@ package jetbrains.buildserver.metarunner.usages
  */
 
 trait Reference {
-  def getDisplayText() : String
+  def getDisplayText: String
 }
 
 

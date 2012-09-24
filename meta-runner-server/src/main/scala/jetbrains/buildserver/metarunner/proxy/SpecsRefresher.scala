@@ -9,8 +9,8 @@ import jetbrains.buildserver.metarunner.specs.SpecsWatcher
 
 class SpecsRefresher(locator : UpdatableSpecsLocator, watcher : SpecsWatcher) {
   watcher.addFilesChangedListener(new Runnable{
-    def run = {
-      locator.reloadRenners
+    def run() {
+      locator.reloadRenners()
     }
   })
 }

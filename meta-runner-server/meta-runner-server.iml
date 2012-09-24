@@ -14,6 +14,7 @@
           <file>jar://$TeamCityDistribution$/webapps/ROOT/WEB-INF/lib/server.jar!/META-INF/buildServerSpring.xml</file>
           <file>jar://$TeamCityDistribution$/webapps/ROOT/WEB-INF/lib/common-impl.jar!/META-INF/shared-spring-sub-container.xml</file>
           <file>jar://$TeamCityDistribution$/webapps/ROOT/WEB-INF/lib/common-impl.jar!/META-INF/plugin-model-shared-spring.xml</file>
+          <file>file://$MODULE_DIR$/fake-teamcity-server-plugin-context.xml</file>
         </fileset>
       </configuration>
     </facet>

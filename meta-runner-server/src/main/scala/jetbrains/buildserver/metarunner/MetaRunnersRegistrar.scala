@@ -18,7 +18,7 @@ class MetaRunnersRegistrar(loader: UpdatableRunnerSpecs,
                            webControllerManager : WebControllerManager) {
   private val LOG = Logger.getInstance(getClass.getName)
 
-  private def addAction(spec : RunnerSpec) = {
+  private def addAction(spec : RunnerSpec) {
     val runner = new MetaRunType(
       spec,
       new MetaRunTypeUIImpl(spec, descriptor, webControllerManager),
@@ -28,12 +28,12 @@ class MetaRunnersRegistrar(loader: UpdatableRunnerSpecs,
     registry.registerRunType(runner)
   }
 
-  private def removeAction(spec : RunnerSpec) = {
+  private def removeAction(spec : RunnerSpec) {
    LOG.warn("Meta-runner: " + spec.runType + " was removed. Runner remove does not supported. ")
   }
 
   disp.addListener(new BuildServerAdapter{
-    override def pluginsLoaded = {
+    override def pluginsLoaded() {
 
       for(r <- loader.loadMetaRunners) {
         addAction(r)

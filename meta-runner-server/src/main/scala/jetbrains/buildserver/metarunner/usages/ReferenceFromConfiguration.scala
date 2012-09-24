@@ -9,14 +9,5 @@ import jetbrains.buildServer.BuildType
 case class ReferenceFromConfiguration(bt : BuildType) extends Reference  {
   def getDisplayText = "Build Configuration: " + bt.getFullName
 
-  def getBuildType() : BuildType = bt
+  def getBuildType = bt
 }
-
-
-
-
-
-
-
-
-

@@ -30,7 +30,7 @@ class SettingsController(webControllerManager: WebControllerManager,
   webControllerManager.registerController(path, this)
   auth.addPathBasedPermissionsChecker(path, new RequestPermissionsChecker() {
 
-    def checkPermissions(p: AuthorityHolder, p2: HttpServletRequest) = {
+    def checkPermissions(p: AuthorityHolder, p2: HttpServletRequest) {
       p.isPermissionGrantedGlobally(Permission.CHANGE_SERVER_SETTINGS) &&
               p.isPermissionGrantedForAnyProject(Permission.EDIT_PROJECT) &&
               p.isPermissionGrantedForAnyProject(Permission.CUSTOMIZE_BUILD_PARAMETERS)

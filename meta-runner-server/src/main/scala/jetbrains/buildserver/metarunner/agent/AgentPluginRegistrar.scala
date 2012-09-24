@@ -19,9 +19,9 @@ class AgentPluginRegistrar(private val packer: AgentPluginPacker,
                            private val paths : AgentPluginFileHolder,
                            private val dispatcher : EventDispatcher[BuildServerListener],
                                    val watcher : UpdatableSpecsLocator) {
-  val agentPluginZip = paths.getAgentPluginDest()
+  val agentPluginZip = paths.getAgentPluginDest
 
-  def packAgentPlugin(runners : List[RunnerSpec]) = {
+  def packAgentPlugin(runners : List[RunnerSpec]) {
     this.synchronized{
       val tempFile = new File(agentPluginZip.getPath + ".tmp")
       packer.packPlugin(tempFile, runners)
@@ -38,8 +38,8 @@ class AgentPluginRegistrar(private val packer: AgentPluginPacker,
   watcher.onRunnersChanged(action)
 
   dispatcher.addListener(new BuildServerAdapter() {
-    override def serverStartup = {
-      watcher.reloadRenners
+    override def serverStartup() {
+      watcher.reloadRenners()
       packAgentPlugin(watcher.loadMetaRunners)
 
       publisher.registerAgentPlugin(agentPluginZip)

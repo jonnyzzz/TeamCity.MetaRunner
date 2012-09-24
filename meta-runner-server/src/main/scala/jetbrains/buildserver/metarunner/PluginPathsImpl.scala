@@ -18,17 +18,17 @@ class PluginPathsImpl(info : PluginInfo, paths : ServerPaths)
         with AgentPluginFileHolder
         with WellknownMetaRunnerSpecPaths
 {
-  private val pluginRoot = info.getPluginRoot()
-  private val usersRoot = new File(paths.getConfigDir(), "__meta_runners__")
+  private val pluginRoot = info.getPluginRoot
+  private val usersRoot = new File(paths.getConfigDir, "__meta_runners__")
 
   @NotNull
-  def getBundledPluginsPath() = new File(pluginRoot, MetaRunnerConstants.SpecFolder)
+  def getBundledPluginsPath = new File(pluginRoot, MetaRunnerConstants.SpecFolder)
 
   @NotNull
-  def getAgentLibs() = new File(pluginRoot, "agent-libs")
+  def getAgentLibs = new File(pluginRoot, "agent-libs")
 
   @NotNull
-  def getAgentPluginDest() = new File(pluginRoot, "tmp/meta-runner-agent.zip")
+  def getAgentPluginDest = new File(pluginRoot, "tmp/meta-runner-agent.zip")
 
   @NotNull
   def getUserPluginsPath = usersRoot
