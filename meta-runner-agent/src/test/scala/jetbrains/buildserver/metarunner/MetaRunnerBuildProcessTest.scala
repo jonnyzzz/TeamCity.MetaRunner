@@ -23,26 +23,24 @@ import org.hamcrest.{Description, BaseMatcher, Matcher}
 class MetaRunnerBuildProcessTest extends BaseTestCase {
 
   @Test
-  def test_01 = {
+  def test_01() {
     doTest(new DoTest() {
-      override def getRunnerSpec() = mockRunnerSpec(Nil: List[RunnerStepSpec])
+      override def getRunnerSpec = mockRunnerSpec(Nil: List[RunnerStepSpec])
     })
   }
 
   @Test
-  def test_02 = {
+  def test_02() {
     doTest(new OneStepTest() {
-      override def setupExpectations = {
+      override def setupExpectations() = {
         new Expectations() {
-          import Expectations._
-
           oneOf(step).addRunnerParameter("key", "555")
           oneOf(step).addSystemProperty("AAA", "555")
           oneOf(step).addEnvironmentVariable("ZZZ", "ZZ3Z")
         } :: super.setupExpectations()
       }
 
-      override def getRunnerParmeters()  = {
+      override def getRunnerParameters  = {
         new RunnerStepParams() {
           def value = "555"
           def scope = RunnerScope
@@ -68,14 +66,14 @@ class MetaRunnerBuildProcessTest extends BaseTestCase {
 
       override protected def setupExpectations() = {
         new Expectations() {
-          allowing(runner).getRunnerParameters()
-          will(Expectations.returnValue(runnerParameters));
+          allowing(runner).getRunnerParameters
+          will(Expectations.returnValue(runnerParameters))
 
           oneOf(step).addRunnerParameter("key", "zz-zpzpz-uu")
         } :: super.setupExpectations()
       }
 
-      override def getRunnerParmeters() = (new RunnerParameter("key", RunnerScope, "zz-%meta.AAA%-uu") :: Nil)
+      override def getRunnerParameters = (new RunnerParameter("key", RunnerScope, "zz-%meta.AAA%-uu") :: Nil)
     })
   }
 
@@ -86,21 +84,21 @@ class MetaRunnerBuildProcessTest extends BaseTestCase {
 
       override protected def setupExpectations() = {
         new Expectations() {
-          allowing(runner).getRunnerParameters()
-          will(Expectations.returnValue(runnerParameters));
+          allowing(runner).getRunnerParameters
+          will(Expectations.returnValue(runnerParameters))
 
           oneOf(step).addRunnerParameter("key", "zz-zpzpz-uu")
         } :: super.setupExpectations()
       }
 
 
-      override protected def getRunnerSpec() = {
-        val spec = super.getRunnerSpec()
+      override protected def getRunnerSpec = {
+        val spec = super.getRunnerSpec
         FileUtil.delete(spec.getMetaRunnerRoot)
         spec
       }
 
-      override def getRunnerParmeters() = (new RunnerParameter("key", RunnerScope, "zz-%meta.AAA%-uu") :: Nil)
+      override def getRunnerParameters = (new RunnerParameter("key", RunnerScope, "zz-%meta.AAA%-uu") :: Nil)
     })
   }
 
@@ -111,15 +109,15 @@ class MetaRunnerBuildProcessTest extends BaseTestCase {
 
       override protected def setupExpectations() = {
         new Expectations() {
-          allowing(runner).getRunnerParameters()
-          will(Expectations.returnValue(runnerParameters));
+          allowing(runner).getRunnerParameters
+          will(Expectations.returnValue(runnerParameters))
 
           oneOf(step).addRunnerParameter("key", "zz-zpzpz-uu")
         } :: super.setupExpectations()
       }
 
-      override protected def getRunnerSpec() = {
-        val spec = super.getRunnerSpec()
+      override protected def getRunnerSpec = {
+        val spec = super.getRunnerSpec
         new File(spec.getMetaRunnerRoot, "folder-001").mkdirs()
         new File(spec.getMetaRunnerRoot, "root-file.txt").createNewFile()
         new File(spec.getMetaRunnerRoot, "folder-002").mkdirs()
@@ -127,16 +125,16 @@ class MetaRunnerBuildProcessTest extends BaseTestCase {
         spec
       }
 
-      override protected def afterRunnerStarted() = {
-        val res = getResourcesPath()
+      override protected def afterRunnerStarted() {
+        val res = getResourcesPath
         Assert.assertNotNull(res)
-        Assert.assertTrue(res.isDirectory())
-        Assert.assertTrue(new File(res, "folder-001").isDirectory())
-        Assert.assertTrue(new File(res, "root-file.txt").isFile())
-        Assert.assertTrue(new File(res, "folder-002/file.txt").isFile())
+        Assert.assertTrue(res.isDirectory)
+        Assert.assertTrue(new File(res, "folder-001").isDirectory)
+        Assert.assertTrue(new File(res, "root-file.txt").isFile)
+        Assert.assertTrue(new File(res, "folder-002/file.txt").isFile)
       }
 
-      override def getRunnerParmeters() = (new RunnerParameter("key", RunnerScope, "zz-%meta.AAA%-uu") :: Nil)
+      override def getRunnerParameters = (new RunnerParameter("key", RunnerScope, "zz-%meta.AAA%-uu") :: Nil)
     })
   }
 
@@ -145,9 +143,7 @@ class MetaRunnerBuildProcessTest extends BaseTestCase {
     protected val step = m.mock(classOf[BuildRunnerContext], "step-runner")
     override protected def setupExpectations() = {
       new Expectations() {
-        import Expectations._
-
-        allowing(runner).getRunnerParameters();
+        allowing(runner).getRunnerParameters
 
         oneOf(facade).createBuildRunnerContext(build, "meta-ref", "", runner)
         will(Expectations.returnValue(step))
@@ -161,11 +157,11 @@ class MetaRunnerBuildProcessTest extends BaseTestCase {
       } :: super.setupExpectations()
     }
 
-    protected def getRunnerParmeters() : List[_ <: RunnerStepParams];
+    protected def getRunnerParameters : List[_ <: RunnerStepParams]
 
-    protected def getRunnerSpec() : RunnerSpec = {
+    protected def getRunnerSpec : RunnerSpec = {
       mockRunnerSpec(new RunnerStepSpec(){
-        val parameters  = asJavaCollection(getRunnerParmeters())
+        val parameters  = asJavaCollection(getRunnerParameters)
         val runType = "meta-ref"
       } :: Nil)
     }
@@ -215,33 +211,37 @@ class MetaRunnerBuildProcessTest extends BaseTestCase {
       }
     }
 
-    protected def getRunnerSpec(): RunnerSpec;
+    protected def getRunnerSpec: RunnerSpec
 
-    protected def afterRunnerStarted() = {}
+    protected def afterRunnerStarted() {}
 
     private var resourcesPath : File = null
-    protected def getResourcesPath() = resourcesPath
+    protected def getResourcesPath = resourcesPath
 
-    final def doTest() = {
+    final def doTest() {
 
       setupExpectations().foreach(m.checking)
       m.checking(new Expectations() {
         import Expectations._
-        allowing(build).getAgentTempDirectory()
+        allowing(build).getAgentTempDirectory
         val tempDir: File = createTempDir()
         will(Expectations.returnValue(tempDir))
-        allowing(runner).addRunnerParameter(`with`(equal("meta.runner.resources.path")), `with`(new BaseMatcher[String]() {
-          def describeTo(p1: Description) = { p1.appendText("<meta.runner.resources.path>") }
 
-          def matches(p1: AnyRef) = {
+        def m = new BaseMatcher[String]() {
+          def describeTo(p1: Description) { p1.appendText("<meta.runner.resources.path>") }
+
+          def matches(p1: Any) = {
             resourcesPath = new File(p1.asInstanceOf[String])
             true
           }
-        }))
+
+        }
+
+        allowing(runner).addRunnerParameter(`with`(equal("meta.runner.resources.path")), `with`(m))
       })
 
 
-      val runnerSpec = getRunnerSpec()
+      val runnerSpec = getRunnerSpec
 
       val mr = new MetaRunnerBuildProcess(
         runnerSpec,
@@ -260,7 +260,7 @@ class MetaRunnerBuildProcessTest extends BaseTestCase {
     }
   }
 
-  private def doTest(a: DoTest) = {
+  private def doTest(a: DoTest) {
     a.doTest()
   }
 }

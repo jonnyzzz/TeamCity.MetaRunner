@@ -32,7 +32,7 @@ class MetaRunnerCanRunCalculatorTest {
     val i = new MetaRunnerCanRunCalculatorImpl(spec, reg)
     Assert.assertTrue(i.canRun(conf))
 
-    m.assertIsSatisfied
+    m.assertIsSatisfied()
   }
 
   @Test
@@ -61,7 +61,7 @@ class MetaRunnerCanRunCalculatorTest {
     val i = new MetaRunnerCanRunCalculatorImpl(spec, reg)
     Assert.assertFalse(i.canRun(conf))
 
-    m.assertIsSatisfied
+    m.assertIsSatisfied()
   }
 
   @Test
@@ -98,7 +98,7 @@ class MetaRunnerCanRunCalculatorTest {
     val i = new MetaRunnerCanRunCalculatorImpl(spec, reg)
     Assert.assertFalse(i.canRun(conf))
 
-    m.assertIsSatisfied
+    m.assertIsSatisfied()
   }
 
   @Test
@@ -135,6 +135,6 @@ class MetaRunnerCanRunCalculatorTest {
     val i = new MetaRunnerCanRunCalculatorImpl(spec, reg)
     Assert.assertTrue(i.canRun(conf))
 
-    m.assertIsSatisfied
+    m.assertIsSatisfied()
   }
 }

@@ -24,41 +24,40 @@ class MetaRunnerBuildProcess(spec: RunnerSpec,
                              runner: BuildRunnerContext) extends BuildProcess {
   private val myIsInterrupted = new AtomicBoolean(false)
   private val myIsFinished = new AtomicBoolean(false)
-  private val myCurrrentStep = new AtomicReference[BuildProcess](null)
+  private val myCurrentStep = new AtomicReference[BuildProcess](null)
 
-  private def checkInterrupted() : Boolean = myIsInterrupted.get()
+  private def checkInterrupted() : Boolean = myIsInterrupted.get
 
-  def start = {
-    if (spec.getMetaRunnerRoot().isDirectory()) {
-      val resources = createTempDirectory("meta-runner-" + spec.runType, ".resources", build.getAgentTempDirectory())
-      FileUtil.copyDir(spec.getMetaRunnerRoot(), resources)
+  def start() {
+    if (spec.getMetaRunnerRoot.isDirectory) {
+      val resources = createTempDirectory("meta-runner-" + spec.runType, ".resources", build.getAgentTempDirectory)
+      FileUtil.copyDir(spec.getMetaRunnerRoot, resources)
 
-      runner.addRunnerParameter("meta.runner.resources.path", getCanonicalFile(resources).getPath())
+      runner.addRunnerParameter("meta.runner.resources.path", getCanonicalFile(resources).getPath)
     }
   }
 
-  def interrupt = {
-    val step = myCurrrentStep.get()
+  def interrupt() {
+    val step = myCurrentStep.get()
     if (step != null) step.interrupt()
 
     myIsInterrupted.set(true)
   }
 
   def isFinished = myIsFinished.get
-
-  def isInterrupted = myIsInterrupted.get()
+  def isInterrupted = myIsInterrupted.get
 
   def waitFor = {
-    val mybreaks = new Breaks
-    import mybreaks.break
+    val myBreaks = new Breaks
+    import myBreaks.break
 
     for(x <- spec.runners) {
-      if (checkInterrupted) break
+      if (checkInterrupted()) break
       ///TODO: support error checking here
       callRunner(x)
     }
 
-    if (checkInterrupted) BuildFinishedStatus.INTERRUPTED
+    if (checkInterrupted()) BuildFinishedStatus.INTERRUPTED
     BuildFinishedStatus.FINISHED_SUCCESS
   }
 
@@ -85,13 +84,13 @@ class MetaRunnerBuildProcess(spec: RunnerSpec,
     }
 
     val exec: BuildProcess = factory.createExecutable(build, ctx)
-    myCurrrentStep.set(exec)
+    myCurrentStep.set(exec)
     try {
-      if (checkInterrupted) BuildFinishedStatus.INTERRUPTED
+      if (checkInterrupted()) BuildFinishedStatus.INTERRUPTED
       exec.start()
       exec.waitFor()
     } finally {
-      myCurrrentStep.set(null)
+      myCurrentStep.set(null)
     }
   }
 }

@@ -16,7 +16,7 @@ class MetaRunnersRegistrar(events : EventDispatcher[AgentLifeCycleListener],
                            facade : BuildProcessFacade,
                            registry : BuildRunnerRegistryEx) {
   events.addListener(new AgentLifeCycleAdapter{
-    override def pluginsLoaded = {
+    override def pluginsLoaded() {
 
       for(x <- locator.loadMetaRunners) {
         val runner = new MetaRunnerBuildServiceFactory(x,facade, new MetaRunnerCanRunCalculatorImpl(x, registry))

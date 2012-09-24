@@ -15,7 +15,7 @@ class AgentSpecLocator(private val description : PluginDescriptor,
         extends MetaRunnerSpecLoaderBase(parser)
         with MetaRunnerSpecsLoader {
   def loadMetaRunners : List[RunnerSpec] = {
-    val root = new File(description.getPluginRoot, MetaRunnerConstants.SpecFolder);
+    val root = new File(description.getPluginRoot, MetaRunnerConstants.SpecFolder)
     loadPluginFromFolder(root)
   }
 }
