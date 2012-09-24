@@ -1,7 +1,7 @@
 <component name="libraryTable">
   <library name="Agent-Internal">
     <CLASSES>
-      <root url="jar://$teamcitydistribution$/buildAgent/lib/agent.jar!/" />
+      <root url="jar://$TeamCityDistribution$/buildAgent/lib/agent.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

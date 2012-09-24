@@ -1,9 +1,9 @@
-def TCPathVar = "path.variable.teamcitydistribution"
-def TCPathVarServer = "teamcity.path.variable.teamcitydistribution"
+def TCPathVar = "path.variable.TeamCityDistribution"
+def TCPathVarServer = "teamcity.path.variable.TeamCityDistribution"
 
 
   def teamCityDir = '';
-  [TCPathVar, TCPathVarServer].each {
+  [TCPathVar, TCPathVarServer, "path.variable.teamcitydistribution", "teamcity.path.variable.teamcitydistribution"].each {
     if (project.hasProperty(it)) {
       teamCityDir = project.getProperties()[it];
     }
