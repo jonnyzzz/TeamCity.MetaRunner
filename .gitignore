@@ -1,0 +1,7 @@
+out
+*.tmp
+.idea/workspace.xml
+.idea/dictionaries/**
+.gradle
+**/build
+
