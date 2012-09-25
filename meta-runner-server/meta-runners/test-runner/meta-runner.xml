@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <teamcity-meta-runner xmlns="urn:schemas-jetbrains-net:teamcity:meta-runner"
                       runType="meta-001"
                       shortName="meta">

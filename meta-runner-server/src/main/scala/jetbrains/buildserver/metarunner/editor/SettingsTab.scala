@@ -14,7 +14,7 @@ class SettingsTab(pagePlaces : PagePlaces,
           PlaceId.ADMIN_SERVER_CONFIGURATION_TAB,
           descriptor.getPluginName + "_server_admin",
           descriptor.getPluginResourcesPath("admin.html"),
-          "Meta-Runners"
+          "Meta Runners"
         ) {
   addCssFile(descriptor.getPluginResourcesPath("css/admin.css"))
   register()

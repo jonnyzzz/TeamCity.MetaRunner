@@ -5,7 +5,7 @@ import jetbrains.buildServer.serverSide.ProjectManager
 import collection.JavaConversions._
 
 /**
- * @aut\hor Eugene Petrenko (eugene.petrenko@jetbrains.com)
+ * @author Eugene Petrenko (eugene.petrenko@jetbrains.com)
  * 16.12.10 14:08 
  */
 
