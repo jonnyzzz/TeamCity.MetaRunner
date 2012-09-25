@@ -7,9 +7,6 @@ import xml._
 import jetbrains.buildserver.metarunner.util.BuildParametersUtil._
 import jetbrains.buildServer.RunBuildException
 import scala.collection.JavaConversions._
-import jetbrains.buildServer.parameters.ReferencesResolverUtil.ReferencesResolverListener
-import jetbrains.buildServer.parameters.ReferencesResolverUtil
-import java.lang.{StringBuilder, String}
 import jetbrains.buildServer.util.FileUtil._
 import com.intellij.openapi.util.io.FileUtil
 
@@ -52,7 +49,7 @@ class MetaRunnerBuildProcess(spec: RunnerSpec,
     import myBreaks.break
 
     for(x <- spec.runners) {
-      if (checkInterrupted()) break
+      if (checkInterrupted()) break()
       ///TODO: support error checking here
       callRunner(x)
     }
