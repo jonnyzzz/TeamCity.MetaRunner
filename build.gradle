@@ -44,6 +44,7 @@ allprojects {
     testCompile jmock
     testCompile testNG
     testCompile jmock_old    
+    testCompile testApi
   }
 
   test {

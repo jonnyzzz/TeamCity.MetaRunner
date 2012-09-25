@@ -36,7 +36,7 @@ object MetaReferenceResolver {
         }
       }
 
-      def appendText(text: String) = {
+      def appendText(text: String) {
         buffer.append(text)
       }
     })

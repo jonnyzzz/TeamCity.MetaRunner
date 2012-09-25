@@ -62,7 +62,7 @@ class MetaRunnerBuildProcessTest extends BaseTestCase {
   @Test
   def test_meta_parameter_reference() {
     doTest(new OneStepTest() {
-      val runnerParameters = asJavaMap(Map[String,String](("AAA"->"zpzpz")))
+      val runnerParameters = mapAsJavaMap(Map[String,String](("AAA"->"zpzpz")))
 
       override protected def setupExpectations() = {
         new Expectations() {
@@ -80,7 +80,7 @@ class MetaRunnerBuildProcessTest extends BaseTestCase {
   @Test
   def test_meta_resources_not_exist() {
     doTest(new OneStepTest() {
-      val runnerParameters = asJavaMap(Map[String,String](("AAA"->"zpzpz")))
+      val runnerParameters = mapAsJavaMap(Map[String,String](("AAA"->"zpzpz")))
 
       override protected def setupExpectations() = {
         new Expectations() {
@@ -105,7 +105,7 @@ class MetaRunnerBuildProcessTest extends BaseTestCase {
   @Test
   def test_meta_resources_exist_files() {
     doTest(new OneStepTest() {
-      val runnerParameters = asJavaMap(Map[String,String](("AAA"->"zpzpz")))
+      val runnerParameters = mapAsJavaMap(Map[String,String](("AAA"->"zpzpz")))
 
       override protected def setupExpectations() = {
         new Expectations() {

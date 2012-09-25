@@ -73,6 +73,11 @@ def TCPathVarServer = "teamcity.path.variable.TeamCityDistribution"
      include 'servlet*.jar'
   }
 
+  testApi = fileTree(teamCityDir + "/devPackage/tests").matching {
+    include '*.jar'
+  }
+
+
 
   testNG = fileTree("lib/testng").matching { include '*.jar' }
   jmock = fileTree("lib/jmock").matching { include '*.jar' }
