@@ -1,0 +1,12 @@
+<component name="ArtifactManager">
+  <artifact name="common-jars">
+    <output-path>$PROJECT_DIR$/out/artifacts/common_jars</output-path>
+    <root id="root">
+      <element id="library" level="project" name="Scala" />
+      <element id="archive" name="meta-runner-common.jar">
+        <element id="module-output" name="meta-runner-common" />
+      </element>
+      <element id="file-copy" path="$PROJECT_DIR$/lib/scala/LICENSE" />
+    </root>
+  </artifact>
+</component>
